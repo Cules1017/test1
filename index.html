@@ -1,337 +1,299 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đếm Ngày Yêu - Chúng Ta 💖</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Dancing Script', cursive;
-            min-height: 100vh;
-            background: linear-gradient(45deg, #ff7eb3, #9b59b6, #1a1a2e);
-            color: #fff;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .heart {
-            font-size: 3em;
-            color: #ff3860;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: heartBeat 1.2s infinite;
-        }
-
-        .counter {
-            font-size: 6em;
-            font-weight: bold;
-            text-shadow: 0 0 20px rgba(255, 56, 96, 0.5);
-            margin: 20px 0;
-            opacity: 0;
-            transform: scale(0.5);
-            animation: fadeIn 1s forwards;
-        }
-
-        .quote {
-            font-size: 1.8em;
-            margin: 20px 0;
-            min-height: 60px;
-            opacity: 0;
-            animation: fadeIn 1s 0.5s forwards;
-        }
-
-        .memory-box {
-            position: fixed;
-            bottom: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px 30px;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        /* Hiệu ứng sao băng */
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-        }
-
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.3); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đếm Ngày Yêu - Chúng Ta 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Dancing Script', cursive;
+      min-height: 100vh;
+      background: linear-gradient(45deg, #ff7eb3, #9b59b6, #1a1a2e);
+      color: #fff;
+      overflow: hidden;
+      position: relative;
+    }
+    .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    .heart {
+      font-size: 3em;
+      color: #ff3860;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: heartBeat 1.2s infinite;
+    }
+    .counter {
+      font-size: 6em;
+      font-weight: bold;
+      text-shadow: 0 0 20px rgba(255, 56, 96, 0.5);
+      margin: 20px 0;
+      opacity: 0;
+      transform: scale(0.5);
+      animation: fadeIn 1s forwards;
+    }
+    .quote {
+      font-size: 1.8em;
+      margin: 20px 0;
+      min-height: 60px;
+      opacity: 0;
+      animation: fadeIn 1s 0.5s forwards;
+    }
+    .memory-box {
+      position: fixed;
+      bottom: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px 30px;
+      border-radius: 30px;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    /* Popup hiển thị ảnh */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      overflow: auto;
+    }
+    .popup-content {
+      position: relative;
+      margin: 5% auto;
+      padding: 20px;
+      background: #fff;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 10px;
+      color: #000;
+    }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2em;
+      cursor: pointer;
+    }
+    .image-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-gap: 10px;
+    }
+    .image-grid img {
+      width: 100%;
+      height: auto;
+      object-fit: cover; /* đảm bảo ảnh không bị bóp méo */
+      border-radius: 5px;
+    }
+    /* Hiệu ứng sao nền */
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+    }
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      15% { transform: scale(1.3); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.15); }
+      60% { transform: scale(1); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    /* Hiệu ứng sao băng (shooting star) */
+    .shooting-star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff;
+      border-radius: 50%;
+      animation: shoot var(--shoot-duration) linear forwards;
+    }
+    @keyframes shoot {
+      0% { opacity: 1; transform: translate(0, 0); }
+      100% { opacity: 0; transform: translate(150px, 150px); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="heart">❤️</div>
-        <div class="counter">0</div>
-        <div class="quote"></div>
+  <div class="container">
+    <div class="heart">❤️</div>
+    <div class="counter">0</div>
+    <div class="quote"></div>
+  </div>
+  <div class="memory-box">Mở Hộp Ký ức 💌</div>
+
+  <!-- Popup hiển thị ảnh -->
+  <div class="popup" id="imagePopup">
+    <div class="popup-content">
+      <span class="close-btn">&times;</span>
+      <div class="image-grid">
+        <!-- Các ảnh sẽ được load vào đây -->
+      </div>
     </div>
-    <div class="memory-box">Mở Hộp Ký ức 💌</div>
+  </div>
 
-    <script>
-        // Tạo hiệu ứng sao
-        function createStars() {
-            const container = document.body;
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 'px';
-                star.style.height = star.style.width;
-                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
-                container.appendChild(star);
-            }
+  <script>
+    // Tạo hiệu ứng sao nền
+    function createStars() {
+      const container = document.body;
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = Math.random() * 3 + 'px';
+        star.style.height = star.style.width;
+        star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+        container.appendChild(star);
+      }
+    }
+
+    // Tạo hiệu ứng sao băng (mỗi 3 giây tạo một sao băng bay)
+    function createShootingStar() {
+      const star = document.createElement('div');
+      star.className = 'shooting-star';
+      // Vị trí xuất phát ngẫu nhiên
+      star.style.top = Math.random() * window.innerHeight + 'px';
+      star.style.left = Math.random() * window.innerWidth + 'px';
+      star.style.setProperty('--shoot-duration', (Math.random() * 0.5 + 0.5) + 's');
+      document.body.appendChild(star);
+      star.addEventListener('animationend', function() {
+        star.remove();
+      });
+    }
+    setInterval(createShootingStar, 1000);
+    setInterval(createShootingStar, 3000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 5000);
+
+    // Tính số ngày yêu
+    function calculateLoveDays() {
+      const startDate = new Date('2024-09-02');
+      const currentDate = new Date();
+      const diffTime = currentDate - startDate;
+      return Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    }
+
+    // Hiệu ứng đếm số
+    function updateCounter() {
+      const target = calculateLoveDays();
+      const counter = document.querySelector('.counter');
+      let current = 0;
+      const update = () => {
+        if (current < target) {
+          current += Math.ceil(target / 100);
+          if (current > target) current = target;
+          counter.textContent = current;
+          requestAnimationFrame(update);
         }
+      }
+      requestAnimationFrame(update);
+    }
 
-        // Tính số ngày yêu
-        function calculateLoveDays() {
-            const startDate = new Date('2024-09-02');
-            const currentDate = new Date();
-            const diffTime = currentDate - startDate;
-            return Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        }
+    // Hiển thị quote ngẫu nhiên
+    const quotes = [
+      "Tình yêu là khi hạnh phúc của người khác trở thành điều thiết yếu đối với bạn",
+      "Yêu là tìm thấy nửa đôi thực sự của tâm hồn mình",
+      "Chúng ta là bản tình ca đẹp nhất vũ trụ",
+      "Mỗi ngày bên em là một trang mới trong cuốn sách hạnh phúc",
+      "Tình yêu không phải là nhìn nhau mà là cùng nhìn về một hướng",
+      "Yêu là khi khoảng cách chỉ làm trái tim thêm gần",
+      "Tình yêu đích thực là khi hai người cùng nhau viết nên câu chuyện đẹp nhất",
+      "Trong vũ trụ bao la, em là ngôi sao sáng nhất của anh"
+    ];
+    function showRandomQuote() {
+      const quoteElement = document.querySelector('.quote');
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      quoteElement.textContent = quotes[randomIndex];
+    }
 
-        // Hiệu ứng đếm số
-        function updateCounter() {
-            const target = calculateLoveDays();
-            const counter = document.querySelector('.counter');
-            let current = 0;
-            
-            const update = () => {
-                if (current < target) {
-                    current += Math.ceil(target / 100);
-                    if (current > target) current = target;
-                    counter.textContent = current;
-                    requestAnimationFrame(update);
-                }
-            }
-            requestAnimationFrame(update);
-        }
+    // Xử lý popup: load ảnh và hiển thị popup khi click vào memory-box
+    function loadImages() {
+      const imageGrid = document.querySelector('.image-grid');
+      imageGrid.innerHTML = ''; // xóa nội dung cũ
+      // Mảng demo chứa danh sách tên file ảnh trong thư mục "image/"
+      // Để tự động load ảnh từ thư mục, bạn cần dùng mã server hoặc JSON manifest
+      const imageFiles = [
+        'image1.jpg',
+        'image2.jpg',
+        'image3.jpg'
+        // thêm các tên file ảnh khác
+      ];
+      imageFiles.forEach(file => {
+        const img = document.createElement('img');
+        img.src = 'image/' + file;
+        img.alt = file;
+        imageGrid.appendChild(img);
+      });
+    }
+    document.querySelector('.memory-box').addEventListener('click', function() {
+      document.getElementById('imagePopup').style.display = 'block';
+      loadImages();
+    });
+    document.querySelector('.close-btn').addEventListener('click', function() {
+      document.getElementById('imagePopup').style.display = 'none';
+    });
+    window.addEventListener('click', function(e) {
+      if (e.target == document.getElementById('imagePopup')) {
+        document.getElementById('imagePopup').style.display = 'none';
+      }
+    });
 
-        // Hiển thị quote ngẫu nhiên
-        const quotes = [
-            "Tình yêu là khi hạnh phúc của người khác trở thành điều thiết yếu đối với bạn",
-            "Yêu là tìm thấy nửa đôi thực sự của tâm hồn mình",
-            "Chúng ta là bản tình ca đẹp nhất vũ trụ",
-            "Mỗi ngày bên em là một trang mới trong cuốn sách hạnh phúc",
-            "Tình yêu không phải là nhìn nhau mà là cùng nhìn về một hướng",
-            "Yêu là khi khoảng cách chỉ làm trái tim thêm gần",
-            "Tình yêu đích thực là khi hai người cùng nhau viết nên câu chuyện đẹp nhất",
-            "Trong vũ trụ bao la, em là ngôi sao sáng nhất của anh",
-            "Tình yêu là khi ta tìm thấy nơi bình yên trong vòng tay nhau",
-            "Yêu là khi mỗi khoảnh khắc bên nhau đều trở thành kỷ niệm quý giá",
-            "Tình yêu là ánh sáng xua tan mọi bóng tối trong cuộc đời",
-            "Chúng ta như hai nửa vầng trăng, chỉ trọn vẹn khi ở bên nhau",
-            "Yêu là khi ta cùng nhau đi qua những ngày nắng đẹp và cả những cơn mưa",
-            "Tình yêu là khi ta có thể là chính mình khi ở bên người ấy",
-            "Yêu là khi ta tìm thấy sự hoàn hảo trong những điều không hoàn hảo",
-            "Tình yêu là khi ta cùng nhau viết nên những ước mơ",
-            "Yêu là khi ta cùng nhau xây dựng một thế giới chỉ có hai người",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm không thể nào quên",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ",
-            "Yêu là khi ta cùng nhau tạo nên những điều kỳ diệu",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng hạnh phúc",
-            "Yêu là khi ta cùng nhau tạo nên những kỷ niệm đẹp nhất",
-            "Tình yêu là khi ta cùng nhau đi qua những thử thách và trở nên mạnh mẽ hơn",
-            "Yêu là khi ta cùng nhau tạo nên những ước mơ và hi vọng",
-            "Tình yêu là khi ta cùng nhau đi qua những ngày tháng đẹp nhất của cuộc đời",
-            "Yêu là khi ta cùng nhau tạo nên một tương lai tươi sáng",
-            "Tình yêu là khi ta cùng nhau đi qua những khoảnh khắc đáng nhớ"
-        ];
+    // Khởi tạo các hiệu ứng khi DOM load xong
+    document.addEventListener('DOMContentLoaded', () => {
+      createStars();
+      updateCounter();
+      showRandomQuote();
+      setInterval(showRandomQuote, 5000);
+    });
 
-        function showRandomQuote() {
-            const quoteElement = document.querySelector('.quote');
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            quoteElement.textContent = quotes[randomIndex];
-        }
-
-        // Khởi tạo
-        document.addEventListener('DOMContentLoaded', () => {
-            createStars();
-            updateCounter();
-            showRandomQuote();
-            setInterval(showRandomQuote, 5000);
-        });
-
-        // Thêm hiệu ứng hover cho trái tim
-        document.querySelector('.heart').addEventListener('mouseover', function() {
-            this.style.transform = 'scale(1.5)';
-            this.style.filter = 'drop-shadow(0 0 10px #ff3860)';
-        });
-
-        document.querySelector('.heart').addEventListener('mouseout', function() {
-            this.style.transform = 'scale(1)';
-            this.style.filter = 'none';
-        });
-    </script>
+    // Hiệu ứng hover cho trái tim
+    const heart = document.querySelector('.heart');
+    heart.addEventListener('mouseover', function() {
+      this.style.transform = 'scale(1.5)';
+      this.style.filter = 'drop-shadow(0 0 10px #ff3860)';
+    });
+    heart.addEventListener('mouseout', function() {
+      this.style.transform = 'scale(1)';
+      this.style.filter = 'none';
+    });
+  </script>
 </body>
 </html>
