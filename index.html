@@ -102,7 +102,7 @@
     .image-grid img {
       width: 100%;
       height: auto;
-      object-fit: cover; /* đảm bảo ảnh không bị bóp méo */
+      object-fit: cover;
       border-radius: 5px;
     }
     /* Hiệu ứng sao nền */
@@ -126,18 +126,35 @@
       0%, 100% { opacity: 0.3; }
       50% { opacity: 1; }
     }
-    /* Hiệu ứng sao băng (shooting star) */
+    /* Hiệu ứng sao băng với đầu to, đuôi dài - đã điều chỉnh hướng */
     .shooting-star {
       position: absolute;
-      width: 3px;
-      height: 3px;
-      background: #fff;
-      border-radius: 50%;
+      width: 100px; /* độ dài vệt sáng */
+      height: 2px;  /* độ dày của vệt sáng */
+      background: linear-gradient(to left, #fff, rgba(255,255,255,0)); /* gradient từ phải sang trái */
+      transform: rotate(45deg);
       animation: shoot var(--shoot-duration) linear forwards;
     }
+    /* Phần đầu của sao băng, đặt bên phải để khớp với hướng gradient */
+    .shooting-star::before {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: -3px;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+    }
     @keyframes shoot {
-      0% { opacity: 1; transform: translate(0, 0); }
-      100% { opacity: 0; transform: translate(150px, 150px); }
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) rotate(45deg);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(150px, 150px) rotate(45deg);
+      }
     }
   </style>
 </head>
@@ -175,33 +192,46 @@
       }
     }
 
-    // Tạo hiệu ứng sao băng (mỗi 3 giây tạo một sao băng bay)
-    function createShootingStar() {
+    // Hàm tạo sao băng với vị trí có thể truyền vào (nếu không có sẽ random)
+    function createShootingStar(x = null, y = null) {
       const star = document.createElement('div');
       star.className = 'shooting-star';
-      // Vị trí xuất phát ngẫu nhiên
-      star.style.top = Math.random() * window.innerHeight + 'px';
-      star.style.left = Math.random() * window.innerWidth + 'px';
+      if (x !== null && y !== null) {
+        star.style.left = x + 'px';
+        star.style.top = y + 'px';
+      } else {
+        star.style.top = Math.random() * window.innerHeight + 'px';
+        star.style.left = Math.random() * window.innerWidth + 'px';
+      }
       star.style.setProperty('--shoot-duration', (Math.random() * 0.5 + 0.5) + 's');
       document.body.appendChild(star);
       star.addEventListener('animationend', function() {
         star.remove();
       });
     }
+    
+    // Tạo sao băng tự động theo khoảng thời gian
     setInterval(createShootingStar, 1000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 2000);
+    setInterval(createShootingStar, 2000);
     setInterval(createShootingStar, 3000);
-    setInterval(createShootingStar, 2000);
-    setInterval(createShootingStar, 2000);
-    setInterval(createShootingStar, 2000);
-    setInterval(createShootingStar, 2000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
-    setInterval(createShootingStar, 5000);
+    setInterval(createShootingStar, 3000);
+    setInterval(createShootingStar, 3000);
+    setInterval(createShootingStar, 3000);
+    setInterval(createShootingStar, 3000);
+    setInterval(createShootingStar, 3000);
+
+    // Tạo sao băng khi người dùng click chuột
+    document.addEventListener('click', function(e) {
+      createShootingStar(e.pageX, e.pageY);
+    });
+    
+    // Tạo sao băng khi người dùng chạm vào màn hình (cho thiết bị cảm ứng)
+    document.addEventListener('touchstart', function(e) {
+      let touch = e.touches[0];
+      createShootingStar(touch.pageX, touch.pageY);
+    });
 
     // Tính số ngày yêu
     function calculateLoveDays() {
@@ -249,12 +279,10 @@
       const imageGrid = document.querySelector('.image-grid');
       imageGrid.innerHTML = ''; // xóa nội dung cũ
       // Mảng demo chứa danh sách tên file ảnh trong thư mục "image/"
-      // Để tự động load ảnh từ thư mục, bạn cần dùng mã server hoặc JSON manifest
       const imageFiles = [
         'image1.jpg',
         'image2.jpg',
         'image3.jpg'
-        // thêm các tên file ảnh khác
       ];
       imageFiles.forEach(file => {
         const img = document.createElement('img');
