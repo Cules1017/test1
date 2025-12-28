@@ -7,227 +7,117 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- 1. RESET & BASE STYLES (THEME TƯƠI SÁNG) --- */
+        /* --- 1. RESET & BASE STYLES --- */
         :root {
-            --primary-color: #ff3366;
-            --secondary-color: #ff6b81;
+            --primary-color: #ff3366; --secondary-color: #ff6b81;
             --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-            --text-color: #4a4a4a;
-            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #4a4a4a; --card-bg: rgba(255, 255, 255, 0.85);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --ai-btn-bg: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Nunito', sans-serif;
-            color: var(--text-color);
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto;
-        }
-
-        /* Background */
-        .bg-animation {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); overflow: hidden;
-        }
-
-        .floating-heart {
-            position: absolute; color: rgba(255, 255, 255, 0.6);
-            animation: floatUp linear infinite; bottom: -50px; pointer-events: none;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-        }
-
-        .click-heart {
-            position: absolute; width: 20px; height: 20px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/contain;
-            pointer-events: none; z-index: 9999; animation: clickBurst 0.8s ease-out forwards;
-        }
-
+        body { font-family: 'Nunito', sans-serif; color: var(--text-color); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto; }
+        .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); overflow: hidden; }
+        .floating-heart { position: absolute; color: rgba(255, 255, 255, 0.6); animation: floatUp linear infinite; bottom: -50px; pointer-events: none; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
+        .click-heart { position: absolute; width: 20px; height: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/contain; pointer-events: none; z-index: 9999; animation: clickBurst 0.8s ease-out forwards; }
         @keyframes clickBurst { 0% { transform: scale(0.5) translateY(0); opacity: 1; } 100% { transform: scale(1.5) translateY(-50px) rotate(20deg); opacity: 0; } }
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
-
-        /* Layout */
+        
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
         .header { padding: 50px 0 30px; animation: fadeInDown 1.5s ease; }
         .title { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--primary-color); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-
         .couple-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
         .person { text-align: center; position: relative; }
-        
-        .avatar-frame {
-            width: 150px; height: 150px; border-radius: 50%; border: 4px solid #fff;
-            padding: 3px; position: relative; overflow: hidden;
-            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3);
-            transition: transform 0.3s ease; background: white;
-            display: flex; justify-content: center; align-items: center;
-        }
+        .avatar-frame { width: 150px; height: 150px; border-radius: 50%; border: 4px solid #fff; padding: 3px; position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3); transition: transform 0.3s ease; background: white; display: flex; justify-content: center; align-items: center; }
         .avatar-frame:hover { transform: scale(1.05) rotate(3deg); }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        
         .name { margin-top: 15px; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); }
         .heart-beat { font-size: 3rem; color: var(--primary-color); animation: heartbeat 1.2s infinite; display: flex; align-items: center; justify-content: center; width: 60px; filter: drop-shadow(0 5px 15px rgba(255, 51, 102, 0.4)); }
-
-        /* Trend Box */
+        
         .trend-wrapper { max-width: 600px; margin: 0 auto 40px; position: relative; z-index: 10; }
-        .trend-badge {
-            background: #ff4757; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase;
-            position: absolute; top: -12px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); z-index: 2; display: flex; align-items: center; gap: 5px;
-        }
-        .trend-content {
-            background: rgba(255, 255, 255, 0.9); padding: 25px 20px; border-radius: 15px; border: 2px dashed var(--secondary-color);
-            font-size: 1.1rem; color: #2f3542; font-weight: 600; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            animation: pulseBorder 3s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center;
-        }
+        .trend-badge { background: #ff4757; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); z-index: 2; display: flex; align-items: center; gap: 5px; }
+        .trend-content { background: rgba(255, 255, 255, 0.9); padding: 25px 20px; border-radius: 15px; border: 2px dashed var(--secondary-color); font-size: 1.1rem; color: #2f3542; font-weight: 600; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: pulseBorder 3s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center; }
         .trend-content i { color: var(--primary-color); margin-right: 8px; }
-
-        /* Counter */
-        .counter-box {
-            background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px 30px; margin: 0 auto 50px;
-            border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow); max-width: 800px; animation: fadeInUp 1.5s ease;
-        }
+        
+        .counter-box { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px 30px; margin: 0 auto 50px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow); max-width: 800px; animation: fadeInUp 1.5s ease; }
         .love-duration { font-size: 1.2rem; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; color: #666; font-weight: 700; }
         .timer { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .time-unit {
-            background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 15px; min-width: 100px;
-            border: 1px solid rgba(255, 51, 102, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        .time-unit { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 15px; min-width: 100px; border: 1px solid rgba(255, 51, 102, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .time-val { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); display: block; }
         .time-label { font-size: 0.9rem; color: #888; font-weight: 600; }
 
-        /* AI Section */
-        .ai-section {
-            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin: 0 auto 50px;
-            max-width: 800px; border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: var(--shadow); position: relative; overflow: hidden;
-        }
+        .ai-section { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; margin: 0 auto 50px; max-width: 800px; border: 1px solid rgba(255, 255, 255, 0.6); box-shadow: var(--shadow); position: relative; overflow: hidden; }
         .ai-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
-        .ai-btn {
-            background: var(--ai-btn-bg); border: none; padding: 12px 25px; border-radius: 50px; color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer;
-            transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.5); display: flex; align-items: center; gap: 8px;
-        }
+        .ai-btn { background: var(--ai-btn-bg); border: none; padding: 12px 25px; border-radius: 50px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.5); display: flex; align-items: center; gap: 8px; }
         .ai-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.7); }
-        .ai-result-box {
-            background: #fff; border-radius: 10px; padding: 20px; min-height: 100px; text-align: left; line-height: 1.6;
-            position: relative; display: none; font-style: italic; border-left: 4px solid var(--secondary-color);
-            color: #555; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
+        .ai-result-box { background: #fff; border-radius: 10px; padding: 20px; min-height: 100px; text-align: left; line-height: 1.6; position: relative; display: none; font-style: italic; border-left: 4px solid var(--secondary-color); color: #555; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
         .ai-loading { display: flex; align-items: center; justify-content: center; gap: 10px; color: #888; font-style: italic; }
 
-        /* Gallery */
         .gallery-section { padding: 50px 20px; }
         .section-title { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 30px; color: var(--primary-color); }
         .gallery-grid { column-count: 4; column-gap: 15px; }
-        .gallery-item {
-            break-inside: avoid; margin-bottom: 15px; border-radius: 12px; overflow: hidden; position: relative;
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08); background: #fff; padding: 5px;
-        }
+        .gallery-item { break-inside: avoid; margin-bottom: 15px; border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; transition: all 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.08); background: #fff; padding: 5px; }
         .gallery-item:hover { transform: translateY(-8px) scale(1.02); z-index: 2; box-shadow: 0 15px 30px rgba(255, 51, 102, 0.2); }
-        .gallery-item img { width: 100%; display: block; border-radius: 8px; transition: transform 0.6s ease, filter 0.3s ease; }
-        .gallery-item:hover img { filter: brightness(1.05); transform: scale(1.1); }
-        .video-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.5); border-radius: 50%; width: 50px; height: 50px;
-            display: flex; justify-content: center; align-items: center; color: white;
-            font-size: 20px; pointer-events: none; transition: all 0.3s ease;
-        }
-        .gallery-item:hover .video-overlay { background: rgba(255, 51, 102, 0.8); transform: translate(-50%, -50%) scale(1.1); }
-
-        /* Status & Loading */
+        .gallery-item img { width: 100%; display: block; border-radius: 8px; transition: transform 0.6s ease; }
+        .video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.5); border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; color: white; font-size: 20px; pointer-events: none; }
         #driveStatus { color: #666; margin-bottom: 20px; font-style: italic; font-size: 1.1rem; display: block; }
-        .error-message { color: #ff6b6b; font-weight: bold; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 10px; display: inline-block; margin-top: 10px; }
-        .loading-spinner {
-            border: 4px solid rgba(255, 51, 102, 0.1); width: 40px; height: 40px; border-radius: 50%;
-            border-left-color: var(--primary-color); animation: spin 1s linear infinite; margin: 10px auto 30px; display: block;
-        }
+        .loading-spinner { border: 4px solid rgba(255, 51, 102, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--primary-color); animation: spin 1s linear infinite; margin: 10px auto 30px; display: block; }
         .load-more-container { text-align: center; margin-top: 30px; }
-        .load-more-btn {
-            background: white; color: var(--primary-color); border: 2px solid var(--primary-color);
-            padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer;
-            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        .load-more-btn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
 
-        /* Modals */
-        .lightbox, .chat-modal, .music-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001;
-            display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
+        .lightbox, .chat-modal, .music-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .lightbox.active { display: flex; opacity: 1; visibility: visible; }
-        .lightbox-content, .chat-content, .music-content {
-            background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            animation: zoomIn 0.3s ease; display: flex; flex-direction: column; overflow: hidden;
-        }
+        .lightbox-content, .chat-content, .music-content { background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); animation: zoomIn 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
         .lightbox-content { max-width: 90%; max-height: 90%; align-items: center; justify-content: center; background: transparent; box-shadow: none; }
         .chat-content, .music-content { width: 90%; max-width: 400px; height: 70vh; background: white; }
-        
-        .lightbox img, .lightbox video { max-width: 100%; max-height: 90vh; border-radius: 10px; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-
+        .lightbox img, .lightbox video { max-width: 100%; max-height: 90vh; border-radius: 10px; display: block; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; transition: color 0.3s; }
+        .lightbox-close:hover { color: var(--primary-color); }
         .chat-header, .music-header { background: var(--ai-btn-bg); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .close-chat { font-size: 1.5rem; cursor: pointer; }
         .chat-body, .music-body { flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; }
         .chat-footer { padding: 10px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
         .chat-footer input, .add-music-form input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 20px; outline: none; }
         .chat-footer button, .add-music-form button { background: var(--primary-color); color: white; border: none; padding: 0 15px; border-radius: 20px; cursor: pointer; }
-        
         .message { padding: 10px 15px; border-radius: 15px; max-width: 80%; margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
-        .ai-message { background: #e9ecef; color: #333; align-self: flex-start; }
-        .user-message { background: var(--primary-color); color: white; align-self: flex-end; margin-left: auto; }
-
+        .ai-message { background: #e9ecef; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .user-message { background: var(--primary-color); color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
         .add-music-form { display: flex; gap: 10px; margin-bottom: 20px; }
         .playlist-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: white; border-radius: 10px; margin-bottom: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .delete-btn { color: #ff6b6b; cursor: pointer; }
-        .current-song-info {
-            position: fixed; bottom: 85px; right: 20px; background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 0.8rem; color: var(--primary-color); font-weight: bold; z-index: 99;
-            transform: translateX(200%); transition: transform 0.5s ease;
-        }
+        .delete-btn { color: #ff6b6b; cursor: pointer; padding: 5px; }
+        .current-song-info { position: fixed; bottom: 85px; right: 20px; background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 0.8rem; color: var(--primary-color); font-weight: bold; z-index: 99; transform: translateX(200%); transition: transform 0.5s ease; }
         .current-song-info.show { transform: translateX(0); }
-        .cloud-status { font-size: 0.8rem; color: #aaa; text-align: center; margin-top: 10px; }
-        .cloud-active { color: #2ecc71; }
-
+        .cloud-status { font-size: 0.8rem; color: #aaa; text-align: center; margin-top: 10px; transition: color 0.5s ease; }
+        .cloud-status i { margin-right: 5px; }
+        .cloud-active { color: #2ecc71; } .cloud-saving { color: #f39c12; }
+        .global-status {
+            position: fixed; bottom: 10px; left: 10px; font-size: 0.7rem; color: rgba(255,255,255,0.5); z-index: 100;
+        }
         footer { margin-top: auto; padding: 20px; text-align: center; font-size: 0.9rem; color: #666; background: rgba(255, 255, 255, 0.5); }
         #youtube-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-
+        
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulseBorder { 0% { border-color: var(--secondary-color); } 50% { border-color: var(--primary-color); } 100% { border-color: var(--secondary-color); } }
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-        @media (max-width: 768px) {
-            .gallery-grid { column-count: 2; } .couple-container { gap: 15px; } .avatar-frame { width: 100px; height: 100px; }
-            .heart-beat { font-size: 2rem; } .time-unit { min-width: 70px; padding: 10px; } .time-val { font-size: 1.5rem; }
-            .title { font-size: 2.5rem; } .ai-buttons { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .gallery-grid { column-count: 2; } .couple-container { gap: 15px; } .avatar-frame { width: 100px; height: 100px; } .heart-beat { font-size: 2rem; } .time-unit { min-width: 70px; padding: 10px; } .time-val { font-size: 1.5rem; } .title { font-size: 2.5rem; } .ai-buttons { flex-direction: column; } }
     </style>
 </head>
 <body>
 
     <div class="bg-animation" id="bgAnimation"></div>
 
-    <!-- Lightbox -->
     <div id="lightbox" class="lightbox" onclick="window.closeLightbox()">
         <span class="lightbox-close">&times;</span>
         <div class="lightbox-content" id="lightbox-content" onclick="event.stopPropagation()"></div>
     </div>
 
-    <!-- Chat Modal -->
     <div id="chatModal" class="chat-modal">
         <div class="chat-content">
-            <div class="chat-header">
-                <h3>Tâm Sự Cùng AI <i class="fas fa-heart"></i></h3>
-                <span class="close-chat" onclick="window.closeChatModal()">&times;</span>
-            </div>
-            <div class="chat-body" id="chatBody">
-                <div class="message ai-message">Chào bạn! Mình là "Trợ lý Tình Yêu". Bạn có tâm sự gì không? 💕</div>
-            </div>
+            <div class="chat-header"><h3>Tâm sự vs trợ lý <i class="fas fa-heart"></i></h3><span class="close-chat" onclick="window.closeChatModal()">&times;</span></div>
+            <div class="chat-body" id="chatBody"><div class="message ai-message">Chào bạn! Mình là "Trợ lý Tình Yêu". Bạn có tâm sự gì không? 💕</div></div>
             <div class="chat-footer">
                 <input type="text" id="chatInput" placeholder="Nhập tâm sự..." onkeypress="window.handleChatKey(event)">
                 <button onclick="window.sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
@@ -235,20 +125,19 @@
         </div>
     </div>
 
-    <!-- Music Modal -->
     <div id="musicModal" class="music-modal">
         <div class="music-content">
-            <div class="music-header">
-                <h3><i class="fas fa-music"></i> Hộp Nhạc</h3>
-                <span class="close-chat" onclick="window.closeMusicModal()">&times;</span>
-            </div>
+            <div class="music-header"><h3><i class="fas fa-music"></i> Hộp Nhạc</h3><span class="close-chat" onclick="window.closeMusicModal()">&times;</span></div>
             <div class="music-body">
                 <div class="add-music-form">
                     <input type="text" id="musicInput" placeholder="Dán link YouTube...">
                     <button onclick="window.addMusicFromInput()">Thêm</button>
                 </div>
-                <div id="playlistContainer"></div>
-                <div id="storageStatus" class="cloud-status"><i class="fas fa-hdd"></i> LocalStorage (Offline)</div>
+                <div style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">Danh sách phát (Đồng bộ):</div>
+                <div id="playlistContainer">
+                    <div style="text-align:center; padding:20px; color:#888;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
+                </div>
+                <div id="storageStatus" class="cloud-status"><i class="fas fa-hdd"></i> Đang kết nối...</div>
             </div>
         </div>
     </div>
@@ -257,22 +146,20 @@
     <div style="position: fixed; bottom: 90px; right: 20px; z-index: 100; cursor: pointer; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onclick="window.openMusicModal()"><i class="fas fa-list-music" style="color: var(--primary-color);"></i></div>
     <div style="position: fixed; bottom: 20px; right: 20px; z-index: 100; cursor: pointer; background: rgba(255,255,255,0.8); padding: 12px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" onclick="window.toggleMusic()"><i id="musicIcon" class="fas fa-play" style="color: var(--primary-color);"></i></div>
     <div id="songNotification" class="current-song-info"><i class="fas fa-music"></i> Đang phát: <span id="currentSongName">...</span></div>
+    
+    <div id="globalStatus" class="global-status"></div>
 
     <div class="container">
         <header class="header">
             <h1 class="title">Love Days Counter</h1>
             <div class="couple-container">
                 <div class="person">
-                    <div class="avatar-frame">
-                        <img id="boyAvatar" src="data:image/svg+xml;utf8,<svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='45' fill='none' stroke='%23ff3366' stroke-width='10' stroke-dasharray='280' stroke-dashoffset='0'><animateTransform attributeName='transform' type='rotate' from='0 50 50' to='360 50 50' dur='1.5s' repeatCount='indefinite'/></circle></svg>" alt="Boy">
-                    </div>
+                    <div class="avatar-frame"><img id="boyAvatar" src="data:image/svg+xml;utf8,<svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><style>.spinner{animation: rotator 1.4s linear infinite; transform-origin: center;}@keyframes rotator{0%{transform:rotate(0deg);}100%{transform:rotate(270deg);}}</style><circle class='spinner' cx='50' cy='50' r='45' fill='none' stroke='%23ff3366' stroke-width='10' stroke-dasharray='280' stroke-dashoffset='0' /></svg>" alt="Boy"></div>
                     <div class="name" id="boyName">Chàng Trai</div>
                 </div>
                 <div class="heart-beat"><i class="fas fa-heart"></i></div>
                 <div class="person">
-                    <div class="avatar-frame">
-                        <img id="girlAvatar" src="data:image/svg+xml;utf8,<svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><circle cx='50' cy='50' r='45' fill='none' stroke='%23ff3366' stroke-width='10' stroke-dasharray='280' stroke-dashoffset='0'><animateTransform attributeName='transform' type='rotate' from='0 50 50' to='360 50 50' dur='1.5s' repeatCount='indefinite'/></circle></svg>" alt="Girl">
-                    </div>
+                    <div class="avatar-frame"><img id="girlAvatar" src="data:image/svg+xml;utf8,<svg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><style>.spinner{animation: rotator 1.4s linear infinite; transform-origin: center;}@keyframes rotator{0%{transform:rotate(0deg);}100%{transform:rotate(270deg);}}</style><circle class='spinner' cx='50' cy='50' r='45' fill='none' stroke='%23ff3366' stroke-width='10' stroke-dasharray='280' stroke-dashoffset='0' /></svg>" alt="Girl"></div>
                     <div class="name" id="girlName">Cô Gái</div>
                 </div>
             </div>
@@ -309,7 +196,7 @@
         <section class="gallery-section">
             <h2 class="section-title">Kỷ Niệm Của Chúng Ta</h2>
             <div class="loading-spinner" id="loader"></div>
-            <div id="driveStatus" style="text-align: center;"><i class="fas fa-heart fa-spin" style="color: var(--primary-color);"></i> Cục iu đang lục lại ký ức...</div>
+            <p id="driveStatus" style="text-align: center;"><i class="fas fa-heart fa-spin" style="color: var(--primary-color);"></i> Cục iu đang lục lại ký ức...</p>
             <div class="gallery-grid" id="galleryGrid"></div>
             <div class="load-more-container" id="loadMoreContainer" style="display: none;">
                 <button class="load-more-btn" onclick="window.loadMorePhotos()">Cục iu mún xem thêm <i class="fas fa-chevron-down"></i></button>
@@ -319,315 +206,292 @@
 
     <footer><p>Created with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for Cục Iu Lì Lợm.</p></footer>
 
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getFirestore, doc, setDoc, onSnapshot, collection } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
-
-        // --- CONFIG ---
-        const START_DATE = new Date(2024, 8, 2, 0, 0, 0);
-        const DEFAULT_MUSIC_ID = "UjqhCaq9qB8"; 
-        const CONFIG = {
-            boyName: "Anh", girlName: "Em",
-            boyAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix", 
-            girlAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" 
+    <!-- SCRIPT 1: GLOBAL UI FUNCTIONS (RUNS IMMEDIATELY) -->
+    <script>
+        // Define UI functions globally first to prevent ReferenceError
+        window.openMusicModal = function() { document.getElementById('musicModal').style.display = 'flex'; };
+        window.closeMusicModal = function() { document.getElementById('musicModal').style.display = 'none'; };
+        window.openChatModal = function() { document.getElementById('chatModal').style.display = 'flex'; setTimeout(()=>document.getElementById('chatInput').focus(), 100); };
+        window.closeChatModal = function() { document.getElementById('chatModal').style.display = 'none'; };
+        
+        window.openLightbox = function(url, type) {
+            const lb = document.getElementById('lightbox'), cnt = document.getElementById('lightbox-content');
+            cnt.innerHTML = type==='video' ? `<video controls autoplay src="${url}" style="max-width:100%;max-height:90vh"></video>` : `<img src="${url}">`;
+            lb.classList.add('active');
         };
-        const GOOGLE_DRIVE_API_KEY = "AIzaSyCBa64ShYNgreU88o3Ijsi6QQnsK018uUc"; // Key mẫu (Có thể đã chết)
-        const GOOGLE_DRIVE_FOLDER_ID = "1ifei24bSGnS59UQMbQD6WLOYSk7hof7h";
-        const GEMINI_API_KEY = "AIzaSyBDVcKVD72nvdQamLZ8PJVjMzHXrWbh_8Y"; 
-
-        // --- FIREBASE ---
-        let db, auth, isFirebaseActive = false, appId = 'love-app', currentUserId;
-
-        async function initFirebase() {
-            try {
-                // Ưu tiên lấy config từ môi trường (Nếu bạn chạy trên Canvas này)
-                const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : null;
-
-                if (firebaseConfig) {
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getFirestore(app);
-                    if (typeof __app_id !== 'undefined') appId = __app_id;
-                    
-                    const userCred = await signInAnonymously(auth);
-                    currentUserId = userCred.user.uid;
-                    isFirebaseActive = true;
-                    console.log("Firebase Active:", currentUserId);
-                    
-                    document.getElementById('storageStatus').innerHTML = '<i class="fas fa-cloud cloud-active"></i> Đã kết nối Cloud';
-                    document.getElementById('storageStatus').classList.add('cloud-active');
-                    
-                    watchPlaylist();
-                } else {
-                    console.warn("Chưa có cấu hình Firebase. Đang dùng LocalStorage.");
-                    loadLocalStorage();
-                }
-            } catch (e) {
-                console.error("Lỗi Firebase:", e);
-                loadLocalStorage(); // Fallback về bộ nhớ máy
-            }
-        }
-
-        // --- GLOBAL EXPORTS ---
-        window.toggleMusic = toggleMusic;
-        window.openMusicModal = () => document.getElementById('musicModal').style.display = 'flex';
-        window.closeMusicModal = () => document.getElementById('musicModal').style.display = 'none';
-        window.addMusicFromInput = addMusicFromInput;
-        window.removeMusic = removeMusic;
-        window.playRandomSong = playRandomSong;
-        window.askGemini = askGemini;
-        window.openChatModal = () => { document.getElementById('chatModal').style.display = 'flex'; setTimeout(()=>document.getElementById('chatInput').focus(), 100); };
-        window.closeChatModal = () => document.getElementById('chatModal').style.display = 'none';
-        window.sendChatMessage = sendChatMessage;
-        window.handleChatKey = (e) => { if(e.key === 'Enter') sendChatMessage(); };
-        window.loadMorePhotos = loadMorePhotos;
-        window.openLightbox = openLightbox;
-        window.closeLightbox = closeLightbox;
-
-        // --- YOUTUBE ---
-        var player;
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('youtube-player', {
-                height: '0', width: '0', videoId: DEFAULT_MUSIC_ID,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1, 'playlist': DEFAULT_MUSIC_ID },
-                events: { 'onStateChange': onPlayerStateChange, 'onError': () => playRandomSong() }
-            });
+        window.closeLightbox = function() { 
+            document.getElementById('lightbox').classList.remove('active'); 
+            document.getElementById('lightbox-content').innerHTML = "";
         };
-        var tag = document.createElement('script'); tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
+        
+        window.handleChatKey = function(e) { if(e.key === 'Enter') window.sendChatMessage(); };
+        
+        // Placeholders until Module loads
+        window.toggleMusic = () => console.log("Loading Music...");
+        window.addMusicFromInput = () => alert("Đang kết nối Database, chờ xíu nha...");
+        window.removeMusic = () => {};
+        window.playRandomSong = () => {};
+        window.playSpecificSong = () => {};
+        window.askGemini = () => alert("AI đang khởi động...");
+        window.sendChatMessage = () => {};
+        window.loadMorePhotos = () => {};
 
-        function onPlayerStateChange(event) {
-            const icon = document.getElementById('musicIcon');
-            if (event.data == YT.PlayerState.PLAYING) { icon.classList.remove('fa-play'); icon.classList.add('fa-pause'); }
-            else if (event.data == YT.PlayerState.ENDED) { playRandomSong(); }
-            else { icon.classList.remove('fa-pause'); icon.classList.add('fa-play'); }
+        // Particles & Counter
+        const container = document.getElementById('bgAnimation');
+        for(let i=0; i<20; i++){
+            let h = document.createElement('div'); h.className='floating-heart'; h.innerHTML='<i class="fas fa-heart"></i>';
+            h.style.left = Math.random()*100+'vw'; h.style.animationDuration = (Math.random()*10+5)+'s';
+            container.appendChild(h);
         }
-        function toggleMusic() { if(player) player.getPlayerState() == YT.PlayerState.PLAYING ? player.pauseVideo() : player.playVideo(); }
-
-        // --- PLAYLIST ---
-        let myPlaylist = [DEFAULT_MUSIC_ID];
-
-        function watchPlaylist() {
-            if (!db || !currentUserId) return;
-            // SỬA ĐỔI: Dùng path chuẩn Collection -> Doc
-            // Path: artifacts/{appId}/users/{userId}/music_data/playlist
-            const docRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'music_data', 'playlist');
-            
-            onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if (data.songs) { myPlaylist = data.songs; renderPlaylist(); }
-                } else {
-                    savePlaylist(); // Tạo mới nếu chưa có
-                }
-            }, (err) => { console.error("Lỗi sync:", err); loadLocalStorage(); });
-        }
-
-        function loadLocalStorage() {
-            const stored = localStorage.getItem('love_playlist');
-            if (stored) myPlaylist = JSON.parse(stored);
-            renderPlaylist();
-        }
-
-        async function savePlaylist() {
-            localStorage.setItem('love_playlist', JSON.stringify(myPlaylist)); // Luôn backup local
-            if (isFirebaseActive && db && currentUserId) {
-                try {
-                    const docRef = doc(db, 'artifacts', appId, 'users', currentUserId, 'music_data', 'playlist');
-                    await setDoc(docRef, { songs: myPlaylist }, { merge: true });
-                } catch(e) { console.error("Lỗi lưu Cloud:", e); alert("Không lưu được lên mây (Lỗi quyền)"); }
-            }
-            renderPlaylist();
-        }
-
-        function addMusicFromInput() {
-            const input = document.getElementById('musicInput');
-            const url = input.value.trim();
-            if(!url) return;
-            const vid = extractVideoID(url);
-            if(vid) {
-                if(!myPlaylist.includes(vid)) { myPlaylist.push(vid); savePlaylist(); input.value = ''; alert("Đã thêm nhạc! ❤️"); }
-                else alert("Bài này có rồi nhen!");
-            } else alert("Link lỗi rùi :(");
-        }
-
-        function removeMusic(id) {
-            myPlaylist = myPlaylist.filter(v => v !== id);
-            if(myPlaylist.length === 0) myPlaylist.push(DEFAULT_MUSIC_ID);
-            savePlaylist();
-        }
-
-        function renderPlaylist() {
-            const container = document.getElementById('playlistContainer');
-            container.innerHTML = "";
-            myPlaylist.forEach((id, i) => {
-                container.innerHTML += `<div class="playlist-item"><span><i class="fas fa-music"></i> Bài ${i+1} (${id})</span><span class="delete-btn" onclick="window.removeMusic('${id}')"><i class="fas fa-trash"></i></span></div>`;
-            });
-        }
-
-        function extractVideoID(url) {
-            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-            var match = url.match(regExp);
-            return (match && match[7].length == 11) ? match[7] : false;
-        }
-
-        function playRandomSong() {
-            if(myPlaylist.length === 0) return;
-            const nextSongId = myPlaylist[Math.floor(Math.random() * myPlaylist.length)];
-            if(player) { player.loadVideoById(nextSongId); showSongNotification("Bài hát ngẫu nhiên"); }
-        }
-
-        function showSongNotification(name) {
-            const notif = document.getElementById('songNotification');
-            document.getElementById('currentSongName').innerText = name;
-            notif.classList.add('show'); setTimeout(() => notif.classList.remove('show'), 4000);
-        }
-
-        // --- TREND AI ---
-        const fallbackTrends = ["Anh ngoan xinh yêu đâu rồi?", "Tình yêu này đã Check VAR: Real Love!", "Yêu em là kiếp nạn thứ 82."];
-        async function fetchTrendFromAI() {
-            const trendBox = document.getElementById('loveTrendText');
-            if (!GEMINI_API_KEY) { trendBox.innerHTML = fallbackTrends[0]; return; }
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Viết 1 câu thả thính Gen Z ngắn gọn hài hước." }] }] })
-                });
-                const data = await res.json();
-                trendBox.innerHTML = `<i class="fas fa-quote-left"></i> ${data.candidates[0].content.parts[0].text.trim()} <i class="fas fa-fire" style="color:orange"></i>`;
-            } catch(e) { trendBox.innerHTML = fallbackTrends[Math.floor(Math.random()*fallbackTrends.length)]; }
-        }
-
-        // --- GENERAL ---
-        document.getElementById('boyName').innerText = CONFIG.boyName;
-        document.getElementById('girlName').innerText = CONFIG.girlName;
-
-        setInterval(() => {
+        
+        const START_DATE = new Date(2024, 8, 2, 0, 0, 0); 
+        function updateCounter() {
             const now = new Date(); const diff = now - START_DATE;
             document.getElementById('totalDays').innerText = Math.floor(diff / 86400000) + " Ngày";
-            // ... (Chi tiết timer giữ nguyên logic cũ) ...
             let y = now.getFullYear()-START_DATE.getFullYear(), m = now.getMonth()-START_DATE.getMonth(), d = now.getDate()-START_DATE.getDate();
             if(d<0){ m--; d+=new Date(now.getFullYear(),now.getMonth(),0).getDate(); } if(m<0){ y--; m+=12; }
             document.getElementById('years').innerText = y; document.getElementById('months').innerText = m; document.getElementById('days').innerText = d;
             document.getElementById('hours').innerText = ('0'+now.getHours()).slice(-2);
             document.getElementById('minutes').innerText = ('0'+now.getMinutes()).slice(-2);
             document.getElementById('seconds').innerText = ('0'+now.getSeconds()).slice(-2);
-        }, 1000);
+        }
+        setInterval(updateCounter, 1000); updateCounter();
+    </script>
 
-        function createParticles() {
-            const container = document.getElementById('bgAnimation');
-            for(let i=0; i<20; i++){
-                let h = document.createElement('div'); h.className='floating-heart'; h.innerHTML='<i class="fas fa-heart"></i>';
-                h.style.left = Math.random()*100+'vw'; h.style.animationDuration = (Math.random()*10+5)+'s';
-                container.appendChild(h);
-            }
-        } createParticles();
+    <!-- SCRIPT 2: FIREBASE & LOGIC (MODULE) -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
 
-        async function askGemini(type) {
-            const box = document.getElementById('aiResult');
-            if(!GEMINI_API_KEY) { box.innerHTML = "⚠️ Chưa có Key!"; return; }
-            box.style.display = 'block'; box.innerHTML = "AI đang nghĩ...";
-            let prompt = type==='letter' ? "Viết thư tình ngắn" : (type==='date' ? "3 ý tưởng hẹn hò" : "Lời khuyên tình yêu");
+        const CONFIG = {
+            boyName: "Anh", girlName: "Em",
+            boyAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix", 
+            girlAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" 
+        };
+        const GOOGLE_DRIVE_API_KEY = "AIzaSyDPcMhxuTFAdV2mscBeZdvaH9CVfc47o1E";
+        const GOOGLE_DRIVE_FOLDER_ID = "1ifei24bSGnS59UQMbQD6WLOYSk7hof7h"; 
+        const GEMINI_API_KEY = "AIzaSyBDVcKVD72nvdQamLZ8PJVjMzHXrWbh_8Y"; 
+
+        let db, auth, isFirebaseActive = false;
+        let myPlaylist = []; 
+        let player = null;
+        let allFiles = [], displayCount = 0; const BATCH = 30;
+
+        // --- INIT ---
+        window.addEventListener('load', () => {
+            document.getElementById('boyName').innerText = CONFIG.boyName;
+            document.getElementById('girlName').innerText = CONFIG.girlName;
+            loadLocalStorage();
+            initFirebase();
+            loadGallery();
+            fetchTrendFromAI(); 
+        });
+
+        // --- FIREBASE ---
+        async function initFirebase() {
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                });
-                const d = await res.json(); box.innerHTML = d.candidates[0].content.parts[0].text.replace(/\n/g, '<br>');
-            } catch(e) { box.innerHTML = "Lỗi AI rùi :("; }
-        }
-
-        // --- GALLERY ---
-        let allFiles = [], displayCount = 0;
-        const BATCH = 30;
-
-        function openLightbox(url, type) {
-            const lb = document.getElementById('lightbox'), cnt = document.getElementById('lightbox-content');
-            cnt.innerHTML = type==='video' ? `<video controls autoplay src="${url}" style="max-width:100%;max-height:90vh"></video>` : `<img src="${url}">`;
-            lb.classList.add('active');
-        }
-        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); document.getElementById('lightbox-content').innerHTML = ''; }
-
-        function loadMorePhotos() {
-            const grid = document.getElementById('galleryGrid');
-            const next = allFiles.slice(displayCount, displayCount + BATCH);
-            next.forEach(f => {
-                const div = document.createElement('div'); div.className = 'gallery-item';
-                const url = `https://lh3.googleusercontent.com/d/${f.id}`;
-                if(f.mimeType.startsWith('video/')) {
-                    div.innerHTML = `<img src="${url}"><div class="video-overlay"><i class="fas fa-play"></i></div>`;
-                    div.onclick = () => openLightbox(url, 'video');
-                } else {
-                    div.innerHTML = `<img src="${url}">`;
-                    div.onclick = () => openLightbox(url, 'image');
-                }
-                grid.appendChild(div);
-            });
-            displayCount += next.length;
-            document.getElementById('loadMoreContainer').style.display = displayCount >= allFiles.length ? 'none' : 'block';
-        }
-
-        async function loadGallery() {
-            const status = document.getElementById('driveStatus'), loader = document.getElementById('loader');
-            const demoFallback = () => {
-                // FALLBACK AVATAR KHI LỖI
-                document.getElementById('boyAvatar').src = CONFIG.boyAvatar;
-                document.getElementById('girlAvatar').src = CONFIG.girlAvatar;
-                document.getElementById('galleryGrid').innerHTML = ""; 
-                for(let i=1; i<=6; i++) {
-                    let div = document.createElement('div'); div.className='gallery-item';
-                    let url = `https://picsum.photos/400/${300+(i*50)}`;
-                    div.innerHTML = `<img src="${url}">`; div.onclick = () => openLightbox(url, 'image');
-                    document.getElementById('galleryGrid').appendChild(div);
-                }
-            };
-
-            try {
-                await new Promise(r => setTimeout(r, 2000)); // Delay giả vờ loading
-                
-                // KIỂM TRA KEY TRƯỚC KHI GỌI
-                if(!GOOGLE_DRIVE_API_KEY) throw new Error("KEY_INVALID");
-
-                const url = `https://www.googleapis.com/drive/v3/files?q='${GOOGLE_DRIVE_FOLDER_ID}'+in+parents+and+trashed=false&orderBy=createdTime desc&fields=files(id, name, mimeType)&key=${GOOGLE_DRIVE_API_KEY}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                
-                if(data.error) throw new Error(data.error.message);
-
-                const files = data.files;
-                let foundBoy = false, foundGirl = false;
-                
-                if(files && files.length > 0) {
-                    files.forEach(f => {
-                        const name = f.name.toLowerCase();
-                        if(f.mimeType.startsWith('image/') && name.includes('avatar_boy')) {
-                            document.getElementById('boyAvatar').src = `https://lh3.googleusercontent.com/d/${f.id}`; foundBoy=true;
-                        } else if(f.mimeType.startsWith('image/') && name.includes('avatar_girl')) {
-                            document.getElementById('girlAvatar').src = `https://lh3.googleusercontent.com/d/${f.id}`; foundGirl=true;
-                        } else if(f.mimeType.startsWith('image/') || f.mimeType.startsWith('video/')) {
-                            allFiles.push(f);
-                        }
-                    });
-                    if(!foundBoy) document.getElementById('boyAvatar').src = CONFIG.boyAvatar;
-                    if(!foundGirl) document.getElementById('girlAvatar').src = CONFIG.girlAvatar;
+                const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : null;
+                if (firebaseConfig) {
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getDatabase(app, "https://oke12-d3d89-default-rtdb.firebaseio.com/");
+                    await signInAnonymously(auth);
+                    isFirebaseActive = true;
                     
-                    status.style.display = 'none';
-                    loadMorePhotos();
-                } else { throw new Error("EMPTY"); }
-
-            } catch(e) {
-                console.error("Lỗi Drive:", e);
-                let msg = "Lỗi kết nối.";
-                if(e.message === "KEY_INVALID") msg = "API Key Drive chưa đúng.";
-                else if(e.message === "EMPTY") msg = "Thư mục trống.";
-                
-                status.innerHTML = `<div class="error-message">⚠️ ${msg}<br><small>Đang hiện chế độ Demo</small></div>`;
-                demoFallback();
-            } finally { loader.style.display = 'none'; }
+                    const el = document.getElementById('storageStatus');
+                    if(el) { el.innerHTML='<i class="fas fa-cloud cloud-active"></i> Đã kết nối RTDB'; el.classList.add('cloud-active'); }
+                    
+                    // Listen immediately
+                    watchPlaylist();
+                } else {
+                    console.log("No Firebase Config");
+                }
+            } catch (e) {
+                console.error("Firebase Error:", e);
+            }
         }
 
-        // --- CHAT LOGIC ---
-        async function sendChatMessage() {
+        function watchPlaylist() {
+            if (!db) return;
+            const musicRef = ref(db, 'love_app/shared_music');
+            onValue(musicRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data && Array.isArray(data)) {
+                    console.log("Đồng bộ:", data.length);
+                    myPlaylist = data;
+                } else {
+                    console.log("RTDB Trống");
+                    myPlaylist = [];
+                }
+                renderPlaylist();
+                localStorage.setItem('love_playlist', JSON.stringify(myPlaylist));
+                
+                // Show Global Status
+                const gs = document.getElementById('globalStatus');
+                if(gs) {
+                    gs.innerText = `Đã đồng bộ ${myPlaylist.length} bài hát từ máy chủ`;
+                    setTimeout(()=> gs.innerText = '', 3000);
+                }
+            });
+        }
+
+        function loadLocalStorage() {
+            try {
+                const stored = localStorage.getItem('love_playlist');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (Array.isArray(parsed)) { 
+                        myPlaylist = parsed; 
+                        renderPlaylist(); 
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // --- EXPORT LOGIC FUNCTIONS TO WINDOW ---
+        
+        window.addMusicFromInput = function() {
+            const input = document.getElementById('musicInput');
+            const url = input.value.trim();
+            if (!url) return;
+            
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            const videoId = (match && match[7].length == 11) ? match[7] : false;
+
+            if (videoId) {
+                if (!myPlaylist.includes(videoId)) {
+                    myPlaylist.push(videoId);
+                    savePlaylist();
+                    input.value = "";
+                } else { alert("Bài này có rồi nhen!"); }
+            } else { alert("Link YouTube không hợp lệ rùi :("); }
+        };
+
+        window.removeMusic = function(id) {
+            myPlaylist = myPlaylist.filter(vid => vid !== id);
+            savePlaylist();
+        };
+
+        async function savePlaylist() {
+            localStorage.setItem('love_playlist', JSON.stringify(myPlaylist));
+            if (isFirebaseActive && db) {
+                try {
+                    const statusEl = document.getElementById('storageStatus');
+                    if(statusEl) { statusEl.innerHTML = '<i class="fas fa-spinner fa-spin cloud-saving"></i> Đang lưu...'; statusEl.className = 'cloud-status cloud-saving'; }
+
+                    const musicRef = ref(db, 'love_app/shared_music');
+                    await set(musicRef, myPlaylist);
+                    
+                    if(statusEl) {
+                        statusEl.innerHTML = '<i class="fas fa-check cloud-active"></i> Đã lưu xong';
+                        statusEl.className = 'cloud-status cloud-active';
+                        setTimeout(() => statusEl.innerHTML = '<i class="fas fa-cloud cloud-active"></i> Đã kết nối RTDB', 2000);
+                    }
+                } catch (e) { console.error("Save Error:", e); }
+            }
+            renderPlaylist();
+        }
+
+        function renderPlaylist() {
+            const container = document.getElementById('playlistContainer');
+            if(!container) return;
+            container.innerHTML = "";
+            
+            if (myPlaylist.length === 0) {
+                container.innerHTML = `<div style="text-align:center; color:#999; padding:20px;">Chưa có bài hát nào.<br>Dán link YouTube để thêm nhé!</div>`;
+                return;
+            }
+
+            myPlaylist.forEach((id, index) => {
+                const div = document.createElement('div');
+                div.className = 'playlist-item';
+                div.innerHTML = `
+                    <span style="cursor:pointer;" onclick="window.playSpecificSong('${id}')">
+                        <i class="fas fa-play-circle" style="color:var(--primary-color)"></i> Bài hát ${index + 1} (${id})
+                    </span>
+                    <span class="delete-btn" onclick="window.removeMusic('${id}')"><i class="fas fa-trash"></i></span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.playSpecificSong = function(id) {
+            if(player && player.loadVideoById) {
+                player.loadVideoById(id);
+                showSongNotification(`Bài hát ID: ${id}`);
+            }
+        };
+
+        window.playRandomSong = function() {
+            if (myPlaylist.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * myPlaylist.length);
+            const nextSongId = myPlaylist[randomIndex];
+            if(player && player.loadVideoById) {
+                player.loadVideoById(nextSongId);
+                showSongNotification("Bài hát ngẫu nhiên");
+            }
+        };
+
+        window.toggleMusic = function() {
+            if (!player) return;
+            const playerState = player.getPlayerState();
+            if (playerState == YT.PlayerState.PLAYING) player.pauseVideo();
+            else player.playVideo();
+        };
+
+        function showSongNotification(name) {
+            const notif = document.getElementById('songNotification');
+            document.getElementById('currentSongName').innerText = name;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 4000);
+        }
+
+        // --- YOUTUBE INIT ---
+        window.onYouTubeIframeAPIReady = function() {
+            const firstVideo = myPlaylist.length > 0 ? myPlaylist[0] : "";
+            player = new YT.Player('youtube-player', {
+                height: '0', width: '0', videoId: firstVideo,
+                playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
+                events: {
+                    'onStateChange': (event) => {
+                        const icon = document.getElementById('musicIcon');
+                        if (event.data == YT.PlayerState.PLAYING) {
+                            icon.classList.remove('fa-play'); icon.classList.add('fa-pause');
+                        } else if (event.data == YT.PlayerState.ENDED) {
+                            window.playRandomSong();
+                        } else {
+                            icon.classList.remove('fa-pause'); icon.classList.add('fa-play');
+                        }
+                    },
+                    'onError': () => window.playRandomSong()
+                }
+            });
+        };
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+
+        // --- AI ---
+        window.askGemini = async function(type) {
+            const resultBox = document.getElementById('aiResult');
+            if (!GEMINI_API_KEY) { resultBox.innerHTML = `⚠️ Chưa có API Key!`; return; }
+            resultBox.style.display = 'block';
+            resultBox.innerHTML = `<div class="ai-loading"><i class="fas fa-spinner fa-spin"></i> AI đang suy nghĩ...</div>`;
+            
+            let prompt = type === 'letter' ? "Viết thư tình ngắn" : (type === 'date' ? "Gợi ý 3 ý tưởng hẹn hò" : "Lời khuyên tình yêu");
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                });
+                const data = await response.json();
+                resultBox.innerHTML = `<div>${data.candidates[0].content.parts[0].text.replace(/\n/g, '<br>')}</div>`;
+            } catch (error) { resultBox.innerHTML = `Lỗi kết nối AI.`; }
+        };
+
+        window.sendChatMessage = async function() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if(!text) return;
@@ -637,22 +501,116 @@
             
             if(!GEMINI_API_KEY) return;
             try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST', headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "Trả lời ngắn gọn như người yêu: " + text }] }] })
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "Trả lời ngắn gọn: " + text }] }] })
                 });
-                const d = await res.json();
-                body.innerHTML += `<div class="message ai-message">${d.candidates[0].content.parts[0].text}</div>`;
+                const data = await response.json();
+                body.innerHTML += `<div class="message ai-message">${data.candidates[0].content.parts[0].text}</div>`;
                 body.scrollTop = body.scrollHeight;
             } catch(e) {}
+        };
+
+        async function fetchTrendFromAI() {
+            const trendBox = document.getElementById('loveTrendText');
+            if (!GEMINI_API_KEY) { trendBox.innerHTML = "Anh ngoan xinh yêu đâu rùi?"; return; }
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "Viết 1 câu thả thính Gen Z ngắn gọn hài hước." }] }] })
+                });
+                const data = await response.json();
+                trendBox.innerHTML = `<i class="fas fa-quote-left"></i> ${data.candidates[0].content.parts[0].text.trim()} <i class="fas fa-fire" style="color: orange;"></i>`;
+            } catch (error) { trendBox.innerHTML = "Yêu em là kiếp nạn thứ 82."; }
         }
 
-        // START
-        window.addEventListener('load', () => {
-            initFirebase();
-            loadGallery();
-            fetchTrendFromAI();
-        });
+        // --- GALLERY ---
+        window.loadMorePhotos = function() {
+            const grid = document.getElementById('galleryGrid');
+            const nextBatch = allFiles.slice(displayCount, displayCount + BATCH);
+            nextBatch.forEach(file => {
+                const url = `https://lh3.googleusercontent.com/d/${file.id}`;
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+                if(file.mimeType.startsWith('video/')) {
+                    div.innerHTML = `<img src="${url}" loading="lazy"><div class="video-overlay"><i class="fas fa-play"></i></div>`;
+                    div.onclick = () => window.openLightbox(url, 'video');
+                } else {
+                    div.innerHTML = `<img src="${url}" loading="lazy">`;
+                    div.onclick = () => window.openLightbox(url, 'image');
+                }
+                grid.appendChild(div);
+            });
+            displayCount += nextBatch.length;
+            document.getElementById('loadMoreContainer').style.display = (displayCount >= allFiles.length) ? 'none' : 'block';
+        };
+
+        async function loadGallery() {
+            const statusEl = document.getElementById('driveStatus');
+            const loader = document.getElementById('loader');
+            
+            document.getElementById('galleryGrid').innerHTML = "";
+            document.getElementById('loadMoreContainer').style.display = 'none';
+            statusEl.style.display = 'block';
+            loader.style.display = 'block';
+
+            const applyAvatarFallback = () => {
+                document.getElementById('boyAvatar').src = CONFIG.boyAvatar;
+                document.getElementById('girlAvatar').src = CONFIG.girlAvatar;
+            };
+            
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                if (GOOGLE_DRIVE_API_KEY.includes('googleusercontent.com') || !GOOGLE_DRIVE_API_KEY) {
+                    throw new Error("KEY_FORMAT_ERROR");
+                }
+
+                const url = `https://www.googleapis.com/drive/v3/files?q='${GOOGLE_DRIVE_FOLDER_ID}'+in+parents+and+trashed=false&orderBy=createdTime desc&fields=files(id, name, mimeType)&key=${GOOGLE_DRIVE_API_KEY}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error.message);
+
+                const files = data.files;
+                let foundBoy = false, foundGirl = false;
+
+                if (files && files.length > 0) {
+                    allFiles = [];
+                    files.forEach(file => {
+                        const fileName = file.name.toLowerCase();
+                        if (file.mimeType.startsWith('image/') && fileName.includes('avatar_boy')) {
+                            document.getElementById('boyAvatar').src = `https://lh3.googleusercontent.com/d/${file.id}`; foundBoy = true;
+                        } else if (file.mimeType.startsWith('image/') && fileName.includes('avatar_girl')) {
+                            document.getElementById('girlAvatar').src = `https://lh3.googleusercontent.com/d/${file.id}`; foundGirl = true;
+                        } else if (file.mimeType.startsWith('image/') || file.mimeType.startsWith('video/')) {
+                            allFiles.push(file);
+                        }
+                    });
+                    if (!foundBoy) document.getElementById('boyAvatar').src = CONFIG.boyAvatar;
+                    if (!foundGirl) document.getElementById('girlAvatar').src = CONFIG.girlAvatar;
+                    statusEl.style.display = 'none'; 
+                    window.loadMorePhotos(); 
+                } else {
+                    statusEl.style.display = 'block';
+                    statusEl.innerText = "Thư mục trống hoặc không công khai.";
+                    applyAvatarFallback();
+                }
+            } catch (error) {
+                console.error("Lỗi tải ảnh:", error);
+                statusEl.innerHTML = `<span style="color: #ff6b6b; font-size: 0.9rem;">Lỗi: ${error.message} (Đang hiện Demo)</span>`;
+                applyAvatarFallback();
+                // Demo
+                for(let i=1; i<=6; i++) {
+                    let div = document.createElement('div'); div.className='gallery-item';
+                    let u = `https://picsum.photos/400/${300+(i*50)}`;
+                    div.innerHTML = `<img src="${u}">`; div.onclick = () => window.openLightbox(u, 'image');
+                    document.getElementById('galleryGrid').appendChild(div);
+                }
+            } finally {
+                loader.style.display = 'none'; 
+            }
+        }
     </script>
 </body>
 </html>
