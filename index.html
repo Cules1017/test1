@@ -19,10 +19,6 @@
         body { font-family: 'Nunito', sans-serif; color: var(--text-color); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto; }
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); overflow: hidden; }
         .floating-heart { position: absolute; color: rgba(255, 255, 255, 0.6); animation: floatUp linear infinite; bottom: -50px; pointer-events: none; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
-        .click-heart { position: absolute; width: 20px; height: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/contain; pointer-events: none; z-index: 9999; animation: clickBurst 0.8s ease-out forwards; }
-        @keyframes clickBurst { 0% { transform: scale(0.5) translateY(0); opacity: 1; } 100% { transform: scale(1.5) translateY(-50px) rotate(20deg); opacity: 0; } }
-        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
-        
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
         .header { padding: 50px 0 30px; animation: fadeInDown 1.5s ease; }
         .title { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--primary-color); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
@@ -37,7 +33,6 @@
         .trend-wrapper { max-width: 600px; margin: 0 auto 40px; position: relative; z-index: 10; }
         .trend-badge { background: #ff4757; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); z-index: 2; display: flex; align-items: center; gap: 5px; }
         .trend-content { background: rgba(255, 255, 255, 0.9); padding: 25px 20px; border-radius: 15px; border: 2px dashed var(--secondary-color); font-size: 1.1rem; color: #2f3542; font-weight: 600; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: pulseBorder 3s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center; }
-        .trend-content i { color: var(--primary-color); margin-right: 8px; }
         
         .counter-box { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px 30px; margin: 0 auto 50px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow); max-width: 800px; animation: fadeInUp 1.5s ease; }
         .love-duration { font-size: 1.2rem; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; color: #666; font-weight: 700; }
@@ -51,8 +46,7 @@
         .ai-btn { background: var(--ai-btn-bg); border: none; padding: 12px 25px; border-radius: 50px; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.1); font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 154, 158, 0.5); display: flex; align-items: center; gap: 8px; }
         .ai-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 154, 158, 0.7); }
         .ai-result-box { background: #fff; border-radius: 10px; padding: 20px; min-height: 100px; text-align: left; line-height: 1.6; position: relative; display: none; font-style: italic; border-left: 4px solid var(--secondary-color); color: #555; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
-        .ai-loading { display: flex; align-items: center; justify-content: center; gap: 10px; color: #888; font-style: italic; }
-
+        
         .gallery-section { padding: 50px 20px; }
         .section-title { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 30px; color: var(--primary-color); }
         .gallery-grid { column-count: 4; column-gap: 15px; }
@@ -60,12 +54,7 @@
         .gallery-item:hover { transform: translateY(-8px) scale(1.02); z-index: 2; box-shadow: 0 15px 30px rgba(255, 51, 102, 0.2); }
         .gallery-item img { width: 100%; display: block; border-radius: 8px; transition: transform 0.6s ease; }
         .video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.5); border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; color: white; font-size: 20px; pointer-events: none; }
-        #driveStatus { color: #666; margin-bottom: 20px; font-style: italic; font-size: 1.1rem; display: block; }
-        .loading-spinner { border: 4px solid rgba(255, 51, 102, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--primary-color); animation: spin 1s linear infinite; margin: 10px auto 30px; display: block; }
-        .load-more-container { text-align: center; margin-top: 30px; }
-        .load-more-btn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
-
+        
         .lightbox, .chat-modal, .music-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .lightbox.active { display: flex; opacity: 1; visibility: visible; }
         .lightbox-content, .chat-content, .music-content { background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); animation: zoomIn 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
@@ -91,11 +80,15 @@
         .cloud-status { font-size: 0.8rem; color: #aaa; text-align: center; margin-top: 10px; transition: color 0.5s ease; }
         .cloud-status i { margin-right: 5px; }
         .cloud-active { color: #2ecc71; } .cloud-saving { color: #f39c12; }
-        .global-status {
-            position: fixed; bottom: 10px; left: 10px; font-size: 0.7rem; color: rgba(255,255,255,0.5); z-index: 100;
-        }
+        .global-status { position: fixed; bottom: 10px; left: 10px; font-size: 0.7rem; color: rgba(255,255,255,0.5); z-index: 100; }
         footer { margin-top: auto; padding: 20px; text-align: center; font-size: 0.9rem; color: #666; background: rgba(255, 255, 255, 0.5); }
         #youtube-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+        .click-heart { position: absolute; width: 20px; height: 20px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/contain; pointer-events: none; z-index: 9999; animation: clickBurst 0.8s ease-out forwards; }
+        #driveStatus { color: #666; margin-bottom: 20px; font-style: italic; font-size: 1.1rem; display: block; }
+        .loading-spinner { border: 4px solid rgba(255, 51, 102, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--primary-color); animation: spin 1s linear infinite; margin: 10px auto 30px; display: block; }
+        .load-more-container { text-align: center; margin-top: 30px; }
+        .load-more-btn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
         
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
@@ -208,7 +201,6 @@
 
     <!-- SCRIPT 1: GLOBAL UI FUNCTIONS (RUNS IMMEDIATELY) -->
     <script>
-        // Define UI functions globally first to prevent ReferenceError
         window.openMusicModal = function() { document.getElementById('musicModal').style.display = 'flex'; };
         window.closeMusicModal = function() { document.getElementById('musicModal').style.display = 'none'; };
         window.openChatModal = function() { document.getElementById('chatModal').style.display = 'flex'; setTimeout(()=>document.getElementById('chatInput').focus(), 100); };
@@ -272,11 +264,13 @@
         const GOOGLE_DRIVE_API_KEY = "AIzaSyDPcMhxuTFAdV2mscBeZdvaH9CVfc47o1E";
         const GOOGLE_DRIVE_FOLDER_ID = "1ifei24bSGnS59UQMbQD6WLOYSk7hof7h"; 
         const GEMINI_API_KEY = "AIzaSyBDVcKVD72nvdQamLZ8PJVjMzHXrWbh_8Y"; 
+        const DEFAULT_MUSIC_ID = "UjqhCaq9qB8"; // Used only as fallback if playlist totally empty
 
         let db, auth, isFirebaseActive = false;
         let myPlaylist = []; 
         let player = null;
         let allFiles = [], displayCount = 0; const BATCH = 30;
+        let hasLoadedFromCloud = false;
 
         // --- INIT ---
         window.addEventListener('load', () => {
@@ -291,6 +285,9 @@
         // --- FIREBASE ---
         async function initFirebase() {
             try {
+                const plContainer = document.getElementById('playlistContainer');
+                if(plContainer) plContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#888;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu từ mây...</div>`;
+
                 const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : null;
                 if (firebaseConfig) {
                     const app = initializeApp(firebaseConfig);
@@ -302,13 +299,14 @@
                     const el = document.getElementById('storageStatus');
                     if(el) { el.innerHTML='<i class="fas fa-cloud cloud-active"></i> Đã kết nối RTDB'; el.classList.add('cloud-active'); }
                     
-                    // Listen immediately
                     watchPlaylist();
                 } else {
                     console.log("No Firebase Config");
+                    loadLocalStorage();
                 }
             } catch (e) {
                 console.error("Firebase Error:", e);
+                loadLocalStorage();
             }
         }
 
@@ -317,9 +315,20 @@
             const musicRef = ref(db, 'love_app/shared_music');
             onValue(musicRef, (snapshot) => {
                 const data = snapshot.val();
+                let isFirstLoad = (myPlaylist.length === 0);
+
                 if (data && Array.isArray(data)) {
                     console.log("Đồng bộ:", data.length);
                     myPlaylist = data;
+                    
+                    // NEW: Auto play loaded music if player is ready and it's the first sync/load
+                    if (!hasLoadedFromCloud && myPlaylist.length > 0 && player && player.loadVideoById) {
+                        console.log("First load from Cloud, playing first song...");
+                        player.loadVideoById(myPlaylist[0]);
+                        showSongNotification("Đã cập nhật Hộp nhạc từ Cloud");
+                        hasLoadedFromCloud = true;
+                    }
+
                 } else {
                     console.log("RTDB Trống");
                     myPlaylist = [];
@@ -327,7 +336,6 @@
                 renderPlaylist();
                 localStorage.setItem('love_playlist', JSON.stringify(myPlaylist));
                 
-                // Show Global Status
                 const gs = document.getElementById('globalStatus');
                 if(gs) {
                     gs.innerText = `Đã đồng bộ ${myPlaylist.length} bài hát từ máy chủ`;
@@ -341,12 +349,10 @@
                 const stored = localStorage.getItem('love_playlist');
                 if (stored) {
                     const parsed = JSON.parse(stored);
-                    if (Array.isArray(parsed)) { 
-                        myPlaylist = parsed; 
-                        renderPlaylist(); 
-                    }
+                    if (Array.isArray(parsed)) myPlaylist = parsed;
                 }
             } catch(e) {}
+            renderPlaylist();
         }
 
         // --- EXPORT LOGIC FUNCTIONS TO WINDOW ---
@@ -450,9 +456,11 @@
 
         // --- YOUTUBE INIT ---
         window.onYouTubeIframeAPIReady = function() {
-            const firstVideo = myPlaylist.length > 0 ? myPlaylist[0] : "";
+            // Initial ID: If playlist exists locally, use it. Else default.
+            let initialId = (myPlaylist.length > 0) ? myPlaylist[0] : DEFAULT_MUSIC_ID;
+            
             player = new YT.Player('youtube-player', {
-                height: '0', width: '0', videoId: firstVideo,
+                height: '0', width: '0', videoId: initialId,
                 playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
                 events: {
                     'onStateChange': (event) => {
@@ -600,12 +608,12 @@
                 console.error("Lỗi tải ảnh:", error);
                 statusEl.innerHTML = `<span style="color: #ff6b6b; font-size: 0.9rem;">Lỗi: ${error.message} (Đang hiện Demo)</span>`;
                 applyAvatarFallback();
-                // Demo
+                const grid = document.getElementById('galleryGrid');
                 for(let i=1; i<=6; i++) {
                     let div = document.createElement('div'); div.className='gallery-item';
                     let u = `https://picsum.photos/400/${300+(i*50)}`;
                     div.innerHTML = `<img src="${u}">`; div.onclick = () => window.openLightbox(u, 'image');
-                    document.getElementById('galleryGrid').appendChild(div);
+                    grid.appendChild(div);
                 }
             } finally {
                 loader.style.display = 'none'; 
