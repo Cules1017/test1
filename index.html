@@ -14,6 +14,11 @@
             --text-color: #4a4a4a; --card-bg: rgba(255, 255, 255, 0.85);
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --ai-btn-bg: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            
+            /* Special Colors */
+            --diamond-color: #00f2ff;
+            --gold-color: #ffd700;
+            --silver-color: #c0c0c0;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Nunito', sans-serif; color: var(--text-color); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto; }
@@ -46,17 +51,95 @@
         .time-val { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); display: block; }
         .time-label { font-size: 0.9rem; color: #888; font-weight: 600; }
 
+        /* TIMELINE STYLES */
         .timeline-section { margin: 50px auto; max-width: 900px; padding: 20px; position: relative; }
         .timeline-tree { position: relative; padding: 20px 0; }
         .timeline-tree::after { content: ''; position: absolute; width: 4px; background-color: #fff; top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px; box-shadow: 0 0 10px rgba(255,51,102,0.2); }
         .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; box-sizing: border-box; animation: fadeInUp 0.5s ease; }
         .timeline-item.left { left: 0; text-align: right; }
         .timeline-item.right { left: 50%; text-align: left; }
+        
+        /* Node Dot (Default) */
         .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background-color: white; border: 4px solid var(--primary-color); top: 20px; border-radius: 50%; z-index: 1; transition: all 0.3s; }
         .timeline-item.right::after { left: -10px; }
         .timeline-item:hover::after { background-color: var(--primary-color); transform: scale(1.2); }
-        .timeline-content { padding: 0; background: rgba(255,255,255,0.95); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; position: relative; display: inline-block; text-align: left; min-width: 200px; overflow: hidden; width: 100%; }
+
+        /* Base Content Style */
+        .timeline-content { padding: 0; background: rgba(255,255,255,0.95); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; position: relative; display: inline-block; text-align: left; min-width: 200px; overflow: hidden; width: 100%; border: 1px solid rgba(0,0,0,0.05); }
         .timeline-content:hover { transform: scale(1.03); z-index: 2; box-shadow: 0 10px 25px rgba(255,51,102,0.2); }
+        
+        /* --- SPECIAL MILESTONE EFFECTS (MẠNH MẼ HƠN) --- */
+        
+        /* DIAMOND: Lấp lánh, đổi màu, sao bay */
+        @keyframes sparkle {
+            0% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
+            50% { border-color: #0099ff; box-shadow: 0 0 20px #0099ff, 0 0 40px #00f2ff; }
+            100% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
+        }
+        .timeline-item.milestone-DIAMOND .timeline-content {
+            border: 2px solid var(--diamond-color);
+            background: linear-gradient(135deg, #f0ffff 0%, #ffffff 100%);
+            animation: sparkle 2s infinite alternate;
+            overflow: visible; /* Để sao bay ra ngoài */
+        }
+        .timeline-item.milestone-DIAMOND::after { 
+            background-color: var(--diamond-color); border-color: #fff;
+            box-shadow: 0 0 15px var(--diamond-color);
+        }
+        .timeline-item.milestone-DIAMOND .t-title { 
+            color: #008b8b; text-transform: uppercase; letter-spacing: 1px;
+            background: -webkit-linear-gradient(#00f2ff, #0099ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        /* GOLD: Hào quang */
+        @keyframes gold-shine {
+            0% { box-shadow: 0 0 5px #ffd700; }
+            50% { box-shadow: 0 0 25px #ffd700, 0 0 10px #fff; transform: scale(1.02); }
+            100% { box-shadow: 0 0 5px #ffd700; }
+        }
+        .timeline-item.milestone-GOLD .timeline-content {
+            border: 2px solid var(--gold-color);
+            background: linear-gradient(135deg, #fffde7 0%, #ffffff 100%);
+            animation: gold-shine 3s infinite;
+        }
+        .timeline-item.milestone-GOLD::after { 
+            content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            background: none; border: none; font-size: 24px; color: var(--gold-color);
+            top: 15px; right: -14px; width: auto; height: auto;
+            animation: heartbeat 1.5s infinite;
+        }
+        .timeline-item.right.milestone-GOLD::after { left: -14px; }
+
+        /* SILVER: Sang trọng */
+        .timeline-item.milestone-SILVER .timeline-content {
+            border: 2px solid var(--silver-color);
+            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.6);
+        }
+        .timeline-item.milestone-SILVER::after { border-color: var(--silver-color); background-color: #eee; }
+        .timeline-item.milestone-SILVER .t-title { color: #555; text-shadow: 1px 1px 0 #eee; }
+
+        /* ANNIVERSARY (2/9): Hoành tráng nhất, Tim bay */
+        @keyframes anniversary-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); border-color: #ff3366; }
+            50% { box-shadow: 0 0 30px 10px rgba(255, 51, 102, 0.4); border-color: #ff0040; transform: scale(1.05); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); border-color: #ff3366; }
+        }
+        .timeline-item.milestone-ANNIVERSARY .timeline-content {
+            border: 4px solid #ff3366;
+            background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
+            animation: anniversary-glow 2s infinite;
+            z-index: 5;
+            overflow: visible; /* Để tim bay ra ngoài */
+        }
+        .timeline-item.milestone-ANNIVERSARY::after {
+            content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            background: none; border: none; font-size: 30px; color: #ff3366;
+            top: 10px; right: -18px; width: auto; height: auto;
+            filter: drop-shadow(0 0 10px #ff3366);
+            animation: heartbeat 0.8s infinite;
+        }
+        .timeline-item.right.milestone-ANNIVERSARY::after { left: -18px; }
         
         .timeline-img { width: 100%; height: 150px; object-fit: cover; border-bottom: 2px solid #eee; }
         .timeline-body-text { padding: 15px; }
@@ -65,6 +148,24 @@
         .t-title { font-size: 1.1rem; font-weight: 800; color: #333; margin: 0; }
         .t-desc-preview { font-size: 0.9rem; color: #666; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
         
+        /* Particle Animations */
+        .particle-heart, .particle-star {
+            position: absolute; bottom: 0; opacity: 0; pointer-events: none; z-index: 10;
+        }
+        .particle-heart { color: #ff3366; font-size: 20px; animation: tl-float-heart 4s infinite linear; }
+        .particle-star { color: #00f2ff; font-size: 18px; text-shadow: 0 0 5px #fff; animation: tl-float-star 4s infinite linear; }
+
+        @keyframes tl-float-heart {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-180px) scale(1.5) rotate(20deg); opacity: 0; }
+        }
+        @keyframes tl-float-star {
+            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(-180px) rotate(360deg) scale(1.5); opacity: 0; }
+        }
+
         @media (max-width: 600px) {
             .timeline-tree::after { left: 25px; }
             .timeline-item { width: 100%; padding-left: 55px; padding-right: 15px; text-align: left; }
@@ -78,11 +179,17 @@
         .gallery-section { padding: 50px 20px; }
         .section-title { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 30px; color: var(--primary-color); }
         
+        /* GRID GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; }
         .gallery-item { border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; transition: all 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.08); background: #fff; padding: 5px; aspect-ratio: 1 / 1; }
-        .gallery-item:hover { transform: translateY(-5px) scale(1.02); z-index: 2; box-shadow: 0 15px 30px rgba(255, 51, 102, 0.2); }
+        
+        /* Mobile Touch Optimization */
+        @media (hover: hover) {
+            .gallery-item:hover { transform: translateY(-5px) scale(1.02); z-index: 2; box-shadow: 0 15px 30px rgba(255, 51, 102, 0.2); }
+            .gallery-item:hover img { transform: scale(1.1); }
+        }
+        
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; transition: transform 0.6s ease; }
-        .gallery-item:hover img { transform: scale(1.1); }
         
         .video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.5); border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; color: white; font-size: 20px; pointer-events: none; }
         #driveStatus { color: #666; margin-bottom: 20px; font-style: italic; font-size: 1.1rem; display: block; }
@@ -91,6 +198,7 @@
         .load-more-btn { background: white; color: var(--primary-color); border: 2px solid var(--primary-color); padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
 
+        /* MODALS */
         .lightbox, .music-modal, .timeline-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .lightbox { background: rgba(0, 0, 0, 0.9); z-index: 20002; }
         .lightbox.active { display: flex; opacity: 1; visibility: visible; }
@@ -146,10 +254,14 @@
         <div class="lightbox-content" id="lightbox-content" onclick="event.stopPropagation()"></div>
     </div>
 
-    <!-- Timeline Detail Modal -->
+
+    <!-- Timeline Modals -->
     <div id="viewMilestoneModal" class="timeline-modal">
         <div class="timeline-modal-content">
-            <div class="timeline-header"><h3 id="vTitle">...</h3><span class="close-chat" onclick="window.closeViewMilestoneModal()">&times;</span></div>
+            <div class="timeline-header">
+                <h3 id="vTitle" style="font-size: 1.1rem; flex: 1; text-align: left;">...</h3>
+                <span class="close-chat" onclick="window.closeViewMilestoneModal()">&times;</span>
+            </div>
             <div class="timeline-body">
                 <div style="text-align:center; color:var(--secondary-color); font-weight:bold; margin-bottom:15px; font-size:1.1rem;" id="vDate">...</div>
                 <div style="line-height:1.6; color:#444; font-size:1rem; white-space: pre-wrap; margin-bottom: 20px;" id="vDesc">Đang tải nội dung...</div>
@@ -201,7 +313,7 @@
                 </div>
             </div>
             <div class="trend-wrapper">
-                <div class="trend-badge"><i class="fas fa-heart"></i> Lời Nhắn Của Anh ❤️</div>
+                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu ❤️</div>
                 <div class="trend-content" id="loveTrendText"><div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Đang tải lời nhắn...</div></div>
             </div>
         </header>
@@ -255,15 +367,13 @@
             setTimeout(() => { heart.remove(); }, 600);
         };
 
-        // Click Handler (Desktop)
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.gallery-item') || e.target.closest('.modal') || e.target.closest('.timeline-content')) return;
+        const clickHandler = (e) => {
+            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.gallery-item') || e.target.closest('.modal') || e.target.closest('.timeline-content') || e.target.closest('#youtube-player')) return;
             let x = e.pageX || (e.changedTouches ? e.changedTouches[0].pageX : 0);
             let y = e.pageY || (e.changedTouches ? e.changedTouches[0].pageY : 0);
             window.spawnClickHeart(x, y);
-        });
-
-        // Touch Handler (Mobile - Multi-touch supported)
+        };
+        document.addEventListener('click', clickHandler);
         document.addEventListener('touchstart', (e) => {
             for (let i = 0; i < e.changedTouches.length; i++) {
                 if (!e.target.closest('.no-heart')) window.spawnClickHeart(e.changedTouches[i].pageX, e.changedTouches[i].pageY);
@@ -277,6 +387,8 @@
         window.closeMusicModal = function() { document.getElementById('musicModal').style.display = 'none'; };
         
         window.closeViewMilestoneModal = function() { document.getElementById('viewMilestoneModal').style.display = 'none'; };
+        window.closeChatModal = function() { document.getElementById('chatModal').style.display = 'none'; };
+        window.openChatModal = function() { document.getElementById('chatModal').style.display = 'flex'; };
 
         window.openLightbox = function(url, type) {
             const lb = document.getElementById('lightbox'), cnt = document.getElementById('lightbox-content');
@@ -292,7 +404,7 @@
         window.playRandomSong = () => {};
         window.playSpecificSong = () => {};
         window.loadMorePhotos = () => {};
-        window.viewMilestone = () => {};
+        window.viewTimelineDetail = () => {};
 
         // UI Setup - Background Particles
         const container = document.getElementById('bgAnimation');
@@ -341,7 +453,7 @@
         let player = null;
         let allFiles = [], displayCount = 0; const BATCH = 30;
         let hasLoadedFromCloud = false;
-        let timelineData = []; // Store timeline objects {title, date, desc, coverImg, folderId, files: []}
+        let timelineData = []; 
 
         window.addEventListener('load', () => {
             document.getElementById('boyName').innerText = CONFIG.boyName;
@@ -351,7 +463,46 @@
             showRandomQuote(); 
         });
 
-        // --- DRIVE DATA FETCHING (NEW LOGIC) ---
+        // --- MEMORY RECALL FEATURE ---
+        function checkMemoryRecall() {
+            if (timelineData.length === 0) return;
+            
+            const today = new Date();
+            const currentDay = today.getDate();
+            const currentMonth = today.getMonth(); // 0-11
+            
+            // Find milestone matching today's day/month
+            const memory = timelineData.find(item => {
+                if (!item.date) return false;
+                return item.date.getDate() === currentDay && item.date.getMonth() === currentMonth;
+            });
+            
+            if (memory) {
+                const yearsDiff = today.getFullYear() - memory.date.getFullYear();
+                let timeString = yearsDiff > 0 ? `${yearsDiff} năm trước` : "Năm nay";
+                
+                document.getElementById('vTitle').innerHTML = `<i class="fas fa-history" style="color:var(--primary-color)"></i> Mảnh Ký Ức: ${memory.title}`;
+                document.getElementById('vDate').innerText = `Ngày này ${timeString} (${memory.displayDate})`;
+                document.getElementById('vDesc').innerText = memory.desc;
+                
+                const galleryContainer = document.getElementById('vGallery');
+                galleryContainer.innerHTML = "";
+                
+                if (memory.files && memory.files.length > 0) {
+                    memory.files.forEach(f => {
+                        const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.onclick = () => window.openLightbox(url, 'image');
+                        galleryContainer.appendChild(img);
+                    });
+                }
+                
+                document.getElementById('viewMilestoneModal').style.display = 'flex';
+            }
+        }
+
+        // --- DRIVE DATA FETCHING ---
         async function fetchDriveData() {
             const statusEl = document.getElementById('driveStatus');
             const loader = document.getElementById('loader');
@@ -369,7 +520,6 @@
                 const rootImages = [];
                 const folders = [];
                 
-                // Identify Folders vs Images
                 files.forEach(f => {
                     if (f.mimeType === 'application/vnd.google-apps.folder') {
                         folders.push(f);
@@ -385,7 +535,7 @@
 
                 const processedFolders = await Promise.all(timelinePromises);
                 
-                // 3. Merge Data for Gallery (Root Images + All Subfolder Images)
+                // 3. Merge Data for Gallery
                 allFiles = [...rootImages];
                 processedFolders.forEach(pf => {
                     if (pf.files && pf.files.length > 0) {
@@ -396,18 +546,20 @@
                     }
                 });
 
-                // Sort Gallery by Date (Newest first)
+                // Sort Gallery by Date
                 allFiles.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
                 
-                // Sort Timeline by Date (Newest first)
+                // Sort Timeline by Date
                 timelineData.sort((a, b) => b.date - a.date);
 
                 // 4. Render UI
                 renderTimelineFromDrive();
                 renderGalleryFromDrive();
                 
-                // Setup Avatar if found in allFiles (Fallback logic)
                 setupAvatars(allFiles);
+                
+                // 5. CHECK MEMORY RECALL HERE
+                checkMemoryRecall();
 
                 statusEl.style.display = 'none';
                 loader.style.display = 'none';
@@ -428,11 +580,10 @@
                 files: [],
                 desc: "Chưa có mô tả...",
                 coverImg: null,
-                isValidTimeline: true // Assume true
+                isValidTimeline: true
             };
 
             try {
-                // Fetch content of this subfolder
                 const q = `'${folder.id}'+in+parents+and+trashed=false`;
                 const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id, name, mimeType, thumbnailLink, createdTime)&key=${GOOGLE_DRIVE_API_KEY}`;
                 const res = await fetch(url);
@@ -447,20 +598,17 @@
                         if (f.mimeType.startsWith('image/') || f.mimeType.startsWith('video/')) {
                             imgs.push(f);
                         } else if ((f.mimeType === 'application/vnd.google-apps.document' || f.mimeType === 'text/plain') && !descFile) {
-                            descFile = f; // Pick first doc or txt file
+                            descFile = f;
                         }
                     });
 
                     result.files = imgs;
 
-                    // Get Description from Google Doc or Text file
                     if (descFile) {
                         let txtUrl = '';
                         if (descFile.mimeType === 'application/vnd.google-apps.document') {
-                            // Export Google Doc to plain text
                             txtUrl = `https://www.googleapis.com/drive/v3/files/${descFile.id}/export?mimeType=text/plain&key=${GOOGLE_DRIVE_API_KEY}`;
                         } else {
-                            // Raw text file
                             txtUrl = `https://www.googleapis.com/drive/v3/files/${descFile.id}?alt=media&key=${GOOGLE_DRIVE_API_KEY}`;
                         }
                         
@@ -472,7 +620,6 @@
                         } catch(e) { console.warn("Lỗi đọc file mô tả:", e); }
                     }
 
-                    // Pick cover image (Prioritize name containing "main")
                     if (imgs.length > 0) {
                         const mainImgs = imgs.filter(img => img.name.toLowerCase().includes('main'));
                         let selectedImg;
@@ -497,50 +644,53 @@
 
         function parseFolderName(name, createdTime) {
             const parts = name.split('_');
-            let title = name.replace(/_/g, ' '); 
-            let dateObj = new Date(createdTime); 
-            let displayDate = dateObj.toLocaleDateString('vi-VN'); 
-
+            let type = 'NORMAL';
+            let dateObj = new Date(createdTime);
+            let displayDate = dateObj.toLocaleDateString('vi-VN');
+            
+            // Check Type
+            const validTypes = ['DIAMOND', 'GOLD', 'SILVER'];
+            let lastPart = parts[parts.length - 1];
+            if (validTypes.includes(lastPart.toUpperCase())) {
+                type = lastPart.toUpperCase();
+                parts.pop();
+            }
+            
+            // Check Date
             if (parts.length > 1) {
-                const lastPart = parts[parts.length - 1];
-                const titlePart = parts.slice(0, parts.length - 1).join(' ');
-
-                const rangePattern = /^(\d{1,2})-(\d{1,2})(\d{2})(\d{4})$/; // 06-08082025
-                const fullDatePattern = /^(\d{2})(\d{2})(\d{4})$/;       // 01012026
-                const monthYearPattern = /^(\d{2})(\d{4})$/;             // 082025
+                lastPart = parts[parts.length - 1];
+                const rangePattern = /^(\d{1,2})-(\d{1,2})(\d{2})(\d{4})$/;
+                const fullDatePattern = /^(\d{2})(\d{2})(\d{4})$/;
+                const monthYearPattern = /^(\d{2})(\d{4})$/;
 
                 let match;
-
                 if ((match = lastPart.match(rangePattern))) {
-                    const startDay = match[1];
-                    const endDay = match[2];
-                    const month = match[3];
-                    const year = match[4];
-                    
+                    const startDay = match[1]; const endDay = match[2]; const month = match[3]; const year = match[4];
                     dateObj = new Date(`${year}-${month}-${startDay}`);
                     displayDate = `${startDay}-${endDay}/${month}/${year}`;
-                    title = titlePart;
+                    parts.pop();
                 } 
                 else if ((match = lastPart.match(fullDatePattern))) {
-                    const day = match[1];
-                    const month = match[2];
-                    const year = match[3];
-
+                    const day = match[1]; const month = match[2]; const year = match[3];
                     dateObj = new Date(`${year}-${month}-${day}`);
                     displayDate = `${day}/${month}/${year}`;
-                    title = titlePart;
+                    parts.pop();
                 }
                 else if ((match = lastPart.match(monthYearPattern))) {
-                    const month = match[1];
-                    const year = match[2];
-
+                    const month = match[1]; const year = match[2];
                     dateObj = new Date(`${year}-${month}-01`); 
                     displayDate = `${month}/${year}`;
-                    title = titlePart;
+                    parts.pop();
                 }
             }
+            
+            // Anniversary check (2/9)
+            if (dateObj.getDate() === 2 && dateObj.getMonth() === 8) {
+                type = 'ANNIVERSARY';
+            }
 
-            return { title, date: dateObj, displayDate };
+            const title = parts.join(' ');
+            return { title, date: dateObj, displayDate, type };
         }
 
         function renderTimelineFromDrive() {
@@ -553,21 +703,36 @@
 
             timelineData.forEach((item, index) => {
                 const side = index % 2 === 0 ? 'left' : 'right';
-                // Use the custom display date string
-                const dateStr = item.displayDate; 
                 const div = document.createElement('div');
-                div.className = `timeline-item ${side}`;
+                div.className = `timeline-item ${side} milestone-${item.type}`;
                 
                 let coverHtml = '';
                 if (item.coverImg) {
                     coverHtml = `<img src="${item.coverImg}" class="timeline-img" loading="lazy">`;
                 }
 
+                // Inject special effects HTML
+                let specialEffects = '';
+                if (item.type === 'ANNIVERSARY') {
+                     for(let i=0; i<6; i++) {
+                        let left = Math.random() * 80 + 10;
+                        let delay = Math.random() * 3;
+                        specialEffects += `<i class="fas fa-heart particle-heart" style="left:${left}%; animation-delay:${delay}s"></i>`;
+                     }
+                } else if (item.type === 'DIAMOND') {
+                     for(let i=0; i<6; i++) {
+                        let left = Math.random() * 80 + 10;
+                        let delay = Math.random() * 3;
+                        specialEffects += `<i class="fas fa-star particle-star" style="left:${left}%; animation-delay:${delay}s"></i>`;
+                     }
+                }
+
                 div.innerHTML = `
                     <div class="timeline-content" onclick="window.viewTimelineDetail('${item.id}')">
+                        ${specialEffects}
                         ${coverHtml}
                         <div class="timeline-body-text">
-                            <span class="t-date">${dateStr}</span>
+                            <span class="t-date">${item.displayDate}</span>
                             <h3 class="t-title">${item.title}</h3>
                             <div class="t-desc-preview" style="display:none">${item.desc}</div>
                         </div>
@@ -582,7 +747,7 @@
             grid.innerHTML = "";
             displayCount = 0;
             document.getElementById('loadMoreContainer').style.display = 'none';
-            window.loadMorePhotos(); // Trigger initial load
+            window.loadMorePhotos(); 
         }
 
         window.viewTimelineDetail = function(folderId) {
@@ -590,14 +755,12 @@
             if (!item) return;
 
             document.getElementById('vTitle').innerText = item.title;
-            // Use custom display date here too
             document.getElementById('vDate').innerText = item.displayDate;
             document.getElementById('vDesc').innerText = item.desc;
             
             const galleryContainer = document.getElementById('vGallery');
             galleryContainer.innerHTML = "";
             
-            // Show all images in this folder
             item.files.forEach(f => {
                 const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
                 const img = document.createElement('img');
@@ -809,7 +972,7 @@
                     div.onclick = () => window.openLightbox(url, 'video');
                 } else {
                     div.innerHTML = `<img src="${url}" loading="lazy">`;
-                    div.onclick = () => window.openLightbox(displayUrl, 'image');
+                    div.onclick = () => window.openLightbox(url, 'image'); // Use high res url
                 }
                 grid.appendChild(div);
             });
