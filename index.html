@@ -68,58 +68,29 @@
         .timeline-content { padding: 0; background: rgba(255,255,255,0.95); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; position: relative; display: inline-block; text-align: left; min-width: 200px; overflow: hidden; width: 100%; border: 1px solid rgba(0,0,0,0.05); }
         .timeline-content:hover { transform: scale(1.03); z-index: 2; box-shadow: 0 10px 25px rgba(255,51,102,0.2); }
         
-        /* --- SPECIAL MILESTONE EFFECTS (MẠNH MẼ HƠN) --- */
-        
-        /* DIAMOND: Lấp lánh, đổi màu, sao bay */
+        /* SPECIAL MILESTONE EFFECTS */
         @keyframes sparkle {
             0% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
             50% { border-color: #0099ff; box-shadow: 0 0 20px #0099ff, 0 0 40px #00f2ff; }
             100% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
         }
-        .timeline-item.milestone-DIAMOND .timeline-content {
-            border: 2px solid var(--diamond-color);
-            background: linear-gradient(135deg, #f0ffff 0%, #ffffff 100%);
-            animation: sparkle 2s infinite alternate;
-            overflow: visible; /* Để sao bay ra ngoài */
-        }
-        .timeline-item.milestone-DIAMOND::after { 
-            background-color: var(--diamond-color); border-color: #fff;
-            box-shadow: 0 0 15px var(--diamond-color);
-        }
-        .timeline-item.milestone-DIAMOND .t-title { 
-            color: #008b8b; text-transform: uppercase; letter-spacing: 1px;
-            background: -webkit-linear-gradient(#00f2ff, #0099ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        .timeline-item.milestone-DIAMOND .timeline-content { border: 2px solid var(--diamond-color); background: linear-gradient(135deg, #f0ffff 0%, #ffffff 100%); animation: sparkle 2s infinite alternate; overflow: visible; }
+        .timeline-item.milestone-DIAMOND::after { background-color: var(--diamond-color); border-color: #fff; box-shadow: 0 0 15px var(--diamond-color); }
+        .timeline-item.milestone-DIAMOND .t-title { color: #008b8b; text-transform: uppercase; letter-spacing: 1px; background: -webkit-linear-gradient(#00f2ff, #0099ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* GOLD: Hào quang */
         @keyframes gold-shine {
             0% { box-shadow: 0 0 5px #ffd700; }
             50% { box-shadow: 0 0 25px #ffd700, 0 0 10px #fff; transform: scale(1.02); }
             100% { box-shadow: 0 0 5px #ffd700; }
         }
-        .timeline-item.milestone-GOLD .timeline-content {
-            border: 2px solid var(--gold-color);
-            background: linear-gradient(135deg, #fffde7 0%, #ffffff 100%);
-            animation: gold-shine 3s infinite;
-        }
-        .timeline-item.milestone-GOLD::after { 
-            content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            background: none; border: none; font-size: 24px; color: var(--gold-color);
-            top: 15px; right: -14px; width: auto; height: auto;
-            animation: heartbeat 1.5s infinite;
-        }
+        .timeline-item.milestone-GOLD .timeline-content { border: 2px solid var(--gold-color); background: linear-gradient(135deg, #fffde7 0%, #ffffff 100%); animation: gold-shine 3s infinite; }
+        .timeline-item.milestone-GOLD::after { content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900; background: none; border: none; font-size: 24px; color: var(--gold-color); top: 15px; right: -14px; width: auto; height: auto; animation: heartbeat 1.5s infinite; }
         .timeline-item.right.milestone-GOLD::after { left: -14px; }
 
-        /* SILVER: Sang trọng */
-        .timeline-item.milestone-SILVER .timeline-content {
-            border: 2px solid var(--silver-color);
-            background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-            box-shadow: 0 0 15px rgba(192, 192, 192, 0.6);
-        }
+        .timeline-item.milestone-SILVER .timeline-content { border: 2px solid var(--silver-color); background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%); box-shadow: 0 0 15px rgba(192, 192, 192, 0.6); }
         .timeline-item.milestone-SILVER::after { border-color: var(--silver-color); background-color: #eee; }
         .timeline-item.milestone-SILVER .t-title { color: #555; text-shadow: 1px 1px 0 #eee; }
 
-        /* ANNIVERSARY (2/9): Hoành tráng nhất, Tim bay */
         @keyframes anniversary-glow {
             0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); border-color: #ff3366; }
             50% { box-shadow: 0 0 30px 10px rgba(255, 51, 102, 0.4); border-color: #ff0040; transform: scale(1.05); }
@@ -147,24 +118,15 @@
         .t-date { font-size: 0.85rem; font-weight: bold; color: var(--secondary-color); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
         .t-title { font-size: 1.1rem; font-weight: 800; color: #333; margin: 0; }
         .t-desc-preview { font-size: 0.9rem; color: #666; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+        .delete-milestone { position: absolute; top: 5px; right: 10px; color: #ff6b6b; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 0.9rem; }
+        .timeline-content:hover .delete-milestone { opacity: 1; }
         
         /* Particle Animations */
-        .particle-heart, .particle-star {
-            position: absolute; bottom: 0; opacity: 0; pointer-events: none; z-index: 10;
-        }
+        .particle-heart, .particle-star { position: absolute; bottom: 0; opacity: 0; pointer-events: none; z-index: 10; }
         .particle-heart { color: #ff3366; font-size: 20px; animation: tl-float-heart 4s infinite linear; }
         .particle-star { color: #00f2ff; font-size: 18px; text-shadow: 0 0 5px #fff; animation: tl-float-star 4s infinite linear; }
-
-        @keyframes tl-float-heart {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-180px) scale(1.5) rotate(20deg); opacity: 0; }
-        }
-        @keyframes tl-float-star {
-            0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(-180px) rotate(360deg) scale(1.5); opacity: 0; }
-        }
+        @keyframes tl-float-heart { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-180px) scale(1.5) rotate(20deg); opacity: 0; } }
+        @keyframes tl-float-star { 0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-180px) rotate(360deg) scale(1.5); opacity: 0; } }
 
         @media (max-width: 600px) {
             .timeline-tree::after { left: 25px; }
@@ -182,15 +144,11 @@
         /* GRID GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; }
         .gallery-item { border-radius: 12px; overflow: hidden; position: relative; cursor: pointer; transition: all 0.4s; box-shadow: 0 5px 15px rgba(0,0,0,0.08); background: #fff; padding: 5px; aspect-ratio: 1 / 1; }
-        
-        /* Mobile Touch Optimization */
         @media (hover: hover) {
             .gallery-item:hover { transform: translateY(-5px) scale(1.02); z-index: 2; box-shadow: 0 15px 30px rgba(255, 51, 102, 0.2); }
             .gallery-item:hover img { transform: scale(1.1); }
         }
-        
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; transition: transform 0.6s ease; }
-        
         .video-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.5); border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; color: white; font-size: 20px; pointer-events: none; }
         #driveStatus { color: #666; margin-bottom: 20px; font-style: italic; font-size: 1.1rem; display: block; }
         .loading-spinner { border: 4px solid rgba(255, 51, 102, 0.1); width: 40px; height: 40px; border-radius: 50%; border-left-color: var(--primary-color); animation: spin 1s linear infinite; margin: 10px auto 30px; display: block; }
@@ -199,15 +157,13 @@
         .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
 
         /* MODALS */
-        .lightbox, .music-modal, .timeline-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .lightbox, .music-modal, .timeline-modal, .milestone-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 10001; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .lightbox { background: rgba(0, 0, 0, 0.9); z-index: 20002; }
         .lightbox.active { display: flex; opacity: 1; visibility: visible; }
-        
         .lightbox-content, .music-content, .timeline-modal-content { background: white; border-radius: 20px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); animation: zoomIn 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
         .lightbox-content { max-width: 90%; max-height: 90%; align-items: center; justify-content: center; background: transparent; box-shadow: none; }
         .music-content, .timeline-modal-content { width: 90%; max-width: 400px; height: auto; max-height: 80vh; background: white; }
         .timeline-modal-content { max-width: 600px; }
-        
         .lightbox img, .lightbox video { max-width: 100%; max-height: 90vh; border-radius: 10px; display: block; }
         .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; transition: color 0.3s; z-index: 20003; }
         .lightbox-close:hover { color: var(--primary-color); }
@@ -229,12 +185,39 @@
         .global-status { position: fixed; bottom: 10px; left: 10px; font-size: 0.7rem; color: rgba(255,255,255,0.5); z-index: 100; }
         footer { margin-top: auto; padding: 20px; text-align: center; font-size: 0.9rem; color: #666; background: rgba(255, 255, 255, 0.5); }
         #youtube-player { position: fixed; top: -9999px; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-        
         .music-btn-disabled { opacity: 0.5; cursor: not-allowed !important; pointer-events: none; }
-        
         .timeline-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
         .timeline-gallery img { width: 100%; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform 0.3s; }
         .timeline-gallery img:hover { transform: scale(1.05); }
+
+        /* --- HEART SHAPE MILESTONE POPUP STYLES --- */
+        .milestone-popup-content {
+            background: radial-gradient(circle at center, #fff, #ffe6eb);
+            width: 95%; max-width: 600px; height: 90vh; border-radius: 20px;
+            box-shadow: 0 0 50px rgba(255, 51, 102, 0.5);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; overflow: hidden; animation: zoomIn 0.5s ease-out;
+        }
+        .milestone-title {
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #ff3366; text-shadow: 2px 2px 0px white;
+            z-index: 10; margin-top: 20px;
+        }
+        .milestone-days {
+            font-size: 5rem; font-weight: 900; color: #ff3366; z-index: 10; margin: 10px 0;
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.8), 0 0 20px rgba(255, 51, 102, 0.4);
+        }
+        .milestone-sub { font-size: 1.2rem; color: #666; z-index: 10; margin-bottom: 20px; }
+        .heart-shape-container {
+            position: relative; width: 100%; height: 100%; flex: 1;
+            display: flex; justify-content: center; align-items: center;
+            overflow: visible; /* Important for heart overlay */
+            min-height: 350px;
+        }
+        .heart-img-small {
+            position: absolute; width: 30px; height: 30px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; opacity: 0; animation: popInImage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 1; cursor: pointer;
+        }
+        .heart-img-small:hover { transform: translate(-50%, -50%) scale(3) !important; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--primary-color); }
+        @keyframes popInImage { from { transform: translate(-50%, -50%) scale(0); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
@@ -254,8 +237,7 @@
         <div class="lightbox-content" id="lightbox-content" onclick="event.stopPropagation()"></div>
     </div>
 
-
-    <!-- Timeline Modals -->
+    <!-- Timeline Detail Modal -->
     <div id="viewMilestoneModal" class="timeline-modal">
         <div class="timeline-modal-content">
             <div class="timeline-header">
@@ -267,6 +249,17 @@
                 <div style="line-height:1.6; color:#444; font-size:1rem; white-space: pre-wrap; margin-bottom: 20px;" id="vDesc">Đang tải nội dung...</div>
                 <div id="vGallery" class="timeline-gallery"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Milestone Celebration Popup -->
+    <div id="milestonePopup" class="milestone-popup">
+        <div class="milestone-popup-content">
+            <span class="close-chat" style="position:absolute; top:20px; right:20px; z-index:20; color:#ff3366;" onclick="window.closeMilestonePopup()">&times;</span>
+            <div class="milestone-title">Chúc Mừng Kỷ Niệm</div>
+            <div id="milestoneDaysDisplay" class="milestone-days">100</div>
+            <div class="milestone-sub">Ngày bên nhau hạnh phúc ❤️</div>
+            <div class="heart-shape-container" id="heartShapeContainer"></div>
         </div>
     </div>
 
@@ -313,15 +306,15 @@
                 </div>
             </div>
             <div class="trend-wrapper">
-                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu ❤️</div>
+                <div class="trend-badge"><i class="fas fa-heart"></i> Lời Nhắn Của Anh ❤️</div>
                 <div class="trend-content" id="loveTrendText"><div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Đang tải lời nhắn...</div></div>
             </div>
         </header>
 
         <!-- Counter -->
-        <div class="counter-box">
+        <div class="counter-box" onclick="window.checkMilestone(true)">
             <div class="love-duration">Chúng mình đã yêu nhau được</div>
-            <div id="totalDays" style="font-size: 3.5rem; color: var(--primary-color); font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 0px rgba(255,255,255,1);">0 Ngày</div>
+            <div id="totalDays" style="font-size: 3.5rem; color: var(--primary-color); font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 0px rgba(255,255,255,1); cursor: pointer;" title="Bấm để xem thử hiệu ứng kỷ niệm">0 Ngày</div>
             <div class="timer">
                 <div class="time-unit"><span class="time-val" id="years">0</span><span class="time-label">Năm</span></div>
                 <div class="time-unit"><span class="time-val" id="months">0</span><span class="time-label">Tháng</span></div>
@@ -368,7 +361,7 @@
         };
 
         const clickHandler = (e) => {
-            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.gallery-item') || e.target.closest('.modal') || e.target.closest('.timeline-content') || e.target.closest('#youtube-player')) return;
+            if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.gallery-item') || e.target.closest('.modal') || e.target.closest('.timeline-content') || e.target.closest('#youtube-player') || e.target.closest('.heart-img-small')) return;
             let x = e.pageX || (e.changedTouches ? e.changedTouches[0].pageX : 0);
             let y = e.pageY || (e.changedTouches ? e.changedTouches[0].pageY : 0);
             window.spawnClickHeart(x, y);
@@ -387,9 +380,9 @@
         window.closeMusicModal = function() { document.getElementById('musicModal').style.display = 'none'; };
         
         window.closeViewMilestoneModal = function() { document.getElementById('viewMilestoneModal').style.display = 'none'; };
-        window.closeChatModal = function() { document.getElementById('chatModal').style.display = 'none'; };
-        window.openChatModal = function() { document.getElementById('chatModal').style.display = 'flex'; };
-
+        
+        window.closeMilestonePopup = function() { document.getElementById('milestonePopup').style.display = 'none'; };
+        
         window.openLightbox = function(url, type) {
             const lb = document.getElementById('lightbox'), cnt = document.getElementById('lightbox-content');
             cnt.innerHTML = type==='video' ? `<video controls autoplay src="${url}" style="max-width:100%;max-height:90vh"></video>` : `<img src="${url}">`;
@@ -405,8 +398,9 @@
         window.playSpecificSong = () => {};
         window.loadMorePhotos = () => {};
         window.viewTimelineDetail = () => {};
+        window.checkMilestone = () => {}; 
 
-        // UI Setup - Background Particles
+        // UI Setup
         const container = document.getElementById('bgAnimation');
         for(let i=0; i<20; i++){
             let h = document.createElement('div'); h.className='floating-heart'; h.innerHTML='<i class="fas fa-heart"></i>';
@@ -443,9 +437,58 @@
         const GOOGLE_DRIVE_FOLDER_ID = "1ifei24bSGnS59UQMbQD6WLOYSk7hof7h"; 
         const DEFAULT_MUSIC_ID = "UjqhCaq9qB8";
 
-        // 50 Quotes List
+        // 50 Quotes List (Gen Z Couple Edition)
         const loveQuotes = [
-            "Yêu em không cần cớ, cần em cơ.", "Em có bản đồ không? Anh lạc vào mắt em rồi.", "Nhà em có bán rượu không mà nói chuyện với em anh say quá.", "Cả thế giới này ai cũng yêu nhau, chỉ có anh là yêu em thôi.", "Nụ cười của em là ánh nắng duy nhất anh cần.", "Anh không giỏi toán, nhưng anh biết tính em.", "Em là thông báo duy nhất anh muốn nhận mỗi ngày.", "Trăm lối đi, chỉ muốn lối về tim em.", "Em ơi, trà sữa phải có trân châu, đời anh phải có em đâu mới ngầu.", "Ngoài kia bão táp mưa sa, về nhà anh nhé, có ta có mình.", "Anh cho phép em bắt nạt anh đấy, nhưng chỉ được bắt nạt bằng tình yêu thôi.", "Em là cô gái vàng trong làng đánh cắp trái tim anh.", "Đừng gọi anh là thiếu gia, vì anh chỉ thiếu em.", "Anh bận rộn với cả thế giới, nhưng với em thì luôn rảnh.", "Gặp em là định mệnh, yêu em là lựa chọn, bên em là hạnh phúc.", "Trái đất tròn, không gì là không thể, kể cả việc anh yêu em.", "Nếu nụ hôn là nước, anh xin gửi em cả đại dương.", "Em không phải là kiểu người anh thích, nhưng em là người anh yêu.", "Yêu em là một quá trình, không có điểm dừng.", "Mỗi ngày anh yêu em nhiều hơn hôm qua, nhưng ít hơn ngày mai.", "Anh không hứa sẽ yêu em mãi mãi, nhưng anh hứa sẽ yêu em mỗi ngày.", "Em là mảnh ghép hoàn hảo nhất cho cuộc đời anh.", "Anh muốn cùng em già đi.", "Hạnh phúc của anh là được thấy em cười.", "Em là điều tuyệt vời nhất mà anh từng có.", "Cảm ơn em đã đến bên anh.", "Anh yêu em nhiều hơn lời nói.", "Em là cả thế giới của anh.", "Bên em, anh thấy bình yên.", "Anh nhớ em.", "Chỉ cần em vui, anh làm gì cũng được.", "Em là công chúa của anh.", "Anh muốn nắm tay em đi khắp thế gian.", "Yêu em là điều đúng đắn nhất anh từng làm.", "Em làm anh thay đổi tốt hơn.", "Anh nguyện làm vệ sĩ cho em suốt đời.", "Em là liều thuốc chữa lành mọi vết thương của anh.", "Anh yêu mọi thứ thuộc về em.", "Em là ngôi sao sáng nhất trong đêm của anh.", "Không có em, cuộc sống anh vô nghĩa.", "Anh muốn thức dậy bên em mỗi sáng.", "Em là giấc mơ đẹp nhất của anh.", "Anh sẽ luôn ở bên em.", "Yêu em bằng cả trái tim.", "Em là độc nhất vô nhị.", "Anh trân trọng từng khoảnh khắc bên em.", "Em là nguồn cảm hứng của anh.", "Anh yêu em vô điều kiện.", "Mãi bên nhau em nhé.", "Tình yêu của chúng ta là vĩnh cửu."
+            "Em là 'ngoại lệ' của anh, còn anh là 'định mệnh' của em.",
+            "Tình yêu mình 'uy tín' hơn cả sao kê, 100% real love.",
+            "Anh không thích cạnh tranh, chỉ thích 'cạnh em'.",
+            "Em là 'nóc nhà', anh là 'cột nhà', nhà mình bao vững chãi.",
+            "Yêu em không cần 'deadline', vì anh muốn bên em mãi mãi.",
+            "Anh không cần 'healing', vì nụ cười em là liều thuốc tốt nhất rồi.",
+            "Em là 'top 1 trending' trong tâm trí anh mỗi sáng thức dậy.",
+            "Không cần 'flex' xe sang nhà xịn, chỉ cần 'flex' người yêu xịn là đủ.",
+            "Tình mình như wifi 5 vạch, lúc nào cũng 'căng đét' yêu thương.",
+            "Anh không giỏi văn, nhưng viết về em thì 'full topping' cảm xúc.",
+            "Đừng gọi anh là 'thiếu gia', vì anh chỉ 'thiếu em' khi xa nhau thôi.",
+            "Em là phiên bản giới hạn, anh là người sở hữu độc quyền.",
+            "Trái đất này tròn, nhưng tâm anh chỉ có một hướng là em.",
+            "Anh không cần GPS, vì định vị của anh luôn ghim tại vị trí em.",
+            "Yêu em là 'nghề' của anh, làm cả đời không lương vẫn vui.",
+            "Em là 'thông báo ưu tiên', anh luôn check đầu tiên mỗi khi cầm máy.",
+            "Cuộc đời anh là một phương trình, em chính là nghiệm duy nhất.",
+            "Anh không sợ 'kiếp nạn thứ 82', chỉ sợ kiếp này không có em.",
+            "Tình mình 'cháy' hơn cả nắng Sài Gòn, nhưng lại ngọt hơn trà sữa.",
+            "Em là 'chân ái', bên em là trạng thái 'yên bình' nhất.",
+            "Anh không thích 'thả thính' lung tung, vì đã 'dính' chặt lấy em rồi.",
+            "Em là 'nguồn sạc' của anh, hết pin là phải tìm em nạp ngay.",
+            "Bên ngoài bão tố mưa sa, về nhà có em là có tất cả.",
+            "Em là 'idol' của anh, anh xin làm 'fan cứng' trọn đời.",
+            "Anh không cần 'app' chỉnh ảnh, vì trong mắt anh em lúc nào cũng đẹp không góc chết.",
+            "Yêu em 'không lối thoát', mà thực ra anh cũng đâu có muốn thoát.",
+            "Em là 'chủ nợ' tình cảm, anh xin nguyện trả lãi bằng cả cuộc đời.",
+            "Tình yêu mình 'bền' hơn cả bê tông cốt thép.",
+            "Anh không hứa cho em cả thế giới, nhưng sẽ cho em thế giới riêng của anh.",
+            "Em là 'vitamin' vui vẻ, thiếu em là anh 'suy' ngay.",
+            "Anh không cần làm 'tổng tài', chỉ cần làm 'chồng tài' của em thôi.",
+            "Gặp em là 'định mệnh', yêu em là 'quyết định' đúng đắn nhất đời anh.",
+            "Em là 'mật khẩu' vào tim anh, nhập sai bao lần vẫn chỉ là tên em.",
+            "Anh không sợ ma, chỉ sợ 'ma nữ' bắt mất em thôi.",
+            "Tình mình 'xịn' hơn cả đồ hiệu, không bao giờ lỗi mốt.",
+            "Em là 'ánh sáng' cuối đường hầm, à không, là ánh sáng cả con đường anh đi.",
+            "Anh nguyện làm 'vệ sĩ' riêng, bảo vệ nụ cười của em 24/7.",
+            "Yêu nhau là cùng nhau béo, cùng nhau gầy, cùng nhau đi hết đời này.",
+            "Em là 'độc nhất vô nhị', không ai thay thế được vị trí này.",
+            "Anh không cần 'người theo đuổi', vì đã có người cùng đi là em rồi.",
+            "Tình yêu của chúng ta: Ít drama, nhiều lãng mạn.",
+            "Em là 'cục cưng' của anh, cấm ai tranh giành.",
+            "Anh yêu mọi phiên bản của em, kể cả lúc em 'quạo'.",
+            "Bên em, ngày nào cũng là Valentine, ngày nào cũng ngọt ngào.",
+            "Anh không cần hứa hẹn xa xôi, chỉ cần hiện tại mình vui là được.",
+            "Em là 'bài toán' khó nhất anh từng giải, nhưng anh chấp nhận giải cả đời.",
+            "Yêu em là 'chân lý', không cần chứng minh bằng định lý nào cả.",
+            "Anh là 'thuyền', em là 'bến', thuyền chỉ muốn neo đậu mãi ở bến thôi.",
+            "Em là 'mùa xuân' của anh, ấm áp và tràn đầy sức sống.",
+            "Chốt đơn: Anh yêu em nhất trần đời, miễn đổi trả."
         ];
 
         let db, auth, isFirebaseActive = false;
@@ -463,31 +506,121 @@
             showRandomQuote(); 
         });
 
+        // --- MILESTONE HEART POPUP ---
+        window.checkMilestone = function(manualTrigger = false) {
+            const now = new Date();
+            const diff = now - START_DATE;
+            const days = Math.floor(diff / 86400000);
+            
+            const milestones = [100, 200, 300, 365, 500, 730, 1000, 1500, 2000, 3000];
+            
+            if (milestones.includes(days) || manualTrigger) {
+                renderHeartGallery(days);
+            }
+        };
+
+        function renderHeartGallery(days) {
+            const popup = document.getElementById('milestonePopup');
+            const container = document.getElementById('heartShapeContainer');
+            document.getElementById('milestoneDaysDisplay').innerText = days;
+            container.innerHTML = "";
+            popup.style.display = 'flex';
+
+            if (allFiles.length === 0) {
+                 container.innerHTML = "<div style='color:#999; margin-top: 50px;'>Đang tải ảnh từ bộ nhớ...</div>";
+                 return;
+            }
+
+            const layers = [
+                { count: 50, scale: 13 }, // Vòng ngoài cùng
+                { count: 40, scale: 10 }, // Vòng giữa 1
+                { count: 30, scale: 7 },  // Vòng giữa 2
+                { count: 15, scale: 4 }   // Vòng trong cùng
+            ];
+            
+            const isMobile = window.innerWidth < 600;
+            const mobileScaleFactor = isMobile ? 0.55 : 1; 
+
+            let imgIndex = 0;
+
+            layers.forEach((layer, layerIndex) => {
+                for (let i = 0; i < layer.count; i++) {
+                    const imgData = allFiles[imgIndex % allFiles.length];
+                    imgIndex++;
+
+                    const img = document.createElement('img');
+                    const thumbUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s100') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
+                    const fullUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
+                    
+                    img.src = thumbUrl;
+                    img.className = 'heart-img-small';
+
+                    let t = (i / layer.count) * Math.PI * 2;
+                    let hx = 16 * Math.pow(Math.sin(t), 3);
+                    let hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+                    let scale = layer.scale * mobileScaleFactor;
+                    let noise = (Math.random() - 0.5) * 2; 
+
+                    let x = hx * scale + noise;
+                    let y = hy * scale + noise;
+
+                    img.style.left = `calc(50% + ${x}px)`;
+                    img.style.top = `calc(45% + ${y}px)`;
+                    
+                    img.style.animationDelay = (layerIndex * 0.2 + Math.random() * 0.5) + 's';
+
+                    img.onclick = (e) => {
+                        e.stopPropagation();
+                        window.openLightbox(fullUrl, 'image');
+                    };
+
+                    container.appendChild(img);
+                }
+            });
+            
+            if (allFiles.length > 0) {
+                const centerImgData = allFiles[Math.floor(Math.random() * allFiles.length)];
+                const centerImg = document.createElement('img');
+                const cUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s200') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
+                const cFullUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
+                
+                centerImg.src = cUrl;
+                centerImg.className = 'heart-img-small';
+                centerImg.style.left = '50%';
+                centerImg.style.top = '45%';
+                centerImg.style.width = '50px'; 
+                centerImg.style.height = '50px';
+                centerImg.style.zIndex = '10';
+                centerImg.style.animationDelay = '1.5s';
+                centerImg.style.transform = "translate(-50%, -50%)"; // Ensure center
+                
+                centerImg.onclick = (e) => {
+                     e.stopPropagation();
+                     window.openLightbox(cFullUrl, 'image');
+                };
+                container.appendChild(centerImg);
+            }
+        }
+
         // --- MEMORY RECALL FEATURE ---
         function checkMemoryRecall() {
             if (timelineData.length === 0) return;
-            
             const today = new Date();
             const currentDay = today.getDate();
             const currentMonth = today.getMonth(); // 0-11
-            
-            // Find milestone matching today's day/month
             const memory = timelineData.find(item => {
                 if (!item.date) return false;
                 return item.date.getDate() === currentDay && item.date.getMonth() === currentMonth;
             });
-            
             if (memory) {
                 const yearsDiff = today.getFullYear() - memory.date.getFullYear();
                 let timeString = yearsDiff > 0 ? `${yearsDiff} năm trước` : "Năm nay";
-                
                 document.getElementById('vTitle').innerHTML = `<i class="fas fa-history" style="color:var(--primary-color)"></i> Mảnh Ký Ức: ${memory.title}`;
                 document.getElementById('vDate').innerText = `Ngày này ${timeString} (${memory.displayDate})`;
                 document.getElementById('vDesc').innerText = memory.desc;
-                
                 const galleryContainer = document.getElementById('vGallery');
                 galleryContainer.innerHTML = "";
-                
                 if (memory.files && memory.files.length > 0) {
                     memory.files.forEach(f => {
                         const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
@@ -497,7 +630,6 @@
                         galleryContainer.appendChild(img);
                     });
                 }
-                
                 document.getElementById('viewMilestoneModal').style.display = 'flex';
             }
         }
@@ -509,7 +641,6 @@
             const tlContainer = document.getElementById('timelineContainer');
             
             try {
-                // 1. Get Root Files (Images & Folders)
                 const url = `https://www.googleapis.com/drive/v3/files?q='${GOOGLE_DRIVE_FOLDER_ID}'+in+parents+and+trashed=false&orderBy=createdTime desc&fields=files(id, name, mimeType, thumbnailLink, createdTime)&key=${GOOGLE_DRIVE_API_KEY}`;
                 const res = await fetch(url);
                 const data = await res.json();
@@ -528,14 +659,12 @@
                     }
                 });
 
-                // 2. Process Folders (Parallel Fetch) for Timeline
                 const timelinePromises = folders.map(async (folder) => {
                     return await processFolder(folder);
                 });
 
                 const processedFolders = await Promise.all(timelinePromises);
                 
-                // 3. Merge Data for Gallery
                 allFiles = [...rootImages];
                 processedFolders.forEach(pf => {
                     if (pf.files && pf.files.length > 0) {
@@ -546,20 +675,15 @@
                     }
                 });
 
-                // Sort Gallery by Date
                 allFiles.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
-                
-                // Sort Timeline by Date
                 timelineData.sort((a, b) => b.date - a.date);
 
-                // 4. Render UI
                 renderTimelineFromDrive();
                 renderGalleryFromDrive();
-                
                 setupAvatars(allFiles);
                 
-                // 5. CHECK MEMORY RECALL HERE
                 checkMemoryRecall();
+                window.checkMilestone(); 
 
                 statusEl.style.display = 'none';
                 loader.style.display = 'none';
@@ -574,25 +698,15 @@
 
         async function processFolder(folder) {
             const folderInfo = parseFolderName(folder.name, folder.createdTime);
-            let result = {
-                ...folderInfo,
-                id: folder.id,
-                files: [],
-                desc: "Chưa có mô tả...",
-                coverImg: null,
-                isValidTimeline: true
-            };
-
+            let result = { ...folderInfo, id: folder.id, files: [], desc: "Chưa có mô tả...", coverImg: null, isValidTimeline: true };
             try {
                 const q = `'${folder.id}'+in+parents+and+trashed=false`;
                 const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id, name, mimeType, thumbnailLink, createdTime)&key=${GOOGLE_DRIVE_API_KEY}`;
                 const res = await fetch(url);
                 const data = await res.json();
-                
                 if (data.files) {
                     const imgs = [];
                     let descFile = null;
-
                     data.files.forEach(f => {
                         const fName = f.name.toLowerCase();
                         if (f.mimeType.startsWith('image/') || f.mimeType.startsWith('video/')) {
@@ -601,9 +715,7 @@
                             descFile = f;
                         }
                     });
-
                     result.files = imgs;
-
                     if (descFile) {
                         let txtUrl = '';
                         if (descFile.mimeType === 'application/vnd.google-apps.document') {
@@ -611,34 +723,23 @@
                         } else {
                             txtUrl = `https://www.googleapis.com/drive/v3/files/${descFile.id}?alt=media&key=${GOOGLE_DRIVE_API_KEY}`;
                         }
-                        
                         try {
                             const txtRes = await fetch(txtUrl);
-                            if (txtRes.ok) {
-                                result.desc = await txtRes.text();
-                            }
+                            if (txtRes.ok) { result.desc = await txtRes.text(); }
                         } catch(e) { console.warn("Lỗi đọc file mô tả:", e); }
                     }
-
                     if (imgs.length > 0) {
                         const mainImgs = imgs.filter(img => img.name.toLowerCase().includes('main'));
                         let selectedImg;
-                        
                         if (mainImgs.length > 0) {
-                            const randomIdx = Math.floor(Math.random() * mainImgs.length);
-                            selectedImg = mainImgs[randomIdx];
+                            selectedImg = mainImgs[Math.floor(Math.random() * mainImgs.length)];
                         } else {
-                            const randomIdx = Math.floor(Math.random() * imgs.length);
-                            selectedImg = imgs[randomIdx];
+                            selectedImg = imgs[Math.floor(Math.random() * imgs.length)];
                         }
-                        
                         result.coverImg = selectedImg.thumbnailLink ? selectedImg.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : null;
                     }
                 }
-            } catch (e) {
-                console.warn(`Error processing folder ${folder.name}:`, e);
-                result.isValidTimeline = false;
-            }
+            } catch (e) { console.warn(`Error processing folder ${folder.name}:`, e); result.isValidTimeline = false; }
             return result;
         }
 
@@ -647,48 +748,33 @@
             let type = 'NORMAL';
             let dateObj = new Date(createdTime);
             let displayDate = dateObj.toLocaleDateString('vi-VN');
-            
-            // Check Type
             const validTypes = ['DIAMOND', 'GOLD', 'SILVER'];
             let lastPart = parts[parts.length - 1];
-            if (validTypes.includes(lastPart.toUpperCase())) {
-                type = lastPart.toUpperCase();
-                parts.pop();
-            }
-            
-            // Check Date
+            if (validTypes.includes(lastPart.toUpperCase())) { type = lastPart.toUpperCase(); parts.pop(); }
             if (parts.length > 1) {
                 lastPart = parts[parts.length - 1];
                 const rangePattern = /^(\d{1,2})-(\d{1,2})(\d{2})(\d{4})$/;
                 const fullDatePattern = /^(\d{2})(\d{2})(\d{4})$/;
                 const monthYearPattern = /^(\d{2})(\d{4})$/;
-
                 let match;
                 if ((match = lastPart.match(rangePattern))) {
                     const startDay = match[1]; const endDay = match[2]; const month = match[3]; const year = match[4];
                     dateObj = new Date(`${year}-${month}-${startDay}`);
                     displayDate = `${startDay}-${endDay}/${month}/${year}`;
                     parts.pop();
-                } 
-                else if ((match = lastPart.match(fullDatePattern))) {
+                } else if ((match = lastPart.match(fullDatePattern))) {
                     const day = match[1]; const month = match[2]; const year = match[3];
                     dateObj = new Date(`${year}-${month}-${day}`);
                     displayDate = `${day}/${month}/${year}`;
                     parts.pop();
-                }
-                else if ((match = lastPart.match(monthYearPattern))) {
+                } else if ((match = lastPart.match(monthYearPattern))) {
                     const month = match[1]; const year = match[2];
                     dateObj = new Date(`${year}-${month}-01`); 
                     displayDate = `${month}/${year}`;
                     parts.pop();
                 }
             }
-            
-            // Anniversary check (2/9)
-            if (dateObj.getDate() === 2 && dateObj.getMonth() === 8) {
-                type = 'ANNIVERSARY';
-            }
-
+            if (dateObj.getDate() === 2 && dateObj.getMonth() === 8) { type = 'ANNIVERSARY'; }
             const title = parts.join(' ');
             return { title, date: dateObj, displayDate, type };
         }
@@ -700,18 +786,12 @@
                 container.innerHTML = `<div style="text-align:center; padding:20px; color:#888;">Chưa có thư mục cột mốc nào trong Drive.</div>`;
                 return;
             }
-
             timelineData.forEach((item, index) => {
                 const side = index % 2 === 0 ? 'left' : 'right';
                 const div = document.createElement('div');
                 div.className = `timeline-item ${side} milestone-${item.type}`;
-                
                 let coverHtml = '';
-                if (item.coverImg) {
-                    coverHtml = `<img src="${item.coverImg}" class="timeline-img" loading="lazy">`;
-                }
-
-                // Inject special effects HTML
+                if (item.coverImg) { coverHtml = `<img src="${item.coverImg}" class="timeline-img" loading="lazy">`; }
                 let specialEffects = '';
                 if (item.type === 'ANNIVERSARY') {
                      for(let i=0; i<6; i++) {
@@ -726,11 +806,9 @@
                         specialEffects += `<i class="fas fa-star particle-star" style="left:${left}%; animation-delay:${delay}s"></i>`;
                      }
                 }
-
                 div.innerHTML = `
                     <div class="timeline-content" onclick="window.viewTimelineDetail('${item.id}')">
-                        ${specialEffects}
-                        ${coverHtml}
+                        ${specialEffects} ${coverHtml}
                         <div class="timeline-body-text">
                             <span class="t-date">${item.displayDate}</span>
                             <h3 class="t-title">${item.title}</h3>
@@ -753,14 +831,11 @@
         window.viewTimelineDetail = function(folderId) {
             const item = timelineData.find(i => i.id === folderId);
             if (!item) return;
-
             document.getElementById('vTitle').innerText = item.title;
             document.getElementById('vDate').innerText = item.displayDate;
             document.getElementById('vDesc').innerText = item.desc;
-            
             const galleryContainer = document.getElementById('vGallery');
             galleryContainer.innerHTML = "";
-            
             item.files.forEach(f => {
                 const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
                 const img = document.createElement('img');
@@ -768,7 +843,6 @@
                 img.onclick = () => window.openLightbox(url, 'image');
                 galleryContainer.appendChild(img);
             });
-
             document.getElementById('viewMilestoneModal').style.display = 'flex';
         };
 
@@ -792,7 +866,6 @@
             try {
                 const plContainer = document.getElementById('playlistContainer');
                 if(plContainer) plContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#888;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>`;
-
                 const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : null;
                 if (firebaseConfig) {
                     const app = initializeApp(firebaseConfig);
@@ -972,7 +1045,7 @@
                     div.onclick = () => window.openLightbox(url, 'video');
                 } else {
                     div.innerHTML = `<img src="${url}" loading="lazy">`;
-                    div.onclick = () => window.openLightbox(url, 'image'); // Use high res url
+                    div.onclick = () => window.openLightbox(url, 'image');
                 }
                 grid.appendChild(div);
             });
