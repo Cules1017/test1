@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chuyện Tình Yêu Của Chúng Mình</title>
+    <!-- Thư viện giải mã EXIF để xử lý xoay ảnh iPhone -->
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -251,7 +253,7 @@
                     <input type="text" id="musicInput" placeholder="Dán link YouTube...">
                     <button onclick="window.addMusicFromInput()">Thêm</button>
                 </div>
-                <div style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">Danh sách phát (Đồng bộ):</div>
+                <div style="font-size: 0.9rem; color: #888; margin-bottom: 10px;">Danh sách phát (Đồng bộ Google Sheets):</div>
                 <div id="playlistContainer">
                     <div style="text-align:center; padding:20px; color:#888;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
                 </div>
@@ -291,7 +293,7 @@
             </div>
         </header>
 
-        <!-- Counter -->
+        <!-- Counter (Clickable to test milestone) -->
         <div class="counter-box" onclick="window.checkMilestone(true)">
             <div class="love-duration">Chúng mình đã yêu nhau được</div>
             <div id="totalDays" style="font-size: 3.5rem; color: var(--primary-color); font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 0px rgba(255,255,255,1); cursor: pointer;" title="Bấm để xem thử hiệu ứng kỷ niệm">0 Ngày</div>
@@ -327,12 +329,12 @@
 
     <footer><p>Created with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for Cục Iu Lì Lợm.</p></footer>
 
-    <!-- SCRIPT 1: GLOBAL UI & TRACKING LOG -->
+    <!-- SCRIPT 1: GLOBAL UI & API CALLS -->
     <script>
-        // --- 0. TRACKING (LOG ACTION) INIT ---
-        const LOG_API_URL = "https://script.google.com/macros/s/AKfycbwkoN4xvDoeV40mRFY8ahOfgIE2t6QA09NUF2iaCJkfj9V4t94rL7QzEPGs6EY3Du38/exec";
+        // --- 0. GOOGLE SHEETS API INIT ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbwkoN4xvDoeV40mRFY8ahOfgIE2t6QA09NUF2iaCJkfj9V4t94rL7QzEPGs6EY3Du38/exec";
         
-        // Tạo hoặc lấy Session ID
+        // Tạo hoặc lấy Session ID cho Log
         if (!sessionStorage.getItem('love_session_id')) {
             sessionStorage.setItem('love_session_id', 'sess_' + Math.random().toString(36).substr(2, 9));
         }
@@ -353,7 +355,6 @@
             if (/iPhone/i.test(ua)) os = "iPhone";
             else if (/iPad/i.test(ua)) os = "iPad";
             else if (/Android/i.test(ua)) {
-                // Cố gắng lấy tên dòng máy Android (vd: SM-G998B)
                 const match = ua.match(/Android\s[^\s;]+(?:;.*?([^;)]+))?/);
                 os = match && match[1] ? `Android (${match[1].trim()})` : "Android";
             }
@@ -367,17 +368,12 @@
 
         async function initDeviceAndLocation() {
             if (window.DEVICE_INFO) return;
-            
             let loc = "Không rõ";
             try {
-                // Dùng API miễn phí lấy vị trí từ IP (không cần bật định vị GPS)
                 const res = await fetch('https://api.db-ip.com/v2/free/self');
                 const data = await res.json();
-                // Ưu tiên lấy tên Tỉnh (State/Province) hoặc tên Thành phố
                 loc = data.stateProv || data.city || data.countryName || "Không rõ";
-            } catch(e) {
-                console.warn("Lỗi lấy vị trí:", e);
-            }
+            } catch(e) { console.warn("Lỗi lấy vị trí:", e); }
 
             window.DEVICE_INFO = `${getDeviceDetails()} ${loc}`;
             sessionStorage.setItem('love_device_info', window.DEVICE_INFO);
@@ -385,10 +381,7 @@
 
         // Hàm gửi Log lên Google Sheets
         window.logAction = async function(category, action, target_item = "", extra_info = "") {
-            // Chờ có đủ thông tin thiết bị và vị trí trước khi gửi
-            if (!window.DEVICE_INFO) {
-                await initDeviceAndLocation();
-            }
+            if (!window.DEVICE_INFO) await initDeviceAndLocation();
 
             const payload = {
                 type: "insert_log",
@@ -401,22 +394,18 @@
                 extra_info: typeof extra_info === 'object' ? JSON.stringify(extra_info) : extra_info
             };
 
-            fetch(LOG_API_URL, {
+            fetch(API_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Cực kỳ quan trọng để không bị lỗi bảo mật
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             }).catch(e => console.log("Tracking error (silent):", e));
         };
 
-        // Ghi log ngay khi load trang
+        // Ghi log khi trang vừa load
         window.addEventListener('load', async () => {
             await initDeviceAndLocation();
             window.logAction('PAGE', 'Page_Load', 'Trang chủ');
         });
-
 
         // --- 1. UI LOGIC ---
         window.isMusicReady = false; 
@@ -468,16 +457,6 @@
         };
         window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('active'); document.getElementById('lightbox-content').innerHTML = ""; };
         
-        // Placeholders
-        window.toggleMusic = () => { console.log("Music toggle pending..."); };
-        window.addMusicFromInput = () => alert("Đang kết nối Database...");
-        window.removeMusic = () => {};
-        window.playRandomSong = () => {};
-        window.playSpecificSong = () => {};
-        window.loadMorePhotos = () => {};
-        window.viewTimelineDetail = () => {};
-        window.checkMilestone = () => {}; 
-
         // UI Setup
         const container = document.getElementById('bgAnimation');
         for(let i=0; i<20; i++){
@@ -500,12 +479,8 @@
         setInterval(updateCounter, 1000); updateCounter();
     </script>
 
-    <!-- SCRIPT 2: MODULE -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
-        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
-
+    <!-- SCRIPT 2: DATA & LOGIC -->
+    <script>
         const CONFIG = {
             boyName: "Anh", girlName: "Em",
             boyAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix", 
@@ -568,7 +543,6 @@
             "Chốt đơn: Anh yêu em nhất trần đời, miễn đổi trả."
         ];
 
-        let db, auth, isFirebaseActive = false;
         let myPlaylist = [DEFAULT_MUSIC_ID]; 
         let player = null;
         let allFiles = [], displayCount = 0; const BATCH = 30;
@@ -578,7 +552,10 @@
         window.addEventListener('load', () => {
             document.getElementById('boyName').innerText = CONFIG.boyName;
             document.getElementById('girlName').innerText = CONFIG.girlName;
-            initFirebase();
+            
+            // Lấy nhạc từ Google Sheets API thay vì Firebase
+            window.fetchPlaylistFromSheet();
+            
             fetchDriveData();
             showRandomQuote(); 
         });
@@ -618,16 +595,14 @@
                 finalImages.push(imagesToUse[i % imagesToUse.length]);
             }
             
-            // FIX: Căn chỉnh lại tỉ lệ chuẩn để ảnh không bị văng ra khỏi màn hình
             const isMobile = window.innerWidth < 600;
-            const baseScale = isMobile ? 8 : 13; // Hệ số nhân cơ bản cho phương trình trái tim
+            const baseScale = isMobile ? 8 : 13; 
 
-            // Các lớp trái tim (được chuẩn hóa lại scale từ 1.0 giảm dần về tâm)
             const layers = [
-                { count: 55, scale: 1 },    // Vòng ngoài cùng
-                { count: 40, scale: 0.8 },  // Vòng giữa 1
-                { count: 25, scale: 0.6 },  // Vòng giữa 2
-                { count: 15, scale: 0.35 }  // Vòng trong cùng
+                { count: 55, scale: 1 },    
+                { count: 40, scale: 0.8 },  
+                { count: 25, scale: 0.6 },  
+                { count: 15, scale: 0.35 }  
             ];
 
             let imgIndex = 0;
@@ -662,7 +637,6 @@
                     let noiseX = (Math.random() - 0.5) * 8; 
                     let noiseY = (Math.random() - 0.5) * 8; 
 
-                    // Tính tọa độ chính xác
                     let x = hx * baseScale * layer.scale + noiseX;
                     let y = hy * baseScale * layer.scale + noiseY;
 
@@ -681,7 +655,6 @@
                 }
             });
             
-            // Ảnh chính diện ở giữa trái tim (Làm nổi bật hơn)
             if (finalImages.length > 0) {
                 const centerImgData = finalImages[Math.floor(Math.random() * finalImages.length)];
                 const centerImg = document.createElement('img');
@@ -905,7 +878,8 @@
                 const side = index % 2 === 0 ? 'left' : 'right';
                 const div = document.createElement('div');
                 div.className = `timeline-item ${side} milestone-${item.type}`;
-                
+                let coverHtml = '';
+                if (item.coverImg) { coverHtml = `<img src="${item.coverImg}" class="timeline-img" loading="lazy">`; }
                 let specialEffects = '';
                 if (item.type === 'ANNIVERSARY') {
                      for(let i=0; i<6; i++) {
@@ -924,7 +898,7 @@
                 let contentHTML = `
                     <div class="timeline-content" onclick="window.viewTimelineDetail('${item.id}')">
                         ${specialEffects} 
-                        ${item.coverImg ? `<img src="${item.coverImg}" class="timeline-img" loading="lazy">` : ''}
+                        ${coverHtml}
                         <div class="timeline-body-text">
                             <span class="t-date">${item.displayDate}</span>
                             <h3 class="t-title">${item.title}</h3>
@@ -984,30 +958,39 @@
             if(!foundGirl) document.getElementById('girlAvatar').src = CONFIG.girlAvatar;
         }
 
-        // --- FIREBASE (Music Only) ---
-        async function initFirebase() {
+        // --- TÍCH HỢP API GOOGLE SHEETS QUẢN LÝ NHẠC ---
+        
+        window.fetchPlaylistFromSheet = async function() {
             try {
-                const plContainer = document.getElementById('playlistContainer');
-                if(plContainer) plContainer.innerHTML = `<div style="text-align:center; padding:20px; color:#888;"><i class="fas fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>`;
-                const firebaseConfig = (typeof __firebase_config !== 'undefined') ? JSON.parse(__firebase_config) : null;
-                if (firebaseConfig) {
-                    const app = initializeApp(firebaseConfig);
-                    auth = getAuth(app);
-                    db = getDatabase(app, "https://oke12-d3d89-default-rtdb.firebaseio.com/");
-                    await signInAnonymously(auth);
-                    isFirebaseActive = true;
-                    const el = document.getElementById('storageStatus');
-                    if(el) { el.innerHTML='<i class="fas fa-cloud cloud-active"></i> Đã kết nối RTDB'; el.classList.add('cloud-active'); }
-                    watchPlaylist();
+                const payload = { type: "list_music_get" };
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                
+                if (result.status === "success") {
+                    myPlaylist = result.data.map(item => item.link_youtube);
+                    
+                    if (!hasLoadedFromCloud && myPlaylist.length > 0 && player && player.loadVideoById) {
+                        player.loadVideoById(myPlaylist[0]);
+                        showSongNotification("Đã tải danh sách nhạc");
+                        hasLoadedFromCloud = true;
+                    }
+                    
+                    renderPlaylist();
+                    document.getElementById('storageStatus').innerHTML = '<i class="fas fa-check-circle" style="color: #2ecc71;"></i> Đã đồng bộ dữ liệu';
+                    enableMusicButton();
                 } else {
-                    console.log("No Firebase Config");
-                    enableMusicButton(); 
+                    throw new Error(result.message);
                 }
-            } catch (e) {
-                console.error("Firebase Error:", e);
-                enableMusicButton();
+            } catch(e) {
+                console.error("Lỗi lấy nhạc:", e);
+                document.getElementById('storageStatus').innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> Lỗi tải dữ liệu';
+                enableMusicButton(); 
             }
-        }
+        };
 
         function enableMusicButton() {
             window.isMusicReady = true;
@@ -1019,56 +1002,77 @@
                 btn.style.cursor = 'pointer';
             }
             if (icon) {
-                icon.className = 'fas fa-plus'; // Change spinner to plus
+                icon.className = 'fas fa-plus'; 
                 icon.style.fontSize = '0.7em';
             }
         }
 
-        // --- PLAYLIST ---
-        function watchPlaylist() {
-            if (!db) return;
-            onValue(ref(db, 'love_app/shared_music'), (snapshot) => {
-                const data = snapshot.val();
-                if (data && Array.isArray(data)) {
-                    myPlaylist = data;
-                    if (!hasLoadedFromCloud && myPlaylist.length > 0 && player && player.loadVideoById) {
-                        player.loadVideoById(myPlaylist[0]);
-                        showSongNotification("Đã cập nhật Hộp nhạc từ Cloud");
-                        hasLoadedFromCloud = true;
-                    }
-                } else {
-                    myPlaylist = [];
-                }
-                renderPlaylist();
-            });
-        }
-
-        window.addMusicFromInput = function() {
+        window.addMusicFromInput = async function() {
             const input = document.getElementById('musicInput');
             const url = input.value.trim();
             if (!url) return;
             const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
             const match = url.match(regExp);
             const videoId = (match && match[7].length == 11) ? match[7] : false;
+            
             if (videoId) {
                 if (!myPlaylist.includes(videoId)) {
-                    myPlaylist.push(videoId); savePlaylist(); input.value = "";
-                    window.logAction('MUSIC', 'Add_Song', videoId);
-                } else alert("Bài này có rồi nhen!");
-            } else alert("Link YouTube không hợp lệ rùi :(");
-        };
-
-        window.removeMusic = function(id) {
-            myPlaylist = myPlaylist.filter(vid => vid !== id);
-            savePlaylist();
-        };
-
-        async function savePlaylist() {
-            if (isFirebaseActive && db) {
-                try { await set(ref(db, 'love_app/shared_music'), myPlaylist); } catch (e) { console.error("Save Error:", e); }
+                    input.value = "Đang xử lý...";
+                    try {
+                        const payload = { 
+                            type: "list_music_add", 
+                            link_youtube: videoId, 
+                            name: "Bài hát " + videoId 
+                        };
+                        
+                        const res = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                            body: JSON.stringify(payload)
+                        });
+                        
+                        const result = await res.json();
+                        
+                        if (result.status === 'success') {
+                            myPlaylist.push(videoId); 
+                            renderPlaylist(); 
+                            input.value = "";
+                            window.logAction('MUSIC', 'Add_Song', videoId);
+                            showSongNotification("Đã thêm bài hát!");
+                        } else {
+                            alert("Lỗi server: " + result.message);
+                            input.value = url;
+                        }
+                    } catch(e) {
+                        alert("Lỗi kết nối mạng, vui lòng thử lại!");
+                        input.value = url;
+                    }
+                } else {
+                    alert("Bài này có rồi nhen!");
+                }
+            } else {
+                alert("Link YouTube không hợp lệ rùi :(");
             }
-            renderPlaylist();
-        }
+        };
+
+        window.removeMusic = async function(id) {
+            try {
+                // UI cập nhật trước cho mượt
+                myPlaylist = myPlaylist.filter(vid => vid !== id);
+                renderPlaylist();
+                window.logAction('MUSIC', 'Remove_Song', id);
+                
+                // Gửi request xóa ngầm ở background
+                const payload = { type: "list_music_delete", link_youtube: id };
+                fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+            } catch(e) {
+                console.error("Lỗi xóa nhạc:", e);
+            }
+        };
 
         function renderPlaylist() {
             const container = document.getElementById('playlistContainer');
@@ -1134,7 +1138,11 @@
                 height: '0', width: '0', videoId: DEFAULT_MUSIC_ID,
                 playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
                 events: {
-                    'onReady': (event) => { },
+                    'onReady': (event) => { 
+                         if (myPlaylist.length > 0 && hasLoadedFromCloud) {
+                             player.loadVideoById(myPlaylist[0]);
+                         }
+                    },
                     'onStateChange': (event) => {
                         const icon = document.getElementById('musicIcon');
                         if (event.data == YT.PlayerState.PLAYING) {
