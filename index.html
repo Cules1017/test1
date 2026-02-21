@@ -7,7 +7,7 @@
     <!-- Thư viện giải mã EXIF để xử lý xoay ảnh iPhone -->
     <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         /* --- 1. RESET & BASE STYLES --- */
         :root {
@@ -32,26 +32,29 @@
         
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px; text-align: center; }
         .header { padding: 50px 0 30px; animation: fadeInDown 1.5s ease; }
-        .title { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--primary-color); margin-bottom: 30px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
-        .couple-container { display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap; }
+        .title { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--primary-color); margin-bottom: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        
+        /* FIX RESPONSIVE: COUPLE CONTAINER */
+        .couple-container { display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 30px; flex-wrap: nowrap; }
         .person { text-align: center; position: relative; }
-        .avatar-frame { width: 150px; height: 150px; border-radius: 50%; border: 4px solid #fff; padding: 3px; position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3); transition: transform 0.3s ease; background: white; display: flex; justify-content: center; align-items: center; }
+        .avatar-frame { width: 140px; height: 140px; border-radius: 50%; border: 4px solid #fff; padding: 3px; position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(255, 51, 102, 0.3); transition: transform 0.3s ease; background: white; display: flex; justify-content: center; align-items: center; flex-shrink: 0; }
         .avatar-frame:hover { transform: scale(1.05) rotate(3deg); }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .name { margin-top: 15px; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); }
-        .heart-beat { font-size: 3rem; color: var(--primary-color); animation: heartbeat 1.2s infinite; display: flex; align-items: center; justify-content: center; width: 60px; filter: drop-shadow(0 5px 15px rgba(255, 51, 102, 0.4)); }
+        .name { margin-top: 15px; font-size: 1.5rem; font-weight: bold; color: var(--primary-color); text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8); white-space: nowrap; }
+        .heart-beat { font-size: 3rem; color: var(--primary-color); animation: heartbeat 1.2s infinite; display: flex; align-items: center; justify-content: center; width: 50px; flex-shrink: 0; filter: drop-shadow(0 5px 15px rgba(255, 51, 102, 0.4)); }
         
         .trend-wrapper { max-width: 600px; margin: 0 auto 40px; position: relative; z-index: 10; }
-        .trend-badge { background: #ff4757; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); z-index: 2; display: flex; align-items: center; gap: 5px; }
-        .trend-content { background: rgba(255, 255, 255, 0.9); padding: 25px 20px; border-radius: 15px; border: 2px dashed var(--secondary-color); font-size: 1.1rem; color: #2f3542; font-weight: 600; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: pulseBorder 3s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center; }
+        .trend-badge { background: #ff4757; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4); z-index: 2; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .trend-content { background: rgba(255, 255, 255, 0.9); padding: 25px 20px; border-radius: 15px; border: 2px dashed var(--secondary-color); font-size: 1.1rem; color: #2f3542; font-weight: 700; box-shadow: 0 5px 15px rgba(0,0,0,0.05); animation: pulseBorder 3s infinite; min-height: 80px; display: flex; align-items: center; justify-content: center; line-height: 1.5; }
         .trend-content i { color: var(--primary-color); margin-right: 8px; }
         
-        .counter-box { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px 30px; margin: 0 auto 50px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow); max-width: 800px; animation: fadeInUp 1.5s ease; cursor: pointer; }
-        .love-duration { font-size: 1.2rem; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; color: #666; font-weight: 700; }
-        .timer { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .time-unit { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 15px; min-width: 100px; border: 1px solid rgba(255, 51, 102, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .time-val { font-size: 2.5rem; font-weight: bold; color: var(--primary-color); display: block; }
-        .time-label { font-size: 0.9rem; color: #888; font-weight: 600; }
+        .counter-box { background: var(--card-bg); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px 30px; margin: 0 auto 50px; border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: var(--shadow); max-width: 800px; animation: fadeInUp 1.5s ease; cursor: pointer; transition: transform 0.3s; }
+        .counter-box:hover { transform: translateY(-5px); }
+        .love-duration { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase; color: #666; font-weight: 800; }
+        .timer { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .time-unit { background: rgba(255, 255, 255, 0.6); padding: 15px 10px; border-radius: 15px; min-width: 90px; border: 1px solid rgba(255, 51, 102, 0.2); box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex: 1 1 calc(33.333% - 15px); max-width: 120px; }
+        .time-val { font-size: 2.2rem; font-weight: 800; color: var(--primary-color); display: block; }
+        .time-label { font-size: 0.85rem; color: #888; font-weight: 700; text-transform: uppercase; margin-top: 5px; display: block; }
 
         /* TIMELINE STYLES */
         .timeline-section { margin: 50px auto; max-width: 900px; padding: 20px; position: relative; }
@@ -100,7 +103,18 @@
         @keyframes tl-float-heart { 0% { transform: translateY(0) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-180px) scale(1.5) rotate(20deg); opacity: 0; } }
         @keyframes tl-float-star { 0% { transform: translateY(0) rotate(0deg) scale(0.5); opacity: 0; } 10% { opacity: 1; } 100% { transform: translateY(-180px) rotate(360deg) scale(1.5); opacity: 0; } }
 
+        /* BẢO ĐẢM GIAO DIỆN CHUẨN MƯỢT TRÊN MOBILE */
         @media (max-width: 600px) {
+            .title { font-size: 2.8rem; margin-bottom: 20px; }
+            .couple-container { gap: 12px; margin-bottom: 20px; }
+            .avatar-frame { width: 90px; height: 90px; border-width: 2px; padding: 2px; }
+            .name { font-size: 1.2rem; margin-top: 10px; }
+            .heart-beat { font-size: 2.2rem; width: 35px; }
+            .counter-box { padding: 30px 15px; }
+            .time-unit { min-width: 75px; padding: 10px 5px; }
+            .time-val { font-size: 1.8rem; }
+            #totalDays { font-size: 3rem !important; }
+
             .timeline-tree::after { left: 25px; }
             .timeline-item { width: 100%; padding-left: 55px; padding-right: 15px; text-align: left; }
             .timeline-item.left { left: 0; text-align: left; }
@@ -129,20 +143,20 @@
         .load-more-btn:hover { background: var(--primary-color); color: white; transform: translateY(-3px); box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3); }
 
         /* --- LIGHTBOX INTERACTIVE STYLES --- */
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 20002; display: none; padding: 0; flex-direction: column; align-items: center; justify-content: flex-start; }
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 20002; display: none; padding: 0; flex-direction: column; align-items: center; justify-content: flex-start; }
         .lightbox.active { display: flex; opacity: 1; visibility: visible; animation: zoomIn 0.3s ease; }
         
         .lightbox-close { position: absolute; top: 15px; right: 20px; font-size: 3rem; color: #fff; cursor: pointer; transition: color 0.3s; z-index: 20005; background: rgba(0,0,0,0.5); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .lightbox-close:hover { color: var(--primary-color); }
         
         .lightbox-wrapper { width: 100%; max-width: 800px; height: 100%; display: flex; flex-direction: column; position: relative; }
-        .lightbox-media-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; padding-bottom: 20px; }
+        .lightbox-media-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; padding-bottom: 20px; padding-top: 20px; }
         .lightbox-media-container img, .lightbox-media-container video { max-width: 100%; max-height: 100%; object-fit: contain; }
         
         /* Transition cho xoay ảnh */
         #lightbox-img-element { transition: transform 0.3s ease-in-out; }
 
-        .lightbox-interactive-panel { background: #fff; border-radius: 25px 25px 0 0; padding: 20px; display: flex; flex-direction: column; max-height: 45vh; z-index: 10; position: relative; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); }
+        .lightbox-interactive-panel { background: #fff; border-radius: 25px 25px 0 0; padding: 20px; display: flex; flex-direction: column; max-height: 40vh; z-index: 10; position: relative; box-shadow: 0 -10px 30px rgba(0,0,0,0.5); }
         .reaction-summary { font-size: 0.9rem; color: #666; margin-bottom: 12px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; min-height: 25px; }
         
         .action-bar { display: flex; justify-content: space-between; position: relative; margin-bottom: 15px; padding: 0 5px; flex-wrap: wrap; gap: 5px; }
@@ -199,8 +213,9 @@
         .milestone-days { font-size: 5rem; font-weight: 900; color: #ff3366; z-index: 10; margin: 10px 0; text-shadow: 3px 3px 0px rgba(255,255,255,0.8), 0 0 20px rgba(255, 51, 102, 0.4); }
         .milestone-sub { font-size: 1.2rem; color: #666; z-index: 10; margin-bottom: 20px; }
         .heart-shape-container { position: relative; width: 100%; height: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: visible; min-height: 350px; }
-        .heart-img-small { position: absolute; width: 30px; height: 30px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; opacity: 0; animation: popInImage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 1; cursor: pointer; }
-        @media (hover: hover) { .heart-img-small:hover { transform: translate(-50%, -50%) scale(3) !important; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--primary-color); } }
+        
+        .heart-img-small { position: absolute; width: 32px; height: 32px; object-fit: cover; border-radius: 5px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; opacity: 0; animation: popInImage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 1; cursor: pointer; }
+        @media (hover: hover) { .heart-img-small:hover { transform: translate(-50%, -50%) scale(3.5) !important; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--primary-color); } }
         
         @keyframes popInImage { from { transform: translate(-50%, -50%) scale(0); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
         @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.1); } 50% { transform: scale(1); } 75% { transform: scale(1.1); } 100% { transform: scale(1); } }
@@ -239,7 +254,6 @@
                     <button class="action-btn" onclick="window.shareImage()">
                         <i class="far fa-share-square"></i> Chia sẻ
                     </button>
-                    <!-- NÚT XOAY ẢNH MỚI -->
                     <button class="action-btn" onclick="window.rotateLightboxImage()">
                         <i class="fas fa-redo"></i> Xoay
                     </button>
@@ -334,12 +348,12 @@
                 </div>
             </div>
             <div class="trend-wrapper">
-                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu ❤️</div>
+                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu❤️</div>
                 <div class="trend-content" id="loveTrendText"><div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Đang tải lời nhắn...</div></div>
             </div>
         </header>
 
-        <!-- Counter (Clickable to test milestone) -->
+        <!-- Counter -->
         <div class="counter-box" onclick="window.checkMilestone(true)">
             <div class="love-duration">Chúng mình đã yêu nhau được</div>
             <div id="totalDays" style="font-size: 3.5rem; color: var(--primary-color); font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 0px rgba(255,255,255,1); cursor: pointer;" title="Bấm để xem thử hiệu ứng kỷ niệm">0 Ngày</div>
@@ -566,10 +580,18 @@
         }, {passive: true});
 
         function updateCounter() {
-            const now = new Date(); const diff = now - window.START_DATE;
+            if (!window.START_DATE) window.START_DATE = new Date(2024, 8, 2, 0, 0, 0); 
+            const now = new Date(); 
+            let diff = now - window.START_DATE;
+            if (diff < 0) diff = 0;
+            
             document.getElementById('totalDays').innerText = Math.floor(diff / 86400000) + " Ngày";
             let y = now.getFullYear()-window.START_DATE.getFullYear(), m = now.getMonth()-window.START_DATE.getMonth(), d = now.getDate()-window.START_DATE.getDate();
             if(d<0){ m--; d+=new Date(now.getFullYear(),now.getMonth(),0).getDate(); } if(m<0){ y--; m+=12; }
+            if (y < 0) y = 0;
+            if (m < 0) m = 0;
+            if (d < 0) d = 0;
+            
             document.getElementById('years').innerText = y; document.getElementById('months').innerText = m; document.getElementById('days').innerText = d;
             document.getElementById('hours').innerText = ('0'+now.getHours()).slice(-2);
             document.getElementById('minutes').innerText = ('0'+now.getMinutes()).slice(-2);
@@ -733,8 +755,8 @@
             item.files.forEach(f => {
                 const urlThumb = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s800') : `https://lh3.googleusercontent.com/d/${f.id}`;
                 const fullUrl = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${f.id}`;
-                const img = document.createElement('img'); window.loadImageFixed(urlThumb, fixedUrl => { img.src = fixedUrl; });
-                
+                const img = document.createElement('img'); 
+                img.src = urlThumb;
                 img.onclick = () => window.openLightbox(fullUrl, 'image', f.id);
                 galleryContainer.appendChild(img);
             });
@@ -788,40 +810,13 @@
             window.currentRotation = 0;
         };
 
-        window.loadImageFixed = function(url, callback) {
-            if (url.includes('via.placeholder.com') || url.includes('picsum.photos')) { callback(url); return; }
-            fetch(url, { mode: 'cors' }).then(res => { if (!res.ok) throw new Error("Network error"); return res.blob(); })
-                .then(blob => {
-                    if (typeof EXIF === 'undefined') { callback(url); return; }
-                    EXIF.getData(blob, function() {
-                        let orientation = EXIF.getTag(this, "Orientation") || 1;
-                        if (orientation === 1) { callback(url); return; }
-                        let objectUrl = URL.createObjectURL(blob);
-                        let img = new Image();
-                        img.onload = function() {
-                            let canvas = document.createElement("canvas"); let ctx = canvas.getContext("2d");
-                            if (orientation >= 5 && orientation <= 8) { canvas.width = img.height; canvas.height = img.width; } 
-                            else { canvas.width = img.width; canvas.height = img.height; }
-                            switch (orientation) {
-                                case 2: ctx.transform(-1, 0, 0, 1, img.width, 0); break;
-                                case 3: ctx.transform(-1, 0, 0, -1, img.width, img.height); break;
-                                case 4: ctx.transform(1, 0, 0, -1, 0, img.height); break;
-                                case 5: ctx.transform(0, 1, 1, 0, 0, 0); break;
-                                case 6: ctx.transform(0, 1, -1, 0, img.height, 0); break;
-                                case 7: ctx.transform(0, -1, -1, 0, img.height, img.width); break;
-                                case 8: ctx.transform(0, -1, 1, 0, 0, img.width); break;
-                            }
-                            ctx.drawImage(img, 0, 0);
-                            callback(canvas.toDataURL("image/jpeg", 0.9)); URL.revokeObjectURL(objectUrl);
-                        };
-                        img.onerror = () => callback(url); img.src = objectUrl;
-                    });
-                }).catch(e => callback(url));
-        };
-
         // --- 7. DRIVE DATA FETCHING & RENDERING ---
         window.checkMilestone = function(manualTrigger = false) {
-            const now = new Date(); const diff = now - window.START_DATE; const days = Math.floor(diff / 86400000);
+            const now = new Date(); 
+            let diff = now - window.START_DATE; 
+            if(diff < 0) diff = 0;
+            const days = Math.floor(diff / 86400000);
+            
             const milestones = [100, 200, 300, 365, 500, 730, 1000, 1500, 2000, 3000];
             if (milestones.includes(days) || manualTrigger) {
                 renderHeartGallery(days);
@@ -839,49 +834,73 @@
             let imagesToUse = allFiles.length > 0 ? [...allFiles] : [];
             if(imagesToUse.length === 0) for(let k=1; k<=20; k++) imagesToUse.push({ id: 'demo', thumbnailLink: `https://picsum.photos/100/100?random=${k}` });
 
-            const totalPoints = 135; const finalImages = [];
+            const totalPoints = 140; const finalImages = [];
             for (let i = 0; i < totalPoints; i++) finalImages.push(imagesToUse[i % imagesToUse.length]);
             
-            const isMobile = window.innerWidth < 600; const baseScale = isMobile ? 8 : 13; 
-            const layers = [ { count: 55, scale: 1 }, { count: 40, scale: 0.8 }, { count: 25, scale: 0.6 }, { count: 15, scale: 0.35 } ];
+            const isMobile = window.innerWidth < 600; const baseScale = isMobile ? 9 : 14; 
+            const layers = [ { count: 55, scale: 1 }, { count: 40, scale: 0.8 }, { count: 30, scale: 0.6 }, { count: 15, scale: 0.35 } ];
 
             let imgIndex = 0;
+            
+            // Xáo trộn thứ tự render (z-index) để tránh ảnh đè lệch một bên
+            let zIndices = Array.from({length: 140}, (_, i) => i);
+            zIndices.sort(() => Math.random() - 0.5);
+
             layers.forEach((layer, layerIndex) => {
-                for (let i = 0; i < layer.count; i++) {
+                // Xáo trộn thứ tự vòng lặp để khắc phục lỗi xếp hình xoắn ốc (như trong ảnh lỗi)
+                let drawOrder = Array.from({length: layer.count}, (_, i) => i);
+                drawOrder.sort(() => Math.random() - 0.5);
+                
+                drawOrder.forEach(drawIndex => {
                     const imgData = finalImages[imgIndex % finalImages.length]; imgIndex++;
                     const img = document.createElement('img');
                     
+                    const fallbackSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff3366'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>";
                     let thumbUrl = imgData.id === 'demo' ? imgData.thumbnailLink : (imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=w200-h200-c') : `https://lh3.googleusercontent.com/d/${imgData.id}`);
                     let fullUrl = imgData.id === 'demo' ? imgData.thumbnailLink : (imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${imgData.id}`);
                     
                     img.className = 'heart-img-small';
-                    img.onerror = () => { img.src = "https://via.placeholder.com/30/ff3366/ffffff?text=♥"; };
+                    img.onerror = () => { img.src = fallbackSVG; };
                     img.src = thumbUrl;
 
-                    let t = (i / layer.count) * Math.PI * 2;
-                    let hx = 16 * Math.pow(Math.sin(t), 3); let hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-                    let x = hx * baseScale * layer.scale + (Math.random() - 0.5) * 8; 
-                    let y = hy * baseScale * layer.scale + (Math.random() - 0.5) * 8; 
+                    let t = (drawIndex / layer.count) * Math.PI * 2;
+                    let sinT = Math.sin(t);
+                    let hx = 16 * sinT * sinT * sinT; 
+                    let hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+                    
+                    let noiseX = (Math.random() - 0.5) * 10; 
+                    let noiseY = (Math.random() - 0.5) * 10; 
 
-                    img.style.left = `calc(50% + ${x}px)`; img.style.top = `calc(45% + ${y}px)`; img.style.transform = "translate(-50%, -50%)"; 
-                    img.style.animationDelay = (layerIndex * 0.2 + Math.random() * 0.5) + 's';
+                    let x = Math.round(hx * baseScale * layer.scale + noiseX); 
+                    let y = Math.round(hy * baseScale * layer.scale + noiseY); 
+
+                    img.style.position = 'absolute';
+                    img.style.left = `calc(50% + ${x}px)`; 
+                    img.style.top = `calc(45% + ${y}px)`; 
+                    img.style.transform = "translate(-50%, -50%)"; 
+                    img.style.zIndex = zIndices[imgIndex-1] || 1;
+                    
+                    img.style.animationDelay = (Math.random() * 0.8) + 's';
                     
                     img.onclick = (e) => { e.stopPropagation(); window.openLightbox(fullUrl, 'image', imgData.id); };
                     container.appendChild(img);
-                }
+                });
             });
             
+            // Ảnh trung tâm
             if (finalImages.length > 0) {
                 const centerImgData = finalImages[Math.floor(Math.random() * finalImages.length)];
                 const centerImg = document.createElement('img');
+                const fallbackSVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff3366'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>";
                 
                 let cUrl = centerImgData.id === 'demo' ? centerImgData.thumbnailLink : (centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=w200-h200-c') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`);
                 let cFullUrl = centerImgData.id === 'demo' ? centerImgData.thumbnailLink : (centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`);
                 
                 centerImg.className = 'heart-img-small';
-                centerImg.style.left = '50%'; centerImg.style.top = '45%'; centerImg.style.width = '55px'; centerImg.style.height = '55px';
-                centerImg.style.zIndex = '10'; centerImg.style.animationDelay = '1.5s'; centerImg.style.transform = "translate(-50%, -50%)"; 
-                centerImg.style.boxShadow = "0 5px 15px rgba(255,51,102,0.5)"; centerImg.style.border = "2px solid #ff3366";
+                centerImg.style.left = '50%'; centerImg.style.top = '45%'; centerImg.style.width = '60px'; centerImg.style.height = '60px';
+                centerImg.style.zIndex = '999'; centerImg.style.animationDelay = '1s'; centerImg.style.transform = "translate(-50%, -50%)"; 
+                centerImg.style.boxShadow = "0 5px 20px rgba(255,51,102,0.6)"; centerImg.style.border = "3px solid #fff";
+                centerImg.onerror = () => { centerImg.src = fallbackSVG; };
                 centerImg.src = cUrl;
                 
                 centerImg.onclick = (e) => { e.stopPropagation(); window.openLightbox(cFullUrl, 'image', centerImgData.id); };
@@ -905,8 +924,7 @@
                         const urlThumb = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s800') : `https://lh3.googleusercontent.com/d/${f.id}`;
                         const fullUrl = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${f.id}`;
                         const img = document.createElement('img');
-                        window.loadImageFixed(urlThumb, fixedUrl => { img.src = fixedUrl; });
-                        
+                        img.src = urlThumb;
                         img.onclick = () => window.openLightbox(fullUrl, 'image', f.id);
                         galleryContainer.appendChild(img);
                     });
@@ -997,13 +1015,12 @@
                 div.innerHTML = `
                     <div class="timeline-content" onclick="window.viewTimelineDetail('${item.id}')">
                         ${specialEffects} 
-                        ${item.coverImg ? `<img src="${item.coverImg}" class="timeline-img needs-exif" loading="lazy">` : ''}
+                        ${item.coverImg ? `<img src="${item.coverImg}" class="timeline-img" loading="lazy">` : ''}
                         <div class="timeline-body-text">
                             <span class="t-date">${item.displayDate}</span><h3 class="t-title">${item.title}</h3><div class="t-desc-preview" style="display:none">${item.desc}</div>
                         </div>
                     </div>`;
                 container.appendChild(div);
-                if (item.coverImg) { let imgEl = div.querySelector('img.needs-exif'); if (imgEl) window.loadImageFixed(item.coverImg, fixedUrl => { imgEl.src = fixedUrl; imgEl.classList.remove('needs-exif'); }); }
             });
         }
 
