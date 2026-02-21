@@ -327,12 +327,12 @@
                 </div>
             </div>
             <div class="trend-wrapper">
-                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu ❤️</div>
+                <div class="trend-badge"><i class="fas fa-heart"></i> Lời Nhắn Của Anh ❤️</div>
                 <div class="trend-content" id="loveTrendText"><div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Đang tải lời nhắn...</div></div>
             </div>
         </header>
 
-        <!-- Counter -->
+        <!-- Counter (Clickable to test milestone) -->
         <div class="counter-box" onclick="window.checkMilestone(true)">
             <div class="love-duration">Chúng mình đã yêu nhau được</div>
             <div id="totalDays" style="font-size: 3.5rem; color: var(--primary-color); font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 0px rgba(255,255,255,1); cursor: pointer;" title="Bấm để xem thử hiệu ứng kỷ niệm">0 Ngày</div>
@@ -449,13 +449,11 @@
 
         // --- 1. KHỞI TẠO BẤT ĐỒNG BỘ MƯỢT MÀ ---
         window.addEventListener('load', () => {
-            // Tác vụ Ưu tiên số 1: Tải giao diện và hình ảnh Drive ngay lập tức
             document.getElementById('boyName').innerText = CONFIG.boyName;
             document.getElementById('girlName').innerText = CONFIG.girlName;
             showRandomQuote();
             fetchDriveData(); 
             
-            // Tác vụ Ưu tiên số 2 (Trì hoãn 1 giây để không giành mạng với ảnh Drive)
             setTimeout(() => {
                 initDeviceAndLocation().then(() => {
                     window.logAction('PAGE', 'Page_Load', 'Trang chủ');
@@ -556,6 +554,8 @@
             document.getElementById('minutes').innerText = ('0'+now.getMinutes()).slice(-2);
             document.getElementById('seconds').innerText = ('0'+now.getSeconds()).slice(-2);
         }
+        setInterval(updateCounter, 1000); 
+        updateCounter();
 
         // --- 5. INTERACTIVE DATA (EMOTIONS & COMMENTS) ---
         window.fetchInteractions = async function() {
