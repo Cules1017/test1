@@ -548,12 +548,13 @@
         let allFiles = [], displayCount = 0; const BATCH = 30;
         let hasLoadedFromCloud = false;
         let timelineData = []; 
+        window.musicErrorCount = 0; // Đếm số lần lỗi phát nhạc để tránh lặp vô tận
 
         window.addEventListener('load', () => {
             document.getElementById('boyName').innerText = CONFIG.boyName;
             document.getElementById('girlName').innerText = CONFIG.girlName;
             
-            // Lấy nhạc từ Google Sheets API thay vì Firebase
+            // Lấy nhạc từ Google Sheets API
             window.fetchPlaylistFromSheet();
             
             fetchDriveData();
@@ -973,8 +974,11 @@
                 if (result.status === "success") {
                     myPlaylist = result.data.map(item => item.link_youtube);
                     
-                    if (!hasLoadedFromCloud && myPlaylist.length > 0 && player && player.loadVideoById) {
-                        player.loadVideoById(myPlaylist[0]);
+                    // SỬA LỖI VÒNG LẶP PHÁT NHẠC
+                    // Dùng cueVideoById (chỉ chuẩn bị nhạc, KHÔNG ép phát ngay) 
+                    // để không bị trình duyệt báo lỗi autoplay chặn và rơi vào vòng lặp
+                    if (!hasLoadedFromCloud && myPlaylist.length > 0 && player && player.cueVideoById) {
+                        player.cueVideoById(myPlaylist[0]);
                         showSongNotification("Đã tải danh sách nhạc");
                         hasLoadedFromCloud = true;
                     }
@@ -1103,21 +1107,26 @@
             }
         };
 
-        window.playRandomSong = function() {
+        // Biến kiểm soát vòng lặp lỗi phát nhạc
+        window.playRandomSong = function(isAutoErrorRetry = false) {
             let listToPlay = myPlaylist.length > 0 ? myPlaylist : [DEFAULT_MUSIC_ID];
             const randomIndex = Math.floor(Math.random() * listToPlay.length);
             const nextSongId = listToPlay[randomIndex];
             if(player && player.loadVideoById) {
                 player.loadVideoById(nextSongId);
-                showSongNotification("Bài hát ngẫu nhiên");
-                window.logAction('MUSIC', 'Play_Random', nextSongId);
+                showSongNotification("Đang tải bài hát...");
+                // Chỉ ghi log nếu do người dùng bấm, không ghi nếu do hệ thống tự retry khi lỗi
+                if (!isAutoErrorRetry) {
+                    window.logAction('MUSIC', 'Play_Random', nextSongId);
+                }
             }
         };
 
         window.toggleMusic = function() {
             if (!player) return;
             const playerState = player.getPlayerState();
-            if (playerState == YT.PlayerState.PLAYING) {
+            // Nếu đang phát hoặc đang buffer thì bấm là Dừng
+            if (playerState == YT.PlayerState.PLAYING || playerState == YT.PlayerState.BUFFERING) {
                 player.pauseVideo();
                 window.logAction('MUSIC', 'Pause');
             } else {
@@ -1139,13 +1148,15 @@
                 playerVars: { 'autoplay': 0, 'controls': 0, 'loop': 1 },
                 events: {
                     'onReady': (event) => { 
+                         // SỬA LỖI: Dùng cueVideo thay vì loadVideo lúc mới vào trang web để không vi phạm Autoplay Policy
                          if (myPlaylist.length > 0 && hasLoadedFromCloud) {
-                             player.loadVideoById(myPlaylist[0]);
+                             player.cueVideoById(myPlaylist[0]);
                          }
                     },
                     'onStateChange': (event) => {
                         const icon = document.getElementById('musicIcon');
                         if (event.data == YT.PlayerState.PLAYING) {
+                            window.musicErrorCount = 0; // Reset bộ đếm lỗi khi phát thành công
                             icon.classList.remove('fa-play'); icon.classList.add('fa-pause');
                         } else if (event.data == YT.PlayerState.ENDED) {
                             window.playRandomSong();
@@ -1153,7 +1164,20 @@
                             icon.classList.remove('fa-pause'); icon.classList.add('fa-play');
                         }
                     },
-                    'onError': () => window.playRandomSong()
+                    'onError': (event) => { 
+                        console.warn("Lỗi phát nhạc YouTube (Mã lỗi: " + event.data + ")");
+                        // SỬA LỖI VÒNG LẶP: Nếu lỗi phát (video bị khoá/vô hiệu hoá nhúng), chỉ thử chuyển 3 bài, sau đó dừng.
+                        if (window.musicErrorCount < 3) {
+                            window.musicErrorCount++;
+                            // Chờ 1.5s rồi mới chuyển bài để không làm đứng trình duyệt
+                            setTimeout(() => window.playRandomSong(true), 1500); 
+                        } else {
+                            showSongNotification("Không thể phát nhạc. Vui lòng chọn bài khác.");
+                            window.musicErrorCount = 0; // Reset lại cho lần bấm tay tiếp theo
+                            const icon = document.getElementById('musicIcon');
+                            icon.classList.remove('fa-pause'); icon.classList.add('fa-play');
+                        }
+                    }
                 }
             });
         };
