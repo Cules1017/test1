@@ -22,6 +22,9 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Nunito', sans-serif; color: var(--text-color); overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') 12 12, auto; }
+        
+        img { image-orientation: from-image; }
+
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%); overflow: hidden; }
         .floating-heart { position: absolute; color: rgba(255, 255, 255, 0.6); animation: floatUp linear infinite; bottom: -50px; pointer-events: none; text-shadow: 0 0 5px rgba(255, 255, 255, 0.8); }
         .click-heart { position: absolute; width: 30px; height: 30px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff3366"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center/contain; pointer-events: none; z-index: 9999; animation: clickBurst 0.6s ease-out forwards; transform-origin: center center; }
@@ -58,31 +61,19 @@
         .timeline-item { padding: 10px 40px; position: relative; background-color: inherit; width: 50%; box-sizing: border-box; animation: fadeInUp 0.5s ease; }
         .timeline-item.left { left: 0; text-align: right; }
         .timeline-item.right { left: 50%; text-align: left; }
-        
-        /* Node Dot (Default) */
         .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background-color: white; border: 4px solid var(--primary-color); top: 20px; border-radius: 50%; z-index: 1; transition: all 0.3s; }
         .timeline-item.right::after { left: -10px; }
         .timeline-item:hover::after { background-color: var(--primary-color); transform: scale(1.2); }
-
-        /* Base Content Style */
         .timeline-content { padding: 0; background: rgba(255,255,255,0.95); border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; position: relative; display: inline-block; text-align: left; min-width: 200px; overflow: hidden; width: 100%; border: 1px solid rgba(0,0,0,0.05); }
         .timeline-content:hover { transform: scale(1.03); z-index: 2; box-shadow: 0 10px 25px rgba(255,51,102,0.2); }
         
         /* SPECIAL MILESTONE EFFECTS */
-        @keyframes sparkle {
-            0% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-            50% { border-color: #0099ff; box-shadow: 0 0 20px #0099ff, 0 0 40px #00f2ff; }
-            100% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; }
-        }
+        @keyframes sparkle { 0% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; } 50% { border-color: #0099ff; box-shadow: 0 0 20px #0099ff, 0 0 40px #00f2ff; } 100% { border-color: #00f2ff; box-shadow: 0 0 10px #00f2ff; } }
         .timeline-item.milestone-DIAMOND .timeline-content { border: 2px solid var(--diamond-color); background: linear-gradient(135deg, #f0ffff 0%, #ffffff 100%); animation: sparkle 2s infinite alternate; overflow: visible; }
         .timeline-item.milestone-DIAMOND::after { background-color: var(--diamond-color); border-color: #fff; box-shadow: 0 0 15px var(--diamond-color); }
         .timeline-item.milestone-DIAMOND .t-title { color: #008b8b; text-transform: uppercase; letter-spacing: 1px; background: -webkit-linear-gradient(#00f2ff, #0099ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        @keyframes gold-shine {
-            0% { box-shadow: 0 0 5px #ffd700; }
-            50% { box-shadow: 0 0 25px #ffd700, 0 0 10px #fff; transform: scale(1.02); }
-            100% { box-shadow: 0 0 5px #ffd700; }
-        }
+        @keyframes gold-shine { 0% { box-shadow: 0 0 5px #ffd700; } 50% { box-shadow: 0 0 25px #ffd700, 0 0 10px #fff; transform: scale(1.02); } 100% { box-shadow: 0 0 5px #ffd700; } }
         .timeline-item.milestone-GOLD .timeline-content { border: 2px solid var(--gold-color); background: linear-gradient(135deg, #fffde7 0%, #ffffff 100%); animation: gold-shine 3s infinite; }
         .timeline-item.milestone-GOLD::after { content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900; background: none; border: none; font-size: 24px; color: var(--gold-color); top: 15px; right: -14px; width: auto; height: auto; animation: heartbeat 1.5s infinite; }
         .timeline-item.right.milestone-GOLD::after { left: -14px; }
@@ -91,25 +82,9 @@
         .timeline-item.milestone-SILVER::after { border-color: var(--silver-color); background-color: #eee; }
         .timeline-item.milestone-SILVER .t-title { color: #555; text-shadow: 1px 1px 0 #eee; }
 
-        @keyframes anniversary-glow {
-            0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); border-color: #ff3366; }
-            50% { box-shadow: 0 0 30px 10px rgba(255, 51, 102, 0.4); border-color: #ff0040; transform: scale(1.05); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); border-color: #ff3366; }
-        }
-        .timeline-item.milestone-ANNIVERSARY .timeline-content {
-            border: 4px solid #ff3366;
-            background: linear-gradient(135deg, #ffebee 0%, #fff 100%);
-            animation: anniversary-glow 2s infinite;
-            z-index: 5;
-            overflow: visible; /* Để tim bay ra ngoài */
-        }
-        .timeline-item.milestone-ANNIVERSARY::after {
-            content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            background: none; border: none; font-size: 30px; color: #ff3366;
-            top: 10px; right: -18px; width: auto; height: auto;
-            filter: drop-shadow(0 0 10px #ff3366);
-            animation: heartbeat 0.8s infinite;
-        }
+        @keyframes anniversary-glow { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.7); border-color: #ff3366; } 50% { box-shadow: 0 0 30px 10px rgba(255, 51, 102, 0.4); border-color: #ff0040; transform: scale(1.05); } 100% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0); border-color: #ff3366; } }
+        .timeline-item.milestone-ANNIVERSARY .timeline-content { border: 4px solid #ff3366; background: linear-gradient(135deg, #ffebee 0%, #fff 100%); animation: anniversary-glow 2s infinite; z-index: 5; overflow: visible; }
+        .timeline-item.milestone-ANNIVERSARY::after { content: '\f004'; font-family: "Font Awesome 6 Free"; font-weight: 900; background: none; border: none; font-size: 30px; color: #ff3366; top: 10px; right: -18px; width: auto; height: auto; filter: drop-shadow(0 0 10px #ff3366); animation: heartbeat 0.8s infinite; }
         .timeline-item.right.milestone-ANNIVERSARY::after { left: -18px; }
         
         .timeline-img { width: 100%; height: 150px; object-fit: cover; border-bottom: 2px solid #eee; }
@@ -118,8 +93,6 @@
         .t-date { font-size: 0.85rem; font-weight: bold; color: var(--secondary-color); margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 1px; }
         .t-title { font-size: 1.1rem; font-weight: 800; color: #333; margin: 0; }
         .t-desc-preview { font-size: 0.9rem; color: #666; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
-        .delete-milestone { position: absolute; top: 5px; right: 10px; color: #ff6b6b; cursor: pointer; opacity: 0; transition: opacity 0.2s; font-size: 0.9rem; }
-        .timeline-content:hover .delete-milestone { opacity: 1; }
         
         /* Particle Animations */
         .particle-heart, .particle-star { position: absolute; bottom: 0; opacity: 0; pointer-events: none; z-index: 10; }
@@ -168,7 +141,6 @@
         .lightbox-close { position: absolute; top: 20px; right: 30px; font-size: 3rem; color: #fff; cursor: pointer; transition: color 0.3s; z-index: 20003; }
         .lightbox-close:hover { color: var(--primary-color); }
         .music-header, .timeline-header { background: var(--primary-color); color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .close-chat { font-size: 1.5rem; cursor: pointer; }
         .music-body, .timeline-body { flex: 1; padding: 20px; overflow-y: auto; background: #f9f9f9; }
         
         .add-music-form { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -210,20 +182,28 @@
         .heart-shape-container {
             position: relative; width: 100%; height: 100%; flex: 1;
             display: flex; justify-content: center; align-items: center;
-            overflow: visible; /* Important for heart overlay */
+            overflow: visible; 
             min-height: 350px;
         }
+        
         .heart-img-small {
-            position: absolute; width: 30px; height: 30px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; opacity: 0; animation: popInImage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; z-index: 1; cursor: pointer;
+            position: absolute; width: 30px; height: 30px; object-fit: cover; 
+            border-radius: 4px; border: 1px solid rgba(255,255,255,0.9); 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: all 0.3s ease; 
+            opacity: 0; animation: popInImage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+            z-index: 1; cursor: pointer;
         }
-        .heart-img-small:hover { transform: translate(-50%, -50%) scale(3) !important; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--primary-color); }
+        @media (hover: hover) {
+            .heart-img-small:hover { transform: translate(-50%, -50%) scale(3) !important; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--primary-color); }
+        }
         @keyframes popInImage { from { transform: translate(-50%, -50%) scale(0); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-
+        @keyframes heartbeat { 0% { transform: scale(1); } 25% { transform: scale(1.1); } 50% { transform: scale(1); } 75% { transform: scale(1.1); } 100% { transform: scale(1); } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulseBorder { 0% { border-color: var(--secondary-color); } 50% { border-color: var(--primary-color); } 100% { border-color: var(--secondary-color); } }
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
         @media (max-width: 1024px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } .couple-container { gap: 15px; } .avatar-frame { width: 100px; height: 100px; } .heart-beat { font-size: 2rem; } .time-unit { min-width: 70px; padding: 10px; } .time-val { font-size: 1.5rem; } .title { font-size: 2.5rem; } .timeline-tree::after { left: 25px; } .timeline-item { width: 100%; padding-left: 55px; padding-right: 15px; text-align: left; } .timeline-item.left { left: 0; text-align: left; } .timeline-item.right { left: 0; } .timeline-item::after { left: 15px; } .timeline-item.right::after { left: 15px; } }
     </style>
@@ -242,7 +222,7 @@
         <div class="timeline-modal-content">
             <div class="timeline-header">
                 <h3 id="vTitle" style="font-size: 1.1rem; flex: 1; text-align: left;">...</h3>
-                <span class="close-chat" onclick="window.closeViewMilestoneModal()">&times;</span>
+                <span class="close-chat" style="font-size: 1.5rem; cursor: pointer;" onclick="window.closeViewMilestoneModal()">&times;</span>
             </div>
             <div class="timeline-body">
                 <div style="text-align:center; color:var(--secondary-color); font-weight:bold; margin-bottom:15px; font-size:1.1rem;" id="vDate">...</div>
@@ -255,7 +235,7 @@
     <!-- Milestone Celebration Popup -->
     <div id="milestonePopup" class="milestone-popup">
         <div class="milestone-popup-content">
-            <span class="close-chat" style="position:absolute; top:20px; right:20px; z-index:20; color:#ff3366;" onclick="window.closeMilestonePopup()">&times;</span>
+            <span class="close-chat" style="position:absolute; top:20px; right:20px; z-index:20; color:#ff3366; font-size: 2rem; cursor: pointer;" onclick="window.closeMilestonePopup()">&times;</span>
             <div class="milestone-title">Chúc Mừng Kỷ Niệm</div>
             <div id="milestoneDaysDisplay" class="milestone-days">100</div>
             <div class="milestone-sub">Ngày bên nhau hạnh phúc ❤️</div>
@@ -265,7 +245,7 @@
 
     <div id="musicModal" class="music-modal">
         <div class="music-content">
-            <div class="music-header"><h3><i class="fas fa-music"></i> Hộp Nhạc</h3><span class="close-chat" onclick="window.closeMusicModal()">&times;</span></div>
+            <div class="music-header"><h3><i class="fas fa-music"></i> Hộp Nhạc</h3><span class="close-chat" style="font-size: 1.5rem; cursor: pointer;" onclick="window.closeMusicModal()">&times;</span></div>
             <div class="music-body">
                 <div class="add-music-form">
                     <input type="text" id="musicInput" placeholder="Dán link YouTube...">
@@ -306,7 +286,7 @@
                 </div>
             </div>
             <div class="trend-wrapper">
-                <div class="trend-badge"><i class="fas fa-heart"></i> Gởi cục iu❤️</div>
+                <div class="trend-badge"><i class="fas fa-heart"></i> Lời Nhắn Của Anh ❤️</div>
                 <div class="trend-content" id="loveTrendText"><div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Đang tải lời nhắn...</div></div>
             </div>
         </header>
@@ -347,8 +327,98 @@
 
     <footer><p>Created with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for Cục Iu Lì Lợm.</p></footer>
 
-    <!-- SCRIPT 1: GLOBAL UI -->
+    <!-- SCRIPT 1: GLOBAL UI & TRACKING LOG -->
     <script>
+        // --- 0. TRACKING (LOG ACTION) INIT ---
+        const LOG_API_URL = "https://script.google.com/macros/s/AKfycbwkoN4xvDoeV40mRFY8ahOfgIE2t6QA09NUF2iaCJkfj9V4t94rL7QzEPGs6EY3Du38/exec";
+        
+        // Tạo hoặc lấy Session ID
+        if (!sessionStorage.getItem('love_session_id')) {
+            sessionStorage.setItem('love_session_id', 'sess_' + Math.random().toString(36).substr(2, 9));
+        }
+        const SESSION_ID = sessionStorage.getItem('love_session_id');
+        
+        // --- LẤY THÔNG TIN THIẾT BỊ + TRÌNH DUYỆT + VỊ TRÍ ---
+        function getDeviceDetails() {
+            const ua = navigator.userAgent;
+            let browser = "Khác";
+            if (ua.includes("Firefox")) browser = "Firefox";
+            else if (ua.includes("SamsungBrowser")) browser = "SamsungBrowser";
+            else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
+            else if (ua.includes("Edge")) browser = "Edge";
+            else if (ua.includes("Chrome") && !ua.includes("Safari/")) browser = "Chrome";
+            else if (ua.includes("Safari")) browser = "Safari";
+
+            let os = "Máy tính";
+            if (/iPhone/i.test(ua)) os = "iPhone";
+            else if (/iPad/i.test(ua)) os = "iPad";
+            else if (/Android/i.test(ua)) {
+                // Cố gắng lấy tên dòng máy Android (vd: SM-G998B)
+                const match = ua.match(/Android\s[^\s;]+(?:;.*?([^;)]+))?/);
+                os = match && match[1] ? `Android (${match[1].trim()})` : "Android";
+            }
+            else if (/Windows/i.test(ua)) os = "Windows";
+            else if (/Mac/i.test(ua)) os = "Mac";
+
+            return `${os} ${browser}`;
+        }
+
+        window.DEVICE_INFO = sessionStorage.getItem('love_device_info');
+
+        async function initDeviceAndLocation() {
+            if (window.DEVICE_INFO) return;
+            
+            let loc = "Không rõ";
+            try {
+                // Dùng API miễn phí lấy vị trí từ IP (không cần bật định vị GPS)
+                const res = await fetch('https://api.db-ip.com/v2/free/self');
+                const data = await res.json();
+                // Ưu tiên lấy tên Tỉnh (State/Province) hoặc tên Thành phố
+                loc = data.stateProv || data.city || data.countryName || "Không rõ";
+            } catch(e) {
+                console.warn("Lỗi lấy vị trí:", e);
+            }
+
+            window.DEVICE_INFO = `${getDeviceDetails()} ${loc}`;
+            sessionStorage.setItem('love_device_info', window.DEVICE_INFO);
+        }
+
+        // Hàm gửi Log lên Google Sheets
+        window.logAction = async function(category, action, target_item = "", extra_info = "") {
+            // Chờ có đủ thông tin thiết bị và vị trí trước khi gửi
+            if (!window.DEVICE_INFO) {
+                await initDeviceAndLocation();
+            }
+
+            const payload = {
+                type: "insert_log",
+                timestamp: new Date().toLocaleString('vi-VN'),
+                session_id: SESSION_ID,
+                device: window.DEVICE_INFO,
+                category: category,
+                action: action,
+                target_item: target_item,
+                extra_info: typeof extra_info === 'object' ? JSON.stringify(extra_info) : extra_info
+            };
+
+            fetch(LOG_API_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Cực kỳ quan trọng để không bị lỗi bảo mật
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            }).catch(e => console.log("Tracking error (silent):", e));
+        };
+
+        // Ghi log ngay khi load trang
+        window.addEventListener('load', async () => {
+            await initDeviceAndLocation();
+            window.logAction('PAGE', 'Page_Load', 'Trang chủ');
+        });
+
+
+        // --- 1. UI LOGIC ---
         window.isMusicReady = false; 
 
         window.spawnClickHeart = function(x, y) {
@@ -376,17 +446,25 @@
         window.openMusicModal = function() { 
             if (!window.isMusicReady) { alert("Đang tải dữ liệu nhạc, vui lòng đợi xíu nha..."); return; }
             document.getElementById('musicModal').style.display = 'flex'; 
+            window.logAction('MUSIC', 'Open_Modal', 'Music Box');
         };
         window.closeMusicModal = function() { document.getElementById('musicModal').style.display = 'none'; };
         
         window.closeViewMilestoneModal = function() { document.getElementById('viewMilestoneModal').style.display = 'none'; };
         
         window.closeMilestonePopup = function() { document.getElementById('milestonePopup').style.display = 'none'; };
-        
+
         window.openLightbox = function(url, type) {
             const lb = document.getElementById('lightbox'), cnt = document.getElementById('lightbox-content');
-            cnt.innerHTML = type==='video' ? `<video controls autoplay src="${url}" style="max-width:100%;max-height:90vh"></video>` : `<img src="${url}">`;
-            lb.classList.add('active');
+            window.logAction('GALLERY', 'Open_Lightbox', url, { fileType: type });
+
+            if (type === 'video') {
+                cnt.innerHTML = `<video controls autoplay src="${url}" style="max-width:100%;max-height:90vh"></video>`;
+                lb.classList.add('active');
+            } else {
+                cnt.innerHTML = `<img src="${url}">`;
+                lb.classList.add('active');
+            }
         };
         window.closeLightbox = function() { document.getElementById('lightbox').classList.remove('active'); document.getElementById('lightbox-content').innerHTML = ""; };
         
@@ -437,7 +515,6 @@
         const GOOGLE_DRIVE_FOLDER_ID = "1ifei24bSGnS59UQMbQD6WLOYSk7hof7h"; 
         const DEFAULT_MUSIC_ID = "UjqhCaq9qB8";
 
-        // 50 Quotes List (Gen Z Couple Edition)
         const loveQuotes = [
             "Em là 'ngoại lệ' của anh, còn anh là 'định mệnh' của em.",
             "Tình yêu mình 'uy tín' hơn cả sao kê, 100% real love.",
@@ -516,6 +593,7 @@
             
             if (milestones.includes(days) || manualTrigger) {
                 renderHeartGallery(days);
+                window.logAction('POPUP', 'Show_Heart', `${days} Ngày`, { isManual: manualTrigger });
             }
         };
 
@@ -526,50 +604,74 @@
             container.innerHTML = "";
             popup.style.display = 'flex';
 
-            if (allFiles.length === 0) {
-                 container.innerHTML = "<div style='color:#999; margin-top: 50px;'>Đang tải ảnh từ bộ nhớ...</div>";
-                 return;
+            let imagesToUse = [];
+            
+            if (allFiles.length > 0) {
+                 imagesToUse = [...allFiles];
+            } else {
+                 for(let k=1; k<=20; k++) imagesToUse.push({ id: 'demo', thumbnailLink: `https://picsum.photos/100/100?random=${k}` });
             }
 
-            const layers = [
-                { count: 50, scale: 13 }, // Vòng ngoài cùng
-                { count: 40, scale: 10 }, // Vòng giữa 1
-                { count: 30, scale: 7 },  // Vòng giữa 2
-                { count: 15, scale: 4 }   // Vòng trong cùng
-            ];
+            const totalPoints = 135; 
+            const finalImages = [];
+            for (let i = 0; i < totalPoints; i++) {
+                finalImages.push(imagesToUse[i % imagesToUse.length]);
+            }
             
+            // FIX: Căn chỉnh lại tỉ lệ chuẩn để ảnh không bị văng ra khỏi màn hình
             const isMobile = window.innerWidth < 600;
-            const mobileScaleFactor = isMobile ? 0.55 : 1; 
+            const baseScale = isMobile ? 8 : 13; // Hệ số nhân cơ bản cho phương trình trái tim
+
+            // Các lớp trái tim (được chuẩn hóa lại scale từ 1.0 giảm dần về tâm)
+            const layers = [
+                { count: 55, scale: 1 },    // Vòng ngoài cùng
+                { count: 40, scale: 0.8 },  // Vòng giữa 1
+                { count: 25, scale: 0.6 },  // Vòng giữa 2
+                { count: 15, scale: 0.35 }  // Vòng trong cùng
+            ];
 
             let imgIndex = 0;
 
             layers.forEach((layer, layerIndex) => {
                 for (let i = 0; i < layer.count; i++) {
-                    const imgData = allFiles[imgIndex % allFiles.length];
+                    const imgData = finalImages[imgIndex % finalImages.length];
                     imgIndex++;
 
                     const img = document.createElement('img');
-                    const thumbUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s100') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
-                    const fullUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
                     
-                    img.src = thumbUrl;
+                    let thumbUrl;
+                    let fullUrl;
+                    
+                    if (imgData.id === 'demo') {
+                         thumbUrl = imgData.thumbnailLink;
+                         fullUrl = imgData.thumbnailLink;
+                    } else {
+                         thumbUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=w200-h200-c') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
+                         fullUrl = imgData.thumbnailLink ? imgData.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${imgData.id}`;
+                    }
+                    
                     img.className = 'heart-img-small';
+                    img.onerror = () => { img.src = "https://via.placeholder.com/30/ff3366/ffffff?text=♥"; };
+
+                    img.src = thumbUrl;
 
                     let t = (i / layer.count) * Math.PI * 2;
                     let hx = 16 * Math.pow(Math.sin(t), 3);
                     let hy = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
 
-                    let scale = layer.scale * mobileScaleFactor;
-                    let noise = (Math.random() - 0.5) * 2; 
+                    let noiseX = (Math.random() - 0.5) * 8; 
+                    let noiseY = (Math.random() - 0.5) * 8; 
 
-                    let x = hx * scale + noise;
-                    let y = hy * scale + noise;
+                    // Tính tọa độ chính xác
+                    let x = hx * baseScale * layer.scale + noiseX;
+                    let y = hy * baseScale * layer.scale + noiseY;
 
-                    img.style.left = `calc(50% + ${x}px)`;
+                    img.style.left = `calc(50% + ${x}px)`; 
                     img.style.top = `calc(45% + ${y}px)`;
-                    
-                    img.style.animationDelay = (layerIndex * 0.2 + Math.random() * 0.5) + 's';
+                    img.style.transform = "translate(-50%, -50%)"; 
 
+                    img.style.animationDelay = (layerIndex * 0.2 + Math.random() * 0.5) + 's';
+                    
                     img.onclick = (e) => {
                         e.stopPropagation();
                         window.openLightbox(fullUrl, 'image');
@@ -579,21 +681,32 @@
                 }
             });
             
-            if (allFiles.length > 0) {
-                const centerImgData = allFiles[Math.floor(Math.random() * allFiles.length)];
+            // Ảnh chính diện ở giữa trái tim (Làm nổi bật hơn)
+            if (finalImages.length > 0) {
+                const centerImgData = finalImages[Math.floor(Math.random() * finalImages.length)];
                 const centerImg = document.createElement('img');
-                const cUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s200') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
-                const cFullUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
                 
-                centerImg.src = cUrl;
+                let cUrl, cFullUrl;
+                if(centerImgData.id === 'demo') {
+                    cUrl = centerImgData.thumbnailLink; cFullUrl = centerImgData.thumbnailLink;
+                } else {
+                    cUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=w200-h200-c') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
+                    cFullUrl = centerImgData.thumbnailLink ? centerImgData.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${centerImgData.id}`;
+                }
+                
                 centerImg.className = 'heart-img-small';
+                centerImg.onerror = () => { centerImg.src = "https://via.placeholder.com/50/ff3366/ffffff?text=LOVE"; };
                 centerImg.style.left = '50%';
                 centerImg.style.top = '45%';
-                centerImg.style.width = '50px'; 
-                centerImg.style.height = '50px';
+                centerImg.style.width = '55px'; 
+                centerImg.style.height = '55px';
                 centerImg.style.zIndex = '10';
                 centerImg.style.animationDelay = '1.5s';
-                centerImg.style.transform = "translate(-50%, -50%)"; // Ensure center
+                centerImg.style.transform = "translate(-50%, -50%)"; 
+                centerImg.style.boxShadow = "0 5px 15px rgba(255,51,102,0.5)";
+                centerImg.style.border = "2px solid #ff3366";
+
+                centerImg.src = cUrl;
                 
                 centerImg.onclick = (e) => {
                      e.stopPropagation();
@@ -608,7 +721,7 @@
             if (timelineData.length === 0) return;
             const today = new Date();
             const currentDay = today.getDate();
-            const currentMonth = today.getMonth(); // 0-11
+            const currentMonth = today.getMonth(); 
             const memory = timelineData.find(item => {
                 if (!item.date) return false;
                 return item.date.getDate() === currentDay && item.date.getMonth() === currentMonth;
@@ -623,14 +736,16 @@
                 galleryContainer.innerHTML = "";
                 if (memory.files && memory.files.length > 0) {
                     memory.files.forEach(f => {
-                        const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                        const urlThumb = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s800') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                        const fullUrl = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${f.id}`;
                         const img = document.createElement('img');
-                        img.src = url;
-                        img.onclick = () => window.openLightbox(url, 'image');
+                        img.src = urlThumb;
+                        img.onclick = () => window.openLightbox(fullUrl, 'image');
                         galleryContainer.appendChild(img);
                     });
                 }
                 document.getElementById('viewMilestoneModal').style.display = 'flex';
+                window.logAction('POPUP', 'Show_Memory_Recall', memory.title, { yearsDiff: yearsDiff });
             }
         }
 
@@ -736,7 +851,7 @@
                         } else {
                             selectedImg = imgs[Math.floor(Math.random() * imgs.length)];
                         }
-                        result.coverImg = selectedImg.thumbnailLink ? selectedImg.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : null;
+                        result.coverImg = selectedImg.thumbnailLink ? selectedImg.thumbnailLink.replace(/=s\d+.*$/, '=s800') : null;
                     }
                 }
             } catch (e) { console.warn(`Error processing folder ${folder.name}:`, e); result.isValidTimeline = false; }
@@ -790,8 +905,7 @@
                 const side = index % 2 === 0 ? 'left' : 'right';
                 const div = document.createElement('div');
                 div.className = `timeline-item ${side} milestone-${item.type}`;
-                let coverHtml = '';
-                if (item.coverImg) { coverHtml = `<img src="${item.coverImg}" class="timeline-img" loading="lazy">`; }
+                
                 let specialEffects = '';
                 if (item.type === 'ANNIVERSARY') {
                      for(let i=0; i<6; i++) {
@@ -806,9 +920,11 @@
                         specialEffects += `<i class="fas fa-star particle-star" style="left:${left}%; animation-delay:${delay}s"></i>`;
                      }
                 }
-                div.innerHTML = `
+                
+                let contentHTML = `
                     <div class="timeline-content" onclick="window.viewTimelineDetail('${item.id}')">
-                        ${specialEffects} ${coverHtml}
+                        ${specialEffects} 
+                        ${item.coverImg ? `<img src="${item.coverImg}" class="timeline-img" loading="lazy">` : ''}
                         <div class="timeline-body-text">
                             <span class="t-date">${item.displayDate}</span>
                             <h3 class="t-title">${item.title}</h3>
@@ -816,6 +932,7 @@
                         </div>
                     </div>
                 `;
+                div.innerHTML = contentHTML;
                 container.appendChild(div);
             });
         }
@@ -831,16 +948,20 @@
         window.viewTimelineDetail = function(folderId) {
             const item = timelineData.find(i => i.id === folderId);
             if (!item) return;
+            
+            window.logAction('TIMELINE', 'View_Detail', item.title, { type: item.type });
+
             document.getElementById('vTitle').innerText = item.title;
             document.getElementById('vDate').innerText = item.displayDate;
             document.getElementById('vDesc').innerText = item.desc;
             const galleryContainer = document.getElementById('vGallery');
             galleryContainer.innerHTML = "";
             item.files.forEach(f => {
-                const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                const urlThumb = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s800') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                const fullUrl = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${f.id}`;
                 const img = document.createElement('img');
-                img.src = url;
-                img.onclick = () => window.openLightbox(url, 'image');
+                img.src = urlThumb;
+                img.onclick = () => window.openLightbox(fullUrl, 'image');
                 galleryContainer.appendChild(img);
             });
             document.getElementById('viewMilestoneModal').style.display = 'flex';
@@ -850,11 +971,13 @@
             let foundBoy = false, foundGirl = false;
             files.forEach(f => {
                 const name = f.name.toLowerCase();
-                const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${f.id}`;
+                const url = f.thumbnailLink ? f.thumbnailLink.replace(/=s\d+.*$/, '=w200-h200-c') : `https://lh3.googleusercontent.com/d/${f.id}`;
                 if(f.mimeType.startsWith('image/') && name.includes('avatar_boy') && !foundBoy) {
-                    document.getElementById('boyAvatar').src = url; foundBoy=true;
+                    document.getElementById('boyAvatar').src = url;
+                    foundBoy=true;
                 } else if(f.mimeType.startsWith('image/') && name.includes('avatar_girl') && !foundGirl) {
-                    document.getElementById('girlAvatar').src = url; foundGirl=true;
+                    document.getElementById('girlAvatar').src = url;
+                    foundGirl=true;
                 }
             });
             if(!foundBoy) document.getElementById('boyAvatar').src = CONFIG.boyAvatar;
@@ -930,6 +1053,7 @@
             if (videoId) {
                 if (!myPlaylist.includes(videoId)) {
                     myPlaylist.push(videoId); savePlaylist(); input.value = "";
+                    window.logAction('MUSIC', 'Add_Song', videoId);
                 } else alert("Bài này có rồi nhen!");
             } else alert("Link YouTube không hợp lệ rùi :(");
         };
@@ -971,6 +1095,7 @@
             if(player && player.loadVideoById) {
                 player.loadVideoById(id);
                 showSongNotification(`Bài hát ID: ${id}`);
+                window.logAction('MUSIC', 'Play_Specific', id);
             }
         };
 
@@ -981,14 +1106,20 @@
             if(player && player.loadVideoById) {
                 player.loadVideoById(nextSongId);
                 showSongNotification("Bài hát ngẫu nhiên");
+                window.logAction('MUSIC', 'Play_Random', nextSongId);
             }
         };
 
         window.toggleMusic = function() {
             if (!player) return;
             const playerState = player.getPlayerState();
-            if (playerState == YT.PlayerState.PLAYING) player.pauseVideo();
-            else player.playVideo();
+            if (playerState == YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                window.logAction('MUSIC', 'Pause');
+            } else {
+                player.playVideo();
+                window.logAction('MUSIC', 'Play');
+            }
         };
 
         function showSongNotification(name) {
@@ -1035,17 +1166,22 @@
         window.loadMorePhotos = function() {
             const grid = document.getElementById('galleryGrid');
             const nextBatch = allFiles.slice(displayCount, displayCount + BATCH);
+            if (displayCount > 0 && nextBatch.length > 0) {
+                 window.logAction('GALLERY', 'Load_More', `Trang ${Math.ceil((displayCount + BATCH) / BATCH)}`);
+            }
+
             nextBatch.forEach(file => {
-                const url = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+.*$/, '=s1600') : `https://lh3.googleusercontent.com/d/${file.id}`;
+                const urlThumb = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+.*$/, '=s800') : `https://lh3.googleusercontent.com/d/${file.id}`;
+                const fullUrl = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+.*$/, '=s2048') : `https://lh3.googleusercontent.com/d/${file.id}`;
                 const div = document.createElement('div');
                 div.className = 'gallery-item';
                 
                 if(file.mimeType.startsWith('video/')) {
-                    div.innerHTML = `<img src="${url}" loading="lazy"><div class="video-overlay"><i class="fas fa-play"></i></div>`;
-                    div.onclick = () => window.openLightbox(url, 'video');
+                    div.innerHTML = `<img src="${urlThumb}" loading="lazy"><div class="video-overlay"><i class="fas fa-play"></i></div>`;
+                    div.onclick = () => window.openLightbox(fullUrl, 'video');
                 } else {
-                    div.innerHTML = `<img src="${url}" loading="lazy">`;
-                    div.onclick = () => window.openLightbox(url, 'image');
+                    div.innerHTML = `<img src="${urlThumb}" loading="lazy">`;
+                    div.onclick = () => window.openLightbox(fullUrl, 'image');
                 }
                 grid.appendChild(div);
             });
